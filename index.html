@@ -53,15 +53,17 @@
     .bg-blue { background-color:#0d6efd; } .bg-yellow { background-color:#f39c12; color:#fff; } .bg-green { background-color:#27ae60; } .bg-red { background-color:#e74c3c; }
     
     /* Admin Forms Grid */
-    .admin-forms-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-bottom: 30px; }
+    .admin-forms-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px; }
     .user-form-card { background: #fff; padding: 25px; border-radius: 8px; border: 1px solid #0d6efd; box-shadow:0 4px 6px rgba(0,0,0,0.05); }
     .reset-form-card { background: #fff; padding: 25px; border-radius: 8px; border: 1px solid #dc3545; box-shadow:0 4px 6px rgba(0,0,0,0.05); }
     .branch-form-card { background: #fff; padding: 25px; border-radius: 8px; border: 1px solid #ffc107; box-shadow:0 4px 6px rgba(0,0,0,0.05); }
-    .perm-form-card { background: #fff; padding: 25px; border-radius: 8px; border: 1px solid #17a2b8; box-shadow:0 4px 6px rgba(0,0,0,0.05); grid-column: span 3; }
+    .template-form-card { background: #fff; padding: 25px; border-radius: 8px; border: 1px solid #6f42c1; box-shadow:0 4px 6px rgba(0,0,0,0.05); }
+    .perm-form-card { background: #fff; padding: 25px; border-radius: 8px; border: 1px solid #17a2b8; box-shadow:0 4px 6px rgba(0,0,0,0.05); grid-column: span 2; }
     
     .user-form-card h3 { color: #0d6efd; margin-bottom: 20px; font-size:16px;}
     .reset-form-card h3 { color: #dc3545; margin-bottom: 20px; font-size:16px;}
     .branch-form-card h3 { color: #f39c12; margin-bottom: 20px; font-size:16px;}
+    .template-form-card h3 { color: #6f42c1; margin-bottom: 20px; font-size:16px;}
     .perm-form-card h3 { color: #17a2b8; margin-bottom: 20px; font-size:16px;}
     
     .admin-input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px; outline: none; }
@@ -222,7 +224,8 @@
       </nav>
 
       <main class="content-area">
-        
+        <datalist id="comp-list"></datalist>
+
         <!-- DASHBOARD SECTION -->
         <div id="view-dashboard" class="view-section">
           
@@ -331,7 +334,7 @@
             <!-- 1. Create User Card -->
             <div class="user-form-card">
               <h3><i class="fas fa-user-plus"></i> Create New User</h3>
-              <input type="text" id="new-user-company" class="admin-input" placeholder="Company Name" style="display:none; margin-bottom:10px;">
+              <input type="text" id="new-user-company" list="comp-list" class="admin-input" placeholder="Select or Type Company Name" style="display:none; margin-bottom:10px;">
               <select id="new-user-branch" class="admin-input" style="margin-bottom:10px;"><option value="">-- Select Branch --</option></select>
               <select id="new-user-role" class="admin-input" style="margin-bottom:10px;">
                  <option value="User">User</option>
@@ -350,7 +353,7 @@
             <div class="branch-form-card">
               <h3><i class="fas fa-building"></i> Add Company / Branch</h3>
               <p style="font-size:12px; color:#666; margin-bottom:10px;">(Only System Owner can add companies/branches)</p>
-              <input type="text" id="new-cb-company" class="admin-input" placeholder="Company Name" style="margin-bottom:10px;">
+              <input type="text" id="new-cb-company" list="comp-list" class="admin-input" placeholder="Select or Type Company Name" style="margin-bottom:10px;">
               <input type="text" id="new-cb-branch" class="admin-input" placeholder="Branch Name" style="margin-bottom:10px;">
               <input type="text" id="new-cb-code" class="admin-input" placeholder="Branch Code (e.g. NW, BD)" style="margin-bottom:10px;">
               <button class="btn-submit" style="background:#f39c12; color:#fff;" onclick="createCompanyBranch()">Add Branch</button>
@@ -365,6 +368,15 @@
               <button class="btn-submit" style="background:#dc3545;" onclick="resetPasswordAdmin()">Reset Password</button>
             </div>
             
+            <!-- NEW: Valuation Template Settings Card -->
+            <div class="template-form-card" id="template-setup-card" style="display:none;">
+              <h3><i class="fas fa-file-word"></i> Valuation Template Settings</h3>
+              <p style="font-size:13px; color:#666; margin-bottom:15px;">Set a unique Google Doc template URL for each company.</p>
+              <input type="text" id="tpl-company" list="comp-list" class="admin-input" placeholder="Select Company Name...">
+              <input type="text" id="tpl-url" class="admin-input" placeholder="Google Doc Template URL or ID">
+              <button class="btn-submit" style="background:#6f42c1;" onclick="saveTemplateAdmin()">Save Template</button>
+            </div>
+
             <!-- 4. Permissions Management Card -->
             <div class="perm-form-card">
               <h3><i class="fas fa-user-shield"></i> User Access & Permissions Management</h3>
@@ -796,8 +808,7 @@
         let url = API_URL; let options = {};
         
         if (currentUser && currentUser.role) {
-            payload.role = currentUser.role;
-            payload.company = currentUser.company;
+            payload.company = payload.company || currentUser.company;
             payload.creatorRole = currentUser.role;
             payload.creatorCompany = currentUser.company;
         }
@@ -820,7 +831,7 @@
     
     var globalDashValData = []; 
     var globalHistoryValData = [];
-    var systemUsersData = []; // Store full user objects for filtering
+    var systemUsersData = []; 
 
     function getImgUrl(url) {
        if (!url || url === 'No Image') return '';
@@ -924,7 +935,7 @@
     function filterUsersByCompany() {
       var selectedComp = document.getElementById('perm-company-filter').value;
       populateUserDatalists(selectedComp);
-      document.getElementById('perm-user-search').value = ""; // Clear current selection
+      document.getElementById('perm-user-search').value = ""; 
       document.getElementById('perm-details-section').style.display = 'none';
     }
 
@@ -938,7 +949,6 @@
         document.getElementById('display-name').innerText = uName; 
         var formattedRole = uRole.charAt(0).toUpperCase() + uRole.slice(1);
         
-        // Show company name on top right
         document.getElementById('display-role').innerHTML = `<span style="color:#f39c12; font-weight:bold;">${uComp}</span> | ${formattedRole} | ${uBranch}`;
         document.getElementById('welcome-name').innerHTML = `${uName} <span style="font-size:16px; color:#555;">(${uComp})</span> - ${uBranch} Branch`;
         document.getElementById('profile-img').src = "https://ui-avatars.com/api/?name=" + encodeURIComponent(uName) + "&background=c62828&color=fff";
@@ -946,14 +956,29 @@
         loadDashboardStats();
         initVehicleData();
 
-        // System Owner specific UI adjustments
         if (uRole === 'system owner') {
             document.getElementById('new-user-company').style.display = 'block';
             document.getElementById('perm-company-filter').style.display = 'block';
             document.querySelector('.branch-form-card').style.display = 'block';
+            document.getElementById('template-setup-card').style.display = 'block';
         } else {
             document.querySelector('.branch-form-card').style.display = 'none';
+            document.getElementById('template-setup-card').style.display = 'none';
         }
+
+        apiCall('getCompanyList', {}, 'GET').then(res => {
+           if(res.data) {
+               let dl = document.getElementById('comp-list');
+               if(dl) {
+                   dl.innerHTML = '';
+                   res.data.forEach(c => {
+                       let opt = document.createElement('option');
+                       opt.value = c;
+                       dl.appendChild(opt);
+                   });
+               }
+           }
+        });
 
         apiCall('getBranchList', {}, 'GET').then(res => { 
             var select = document.getElementById('new-user-branch'); 
@@ -969,14 +994,11 @@
         apiCall('getUsernamesList', {}, 'GET').then(res => { 
             if(res.data) { 
                 systemUsersData = res.data;
-                
-                // Populate Company Filter for System Owner
                 var compFilter = document.getElementById('perm-company-filter');
                 if (compFilter && uRole === 'system owner') {
                    let comps = [...new Set(res.data.map(u => u.company))];
                    comps.forEach(c => compFilter.add(new Option(c, c)));
                 }
-
                 populateUserDatalists('ALL');
             } 
         });
@@ -997,24 +1019,20 @@
            if (el) el.style.display = isVisible ? displayType : 'none';
         };
 
-        // 1. Dashboard
         setVisibility('[onclick="switchView(\'dashboard\', this)"]', modules.includes("Dashboard"));
 
-        // 2. Courier Portal
         let hasCourier = modules.includes("Courier-Send") || modules.includes("Courier-Action");
         setVisibility('[onclick="toggleSubMenu(\'courier-submenu\', this)"]', hasCourier);
         setVisibility('[onclick="switchView(\'courier-new\', this)"]', modules.includes("Courier-Send"));
         setVisibility('[onclick="switchView(\'courier-admin\', this)"]', modules.includes("Courier-Action"));
         setVisibility('#dash-courier-section', hasCourier, 'block');
 
-        // 3. RMV Confirmation
         let hasRmv = modules.includes("RMV-Request") || modules.includes("RMV-Action");
         setVisibility('[onclick="toggleSubMenu(\'rmv-submenu\', this)"]', hasRmv);
         setVisibility('[onclick="switchView(\'rmv-new\', this)"]', modules.includes("RMV-Request"));
         setVisibility('[onclick="switchView(\'rmv-admin\', this)"]', modules.includes("RMV-Action"));
         setVisibility('#dash-rmv-section', hasRmv, 'block');
 
-        // 4. Valuation Portal
         let hasVal = modules.includes("Valuation-New") || modules.includes("Valuation-Pending") || modules.includes("Valuation-History");
         setVisibility('[onclick="toggleSubMenu(\'val-submenu\', this)"]', hasVal);
         setVisibility('[onclick="switchView(\'val-new\', this)"]', modules.includes("Valuation-New"));
@@ -1022,13 +1040,11 @@
         setVisibility('[onclick="switchView(\'val-history\', this)"]', modules.includes("Valuation-History"));
         setVisibility('#dash-val-section', hasVal, 'block');
 
-        // 5. System Admin
         let hasAdmin = modules.includes("Admin-UserMgt") || modules.includes("Admin-Map");
         setVisibility('[onclick="toggleSubMenu(\'admin-submenu\', this)"]', hasAdmin);
         setVisibility('[onclick="switchView(\'user-mgt\', this)"]', modules.includes("Admin-UserMgt"));
         setVisibility('[onclick="switchView(\'live-map\', this)"]', modules.includes("Admin-Map"));
 
-        // 6. CR Upload Option
         let hasCR = modules.includes("CR-New") || modules.includes("CR-Pending") || modules.includes("CR-History");
         setVisibility('#cr-menu-category', hasCR);
         setVisibility('#menu-cr-new', modules.includes("CR-New"));
@@ -1036,14 +1052,12 @@
         setVisibility('#menu-cr-history', modules.includes("CR-History"));
         setVisibility('#dash-cr-section', hasCR, 'block');
 
-        // 7. RMV Print
         let hasPrint = modules.includes("Print-Add") || modules.includes("Print-Paper") || modules.includes("Print-Box");
         setVisibility('#rmv-print-category', hasPrint);
         setVisibility('[onclick="window.open(\'rmv_print.html?tab=add\', \'_blank\')"]', modules.includes("Print-Add"));
         setVisibility('[onclick="window.open(\'rmv_print.html?tab=print\', \'_blank\')"]', modules.includes("Print-Paper"));
         setVisibility('[onclick="window.open(\'RMV_PRE_PRINT.html\', \'_blank\')"]', modules.includes("Print-Box"));
 
-        // Initialize Valuation Form Handler
         var valForm = document.getElementById('vForm');
         if(valForm) {
           valForm.onsubmit = async function(e) {
@@ -1079,7 +1093,6 @@
           };
         }
 
-        // Initialize RMV Form Handler
         var rmvForm = document.getElementById('rmvForm');
         if(rmvForm) {
           rmvForm.onsubmit = async function(e) {
@@ -1113,6 +1126,25 @@
           };
         }
       } catch(e) { console.log(e); }
+    }
+
+    async function saveTemplateAdmin() {
+      var c = document.getElementById('tpl-company').value;
+      var u = document.getElementById('tpl-url').value;
+      if(!c || !u) return Swal.fire("Required", "Please fill both Company and Template URL", "warning");
+      Swal.fire({title: 'Saving...', allowOutsideClick: false, didOpen: () => Swal.showLoading()});
+      try {
+         var res = await apiCall('saveTemplateSettings', {company: c, url: u});
+         if(res.success) {
+            Swal.fire("Saved", res.msg, "success");
+            document.getElementById('tpl-company').value = '';
+            document.getElementById('tpl-url').value = '';
+         } else {
+            Swal.fire("Error", res.error, "error");
+         }
+      } catch(e) {
+         Swal.fire("Error", e.message, "error");
+      }
     }
 
     async function initVehicleData() {
@@ -1877,7 +1909,6 @@
     function filterDashboardTables() {
         var fDate = document.getElementById("dashFromDate").value; var tDate = document.getElementById("dashToDate").value; var search = document.getElementById("dashSearch").value.toLowerCase();
         
-        // Col updates: Courier date=5, id=1 | RMV date=1, id=2 | Val date=1, veh=2
         var tables = [ {id: "dashMasterTable", dateCol: 5, searchCols: [1, 4]}, {id: "dashRmvTable", dateCol: 1, searchCols: [2, 3]}, {id: "dashValTable", dateCol: 1, searchCols: [2]} ];
         tables.forEach(tbl => {
             var tbody = document.querySelector("#" + tbl.id + " tbody"); if(!tbody) return; var tr = tbody.getElementsByTagName("tr");
