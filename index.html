@@ -820,7 +820,11 @@
             options = { method: 'POST', body: JSON.stringify({ action: action, ...payload }) };
         }
         const response = await fetch(url, options); const data = await response.json();
-        if (!data.success && data.status !== "success" && data.status !== "fail") throw new Error(data.error || "API Error");
+        
+        // Error handling fix
+        if (data.success === false) {
+           throw new Error(data.error || data.msg || "API Error");
+        }
         return data;
       } catch (error) { console.error("API Call Failed:", error); throw error; }
     }
@@ -881,7 +885,7 @@
           Swal.fire("Access Denied", res.msg, "error");
           btn.innerText = "Sign In"; btn.disabled = false;
         }
-      } catch(error) { Swal.fire("Error", "Could not connect to server.", "error"); btn.innerText = "Sign In"; btn.disabled = false; }
+      } catch(error) { Swal.fire("Error", error.message || "Could not connect to server.", "error"); btn.innerText = "Sign In"; btn.disabled = false; }
     }
 
     async function saveNewPassword() {
@@ -925,7 +929,7 @@
       if(permList) permList.innerHTML = '';
       
       systemUsersData.forEach(u => {
-          if (filterCompany === 'ALL' || u.company === filterCompany) {
+          if (filterCompany === 'ALL' || u.company.toLowerCase().trim() === filterCompany.toLowerCase().trim()) {
               if(resetList) resetList.appendChild(new Option(u.username, u.username));
               if(permList) permList.appendChild(new Option(u.username, u.username));
           }
@@ -983,6 +987,8 @@
         apiCall('getBranchList', {}, 'GET').then(res => { 
             var select = document.getElementById('new-user-branch'); 
             var permSelect = document.getElementById('perm-branch-select');
+            if(select) select.innerHTML = '<option value="">-- Select Branch --</option>';
+            if(permSelect) permSelect.innerHTML = '';
             if(select && res.data){ 
                 res.data.forEach(b => {
                     select.add(new Option(b, b));
@@ -996,6 +1002,7 @@
                 systemUsersData = res.data;
                 var compFilter = document.getElementById('perm-company-filter');
                 if (compFilter && uRole === 'system owner') {
+                   compFilter.innerHTML = '<option value="ALL">All Companies</option>';
                    let comps = [...new Set(res.data.map(u => u.company))];
                    comps.forEach(c => compFilter.add(new Option(c, c)));
                 }
@@ -1140,7 +1147,7 @@
             document.getElementById('tpl-company').value = '';
             document.getElementById('tpl-url').value = '';
          } else {
-            Swal.fire("Error", res.error, "error");
+            Swal.fire("Error", res.error || res.msg, "error");
          }
       } catch(e) {
          Swal.fire("Error", e.message, "error");
@@ -1289,7 +1296,7 @@
         globalRmvData = res.data;
         
         tbody.innerHTML = "";
-        if (globalRmvData.length === 0) { tbody.innerHTML = "<tr><td colspan='8' style='text-align:center; padding:20px;'>No RMV requests found.</td></tr>"; return; }
+        if (!globalRmvData || globalRmvData.length === 0) { tbody.innerHTML = "<tr><td colspan='8' style='text-align:center; padding:20px;'>No RMV requests found.</td></tr>"; return; }
         for (var i = 0; i < globalRmvData.length; i++) {
           var row = globalRmvData[i]; var statusBadge = "";
           if(row.status === 'Pending') statusBadge = '<span class="badge-pending">Pending</span>';
@@ -1407,7 +1414,7 @@
                   populateUserDatalists(document.getElementById('perm-company-filter') ? document.getElementById('perm-company-filter').value : 'ALL');
               }
           }); 
-        } else { Swal.fire("Error", res.msg || "Failed", "error"); }
+        } else { Swal.fire("Error", res.msg || res.error || "Failed", "error"); }
       } catch(error) { Swal.fire("Error", "Server Error", "error"); }
     }
 
@@ -1422,7 +1429,7 @@
         if(res.success) { 
           Swal.fire("Success!", res.msg, "success"); 
           document.getElementById('new-cb-company').value = ""; document.getElementById('new-cb-branch').value = ""; document.getElementById('new-cb-code').value = "";
-          // Refresh Branch List
+          
           apiCall('getBranchList', {}, 'GET').then(res2 => { 
             var select = document.getElementById('new-user-branch'); 
             var permSelect = document.getElementById('perm-branch-select');
@@ -1430,7 +1437,7 @@
             if(permSelect) permSelect.innerHTML = '';
             if(res2.data){ res2.data.forEach(br => { select.add(new Option(br, br)); if(permSelect) permSelect.add(new Option(br, br)); }); } 
           });
-        } else { Swal.fire("Error", res.error || "Failed", "error"); }
+        } else { Swal.fire("Error", res.error || res.msg || "Failed", "error"); }
       } catch(error) { Swal.fire("Error", "Server Error", "error"); }
     }
 
@@ -1440,7 +1447,7 @@
       Swal.fire({title: 'Resetting Password...', allowOutsideClick: false, didOpen: () => Swal.showLoading()});
       try {
         const res = await apiCall('resetSystemUserPassword', { username: u });
-        if(res.success) { Swal.fire("Success!", res.msg, "success"); } else { Swal.fire("Error", res.msg || "Failed", "error"); }
+        if(res.success) { Swal.fire("Success!", res.msg, "success"); } else { Swal.fire("Error", res.msg || res.error || "Failed", "error"); }
       } catch(error) { Swal.fire("Error", "Server Error", "error"); }
     }
 
@@ -1575,7 +1582,7 @@
           branches: branches.join(",")
        }).then(res => {
           if(res.success) { Swal.fire("Saved!", res.msg, "success"); } 
-          else { Swal.fire("Error", res.error || "Failed", "error"); }
+          else { Swal.fire("Error", res.error || res.msg || "Failed", "error"); }
        }).catch(e => Swal.fire("Error", "Network Error", "error"));
     }
 
@@ -1601,7 +1608,7 @@
                 if (res.success) {
                    Swal.fire("Success!", res.msg, "success");
                    loadUserPermDetails(); 
-                } else { Swal.fire("Error", res.error, "error"); }
+                } else { Swal.fire("Error", res.error || res.msg, "error"); }
              }).catch(e => Swal.fire("Error", "Network Error", "error"));
           }
        });
@@ -2039,7 +2046,7 @@
           loadPendingCRList(); 
           loadDashboardStats(); 
         } else {
-          Swal.fire("Error", serverRes.error, "error");
+          Swal.fire("Error", serverRes.error || serverRes.msg, "error");
         }
       } catch (error) {
         Swal.fire("Error", error.message, "error");
@@ -2057,7 +2064,7 @@
       try {
         const res = await apiCall('getCRUploadHistory', { role: currentUser.role, branch: currentUser.branch, email: currentUser.email }, 'GET');
         tbody.innerHTML = "";
-        if (res.data.length === 0) {
+        if (!res.data || res.data.length === 0) {
           tbody.innerHTML = "<tr><td colspan='7' style='text-align:center;'>No CR Upload History found.</td></tr>";
           return;
         }
@@ -2079,7 +2086,7 @@
       try {
         const res = await apiCall('getPendingCRUploads', { role: currentUser.role, branch: currentUser.branch, email: currentUser.email }, 'GET');
         tbody.innerHTML = "";
-        if (res.data.length === 0) {
+        if (!res.data || res.data.length === 0) {
           tbody.innerHTML = "<tr><td colspan='6' style='text-align:center;'>No Pending CRs found.</td></tr>";
           return;
         }
