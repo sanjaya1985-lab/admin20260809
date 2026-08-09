@@ -772,7 +772,8 @@
       try {
         let url = API_URL; let options = {};
         // Auto-inject company if currentUser is loaded
-        if (currentUser && currentUser.company) {
+        if (currentUser && currentUser.role) {
+            payload.role = currentUser.role;
             payload.company = currentUser.company;
             payload.creatorRole = currentUser.role;
             payload.creatorCompany = currentUser.company;
@@ -935,7 +936,7 @@
         var modules = res.allowedModules || "";
         
         // Backward compatibility: If no permissions are set yet, give Super Admins full access.
-        if (!modules && (uRole === 'super admin' || uRole === 'admin')) {
+        if (!modules && (uRole === 'super admin' || uRole === 'admin' || uRole === 'system owner')) {
             modules = "Dashboard,Courier-Send,Courier-Action,RMV-Request,RMV-Action,Valuation-New,Valuation-Pending,Valuation-History,CR-New,CR-Pending,CR-History,Print-Add,Print-Paper,Print-Box,Admin-UserMgt,Admin-Map";
         } else if (!modules) {
             modules = "Dashboard"; // Fallback for normal users until updated
@@ -1064,6 +1065,7 @@
         }
       } catch(e) { console.log(e); }
     }
+
     async function initVehicleData() {
       try {
         const res = await apiCall('getVehicleDropdownData', {}, 'GET'); vehicleDB = res.data;
