@@ -771,6 +771,13 @@
     async function apiCall(action, payload = {}, method = 'POST') {
       try {
         let url = API_URL; let options = {};
+        // Auto-inject company if currentUser is loaded
+        if (currentUser && currentUser.company) {
+            payload.company = currentUser.company;
+            payload.creatorRole = currentUser.role;
+            payload.creatorCompany = currentUser.company;
+        }
+
         if (method === 'GET') {
             const queryParams = new URLSearchParams({ action: action, ...payload });
             url = `${API_URL}?${queryParams.toString()}`;
