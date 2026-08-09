@@ -53,13 +53,15 @@
     .bg-blue { background-color:#0d6efd; } .bg-yellow { background-color:#f39c12; color:#fff; } .bg-green { background-color:#27ae60; } .bg-red { background-color:#e74c3c; }
     
     /* Admin Forms Grid */
-    .admin-forms-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px; }
+    .admin-forms-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-bottom: 30px; }
     .user-form-card { background: #fff; padding: 25px; border-radius: 8px; border: 1px solid #0d6efd; box-shadow:0 4px 6px rgba(0,0,0,0.05); }
     .reset-form-card { background: #fff; padding: 25px; border-radius: 8px; border: 1px solid #dc3545; box-shadow:0 4px 6px rgba(0,0,0,0.05); }
-    .perm-form-card { background: #fff; padding: 25px; border-radius: 8px; border: 1px solid #17a2b8; box-shadow:0 4px 6px rgba(0,0,0,0.05); grid-column: span 2; }
+    .branch-form-card { background: #fff; padding: 25px; border-radius: 8px; border: 1px solid #ffc107; box-shadow:0 4px 6px rgba(0,0,0,0.05); }
+    .perm-form-card { background: #fff; padding: 25px; border-radius: 8px; border: 1px solid #17a2b8; box-shadow:0 4px 6px rgba(0,0,0,0.05); grid-column: span 3; }
     
     .user-form-card h3 { color: #0d6efd; margin-bottom: 20px; font-size:16px;}
     .reset-form-card h3 { color: #dc3545; margin-bottom: 20px; font-size:16px;}
+    .branch-form-card h3 { color: #f39c12; margin-bottom: 20px; font-size:16px;}
     .perm-form-card h3 { color: #17a2b8; margin-bottom: 20px; font-size:16px;}
     
     .admin-input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px; outline: none; }
@@ -77,7 +79,7 @@
     .form-box input, .form-box select, .form-box textarea { width:100%; padding:10px; margin-bottom:20px; border:1px solid #ccc; border-radius:5px; font-size:14px; outline:none; }
     .btn-submit { width:100%; padding:12px; background:#28a745; color:white; border:none; border-radius:5px; font-weight:bold; cursor:pointer; transition:0.3s; }
     .table-container { overflow-x:auto; background:#fff; border:1px solid #ddd; border-radius:8px; padding:15px; margin-bottom:30px; }
-    table { width:100%; border-collapse:collapse; text-align:left; font-size:14px; }
+    table { width:100%; border-collapse:collapse; text-align:left; font-size:14px; white-space: nowrap; }
     th { padding:12px; border-bottom:2px solid #ddd; background:#f9f9f9; color:#333; font-weight:600; }
     td { padding:12px; border-bottom:1px solid #eee; color:#555; }
     .badge-pending { background:#f1c40f; color:#fff; padding:4px 10px; border-radius:15px; font-size:12px; font-weight:bold; }
@@ -257,7 +259,7 @@
             <h4 style="color:#555; margin-top:20px; margin-bottom:10px;">Courier Tracking</h4>
             <div class="table-container">
               <table id="dashMasterTable" class="blue-header">
-                <thead><tr><th>ID</th><th>Type</th><th>Route</th><th>Vehicle</th><th>Sent Date</th><th>Received Date</th><th>Sender</th><th>Receiver</th><th>Status</th></tr></thead>
+                <thead><tr><th>Company</th><th>ID</th><th>Type</th><th>Route</th><th>Vehicle</th><th>Sent Date</th><th>Received Date</th><th>Sender</th><th>Receiver</th><th>Status</th></tr></thead>
                 <tbody></tbody>
               </table>
             </div>
@@ -274,7 +276,7 @@
             <h4 style="color:#555; margin-top:20px; margin-bottom:10px;">RMV Registration Tracking</h4>
             <div class="table-container">
               <table id="dashRmvTable" class="blue-header">
-                <thead><tr><th>Date & Time</th><th>Req ID</th><th>Vehicle No</th><th>Branch</th><th>Action By</th><th>Status</th><th>CR Book</th></tr></thead>
+                <thead><tr><th>Company</th><th>Date & Time</th><th>Req ID</th><th>Vehicle No</th><th>Branch</th><th>Action By</th><th>Status</th><th>CR Book</th></tr></thead>
                 <tbody></tbody>
               </table>
             </div>
@@ -293,6 +295,7 @@
               <table id="dashValTable" class="blue-header">
                 <thead>
                   <tr>
+                  <th>Company</th>
                   <th>Date</th>
                   <th>Vehicle No</th>
                   <th>Make & Model</th>
@@ -318,37 +321,64 @@
         </div> 
         
         <!-- ============================================== -->
-        <!-- USER MAINTENANCE SECTION (UPDATED WITH SUB-LISTS) -->
+        <!-- USER MAINTENANCE SECTION -->
         <!-- ============================================== -->
         <div id="view-user-mgt" class="view-section" style="display: none;">
-          <h2 style="color: var(--accent-red); border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom:20px;">System Admin Overview (User Maintenance)</h2>
+          <h2 style="color: var(--accent-red); border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom:20px;">System Admin Overview (System Setup & User Maintenance)</h2>
           
-          <!-- Top Row: Create & Reset Cards -->
           <div class="admin-forms-grid">
+            
+            <!-- 1. Create User Card -->
             <div class="user-form-card">
-              <h3><i class="fas fa-plus"></i> Create New User</h3>
-              <select id="new-user-branch" class="admin-input"><option value="">-- Select Branch --</option></select>
-              <input type="text" id="new-user-name" class="admin-input" placeholder="Full Name (e.g. Nimal Perera)">
-              <input type="text" id="new-user-uname" class="admin-input" placeholder="Username (Login Name)">
-              <input type="email" id="new-user-email" class="admin-input" placeholder="Email Address">
-              <button class="btn-submit" style="background:#0d6efd;" onclick="createUserAdmin()">Create & Send Email</button>
+              <h3><i class="fas fa-user-plus"></i> Create New User</h3>
+              <input type="text" id="new-user-company" class="admin-input" placeholder="Company Name" style="display:none; margin-bottom:10px;">
+              <select id="new-user-branch" class="admin-input" style="margin-bottom:10px;"><option value="">-- Select Branch --</option></select>
+              <select id="new-user-role" class="admin-input" style="margin-bottom:10px;">
+                 <option value="User">User</option>
+                 <option value="rmv branch">RMV Branch User</option>
+                 <option value="rmv request approval user">RMV Request Approval User</option>
+                 <option value="valuation admin">Valuation Admin</option>
+                 <option value="super admin">Super Admin</option>
+              </select>
+              <input type="text" id="new-user-name" class="admin-input" placeholder="Full Name (e.g. Nimal Perera)" style="margin-bottom:10px;">
+              <input type="text" id="new-user-uname" class="admin-input" placeholder="Username (Login Name)" style="margin-bottom:10px;">
+              <input type="email" id="new-user-email" class="admin-input" placeholder="Email Address" style="margin-bottom:10px;">
+              <button class="btn-submit" style="background:#0d6efd;" onclick="createUserAdmin()">Create User</button>
             </div>
+            
+            <!-- 2. Create Company / Branch Card -->
+            <div class="branch-form-card">
+              <h3><i class="fas fa-building"></i> Add Company / Branch</h3>
+              <p style="font-size:12px; color:#666; margin-bottom:10px;">(Only System Owner can add companies/branches)</p>
+              <input type="text" id="new-cb-company" class="admin-input" placeholder="Company Name" style="margin-bottom:10px;">
+              <input type="text" id="new-cb-branch" class="admin-input" placeholder="Branch Name" style="margin-bottom:10px;">
+              <input type="text" id="new-cb-code" class="admin-input" placeholder="Branch Code (e.g. NW, BD)" style="margin-bottom:10px;">
+              <button class="btn-submit" style="background:#f39c12; color:#fff;" onclick="createCompanyBranch()">Add Branch</button>
+            </div>
+
+            <!-- 3. Reset Password Card -->
             <div class="reset-form-card">
               <h3><i class="fas fa-sync"></i> Reset User Password</h3>
               <p style="font-size:13px; color:#666; margin-bottom:15px;">Select a user to generate and email a new temporary password.</p>
               <input type="text" id="reset-uname-input" list="reset-uname" class="admin-input" placeholder="Type or Select Username...">
               <datalist id="reset-uname"></datalist>
-              <button class="btn-submit" style="background:#dc3545;" onclick="resetPasswordAdmin()">Reset Password & Email</button>
+              <button class="btn-submit" style="background:#dc3545;" onclick="resetPasswordAdmin()">Reset Password</button>
             </div>
             
-            <!-- NEW ROW: User Access & Permissions Management -->
+            <!-- 4. Permissions Management Card -->
             <div class="perm-form-card">
               <h3><i class="fas fa-user-shield"></i> User Access & Permissions Management</h3>
               <p style="font-size:13px; color:#666; margin-bottom:15px;">Select a user to control their system access, viewable data, and allowed features.</p>
               
-              <label style="font-size: 13px; font-weight: bold; color: #333;">Select User to Edit:</label>
-              <input type="text" id="perm-user-search" list="perm-user-list" class="admin-input" placeholder="Type username to search..." onchange="loadUserPermDetails()" style="margin-bottom: 5px;">
-              <datalist id="perm-user-list"></datalist>
+              <div style="display:flex; gap:10px;">
+                 <select id="perm-company-filter" class="admin-input" style="display:none; flex:1;" onchange="filterUsersByCompany()">
+                    <option value="ALL">All Companies</option>
+                 </select>
+                 <div style="flex:2;">
+                    <input type="text" id="perm-user-search" list="perm-user-list" class="admin-input" placeholder="Type username to search..." onchange="loadUserPermDetails()" style="margin-bottom: 5px;">
+                    <datalist id="perm-user-list"></datalist>
+                 </div>
+              </div>
 
               <div id="perm-details-section" style="display:none; margin-top:20px;">
                  <div style="margin-bottom: 20px; font-size: 14px;">
@@ -361,12 +391,10 @@
                     <div class="perm-box" style="max-height: 480px; overflow-y: auto;">
                        <h4 style="position: sticky; top: 0; background: #f8f9fa; z-index: 10; margin-top:-5px; padding-top:5px;">Module & Feature Access</h4>
                        
-                       <!-- Dashboard -->
                        <div style="margin-bottom: 12px;">
                            <label class="perm-label" style="font-weight:bold; color:#000;"><input type="checkbox" id="chk_dash" checked> <i class="fas fa-home" style="width:20px; color:#c62828;"></i> Home Dashboard</label>
                        </div>
 
-                       <!-- Courier Portal -->
                        <div style="margin-bottom: 12px;">
                            <label class="perm-label" style="font-weight:bold; color:#0d6efd;"><input type="checkbox" id="chk_courier_main" onchange="toggleSub('chk_courier_main', 'sub_courier')"> <i class="fas fa-shipping-fast" style="width:20px;"></i> Courier Portal</label>
                            <div style="margin-left: 30px; border-left: 2px solid #ddd; padding-left: 10px; display:flex; flex-direction:column; gap:4px;">
@@ -375,7 +403,6 @@
                            </div>
                        </div>
 
-                       <!-- RMV Confirmation -->
                        <div style="margin-bottom: 12px;">
                            <label class="perm-label" style="font-weight:bold; color:#0d6efd;"><input type="checkbox" id="chk_rmv_main" onchange="toggleSub('chk_rmv_main', 'sub_rmv')"> <i class="fas fa-car" style="width:20px;"></i> RMV Confirmation</label>
                            <div style="margin-left: 30px; border-left: 2px solid #ddd; padding-left: 10px; display:flex; flex-direction:column; gap:4px;">
@@ -384,7 +411,6 @@
                            </div>
                        </div>
 
-                       <!-- Valuation Portal -->
                        <div style="margin-bottom: 12px;">
                            <label class="perm-label" style="font-weight:bold; color:#0d6efd;"><input type="checkbox" id="chk_val_main" onchange="toggleSub('chk_val_main', 'sub_val')"> <i class="fas fa-file-invoice-dollar" style="width:20px;"></i> Valuation Portal</label>
                            <div style="margin-left: 30px; border-left: 2px solid #ddd; padding-left: 10px; display:flex; flex-direction:column; gap:4px;">
@@ -394,7 +420,6 @@
                            </div>
                        </div>
                        
-                       <!-- System Admin -->
                        <div style="margin-bottom: 12px;">
                            <label class="perm-label" style="font-weight:bold; color:#0d6efd;"><input type="checkbox" id="chk_admin_main" onchange="toggleSub('chk_admin_main', 'sub_admin')"> <i class="fas fa-shield-alt" style="width:20px;"></i> System Admin</label>
                            <div style="margin-left: 30px; border-left: 2px solid #ddd; padding-left: 10px; display:flex; flex-direction:column; gap:4px;">
@@ -403,7 +428,6 @@
                            </div>
                        </div>
 
-                       <!-- CR Upload Option -->
                        <div style="margin-bottom: 12px;">
                            <label class="perm-label" style="font-weight:bold; color:#0d6efd;"><input type="checkbox" id="chk_cr_main" onchange="toggleSub('chk_cr_main', 'sub_cr')"> <i class="fas fa-file-upload" style="width:20px;"></i> CR Upload Option</label>
                            <div style="margin-left: 30px; border-left: 2px solid #ddd; padding-left: 10px; display:flex; flex-direction:column; gap:4px;">
@@ -413,7 +437,6 @@
                            </div>
                        </div>
 
-                       <!-- RMV Print -->
                        <div style="margin-bottom: 12px;">
                            <label class="perm-label" style="font-weight:bold; color:#0d6efd;"><input type="checkbox" id="chk_print_main" onchange="toggleSub('chk_print_main', 'sub_print')"> <i class="fas fa-file-invoice" style="width:20px;"></i> RMV_Print</label>
                            <div style="margin-left: 30px; border-left: 2px solid #ddd; padding-left: 10px; display:flex; flex-direction:column; gap:4px;">
@@ -425,7 +448,6 @@
 
                     </div>
                     
-                    <!-- Category B: Data Visibility Scope -->
                     <div class="perm-box">
                        <h4>Data Visibility Scope</h4>
                        <label class="perm-label"><input type="radio" name="data_scope" value="OWN" onchange="toggleBranchSelect()" checked> Own/Current Branch Only</label>
@@ -497,6 +519,7 @@
             <table id="parcelTable" class="blue-header">
               <thead>
                 <tr>
+                  <th>Company</th>
                   <th>Date</th>
                   <th>ID</th>
                   <th>Type</th>
@@ -540,7 +563,7 @@
              </div>
              <div style="border: 2px solid #800000; border-radius: 5px; overflow: hidden;">
                <table id="rmvTable" style="width:100%; border-collapse:collapse; text-align:center; font-size:14px;">
-                 <thead style="background:#2d2d2d; color:#fff;"><tr><th style="padding:15px;">Date & Time</th><th>Request ID</th><th>Vehicle No</th><th>Branch</th><th>Action By</th><th>Status</th><th>Action</th></tr></thead>
+                 <thead style="background:#2d2d2d; color:#fff;"><tr><th>Company</th><th style="padding:15px;">Date & Time</th><th>Request ID</th><th>Vehicle No</th><th>Branch</th><th>Action By</th><th>Status</th><th>Action</th></tr></thead>
                  <tbody></tbody>
                </table>
              </div>
@@ -615,8 +638,8 @@
 
           <div class="table-container">
             <table id="valHistoryTable" class="blue-header">
-              <thead><tr><th>Date</th><th>Req By & Branch</th><th>Vehicle No</th><th>Make & Model</th><th>Status</th><th>Action</th></tr></thead>
-              <tbody id="valHistoryBody"><tr><td colspan="6" style="text-align:center;">Loading...</td></tr></tbody>
+              <thead><tr><th>Company</th><th>Date</th><th>Req By & Branch</th><th>Vehicle No</th><th>Make & Model</th><th>Status</th><th>Action</th></tr></thead>
+              <tbody id="valHistoryBody"><tr><td colspan="7" style="text-align:center;">Loading...</td></tr></tbody>
             </table>
           </div>
         </div>
@@ -670,7 +693,7 @@
           
           <div class="table-container">
             <table id="crPendingTable" class="blue-header">
-              <thead><tr><th>Valuation Date</th><th>Vehicle No</th><th>Branch</th><th>Request User</th><th>Days in Pending</th></tr></thead>
+              <thead><tr><th>Company</th><th>Valuation Date</th><th>Vehicle No</th><th>Branch</th><th>Request User</th><th>Days in Pending</th></tr></thead>
               <tbody></tbody>
             </table>
           </div>
@@ -682,7 +705,7 @@
           
           <div class="table-container">
             <table id="crHistoryTable" class="blue-header">
-              <thead><tr><th>Uploaded Date</th><th>Ref No</th><th>Vehicle No</th><th>Make & Model</th><th>Uploaded By</th><th>CR Document</th></tr></thead>
+              <thead><tr><th>Company</th><th>Uploaded Date</th><th>Ref No</th><th>Vehicle No</th><th>Make & Model</th><th>Uploaded By</th><th>CR Document</th></tr></thead>
               <tbody></tbody>
             </table>
           </div>
@@ -771,7 +794,7 @@
     async function apiCall(action, payload = {}, method = 'POST') {
       try {
         let url = API_URL; let options = {};
-        // Auto-inject company if currentUser is loaded
+        
         if (currentUser && currentUser.role) {
             payload.role = currentUser.role;
             payload.company = currentUser.company;
@@ -797,7 +820,7 @@
     
     var globalDashValData = []; 
     var globalHistoryValData = [];
-    var systemUsersList = [];
+    var systemUsersData = []; // Store full user objects for filtering
 
     function getImgUrl(url) {
        if (!url || url === 'No Image') return '';
@@ -884,20 +907,53 @@
 
     // ====== APP SETUP ======
 
+    function populateUserDatalists(filterCompany) {
+      var resetList = document.getElementById('reset-uname'); 
+      var permList = document.getElementById('perm-user-list');
+      if(resetList) resetList.innerHTML = '';
+      if(permList) permList.innerHTML = '';
+      
+      systemUsersData.forEach(u => {
+          if (filterCompany === 'ALL' || u.company === filterCompany) {
+              if(resetList) resetList.appendChild(new Option(u.username, u.username));
+              if(permList) permList.appendChild(new Option(u.username, u.username));
+          }
+      });
+    }
+
+    function filterUsersByCompany() {
+      var selectedComp = document.getElementById('perm-company-filter').value;
+      populateUserDatalists(selectedComp);
+      document.getElementById('perm-user-search').value = ""; // Clear current selection
+      document.getElementById('perm-details-section').style.display = 'none';
+    }
+
     function setupDashboardPostLogin(res) {
       try {
         var uName = res.user ? res.user : "Admin";
         var uRole = res.role ? res.role.toLowerCase() : "user";
         var uBranch = res.branch ? res.branch : "Unknown";
+        var uComp = res.company ? res.company : "System";
 
         document.getElementById('display-name').innerText = uName; 
         var formattedRole = uRole.charAt(0).toUpperCase() + uRole.slice(1);
-        document.getElementById('display-role').innerText = formattedRole + " | " + uBranch;
-        document.getElementById('welcome-name').innerText = uName + " - " + uBranch + " Branch";
+        
+        // Show company name on top right
+        document.getElementById('display-role').innerHTML = `<span style="color:#f39c12; font-weight:bold;">${uComp}</span> | ${formattedRole} | ${uBranch}`;
+        document.getElementById('welcome-name').innerHTML = `${uName} <span style="font-size:16px; color:#555;">(${uComp})</span> - ${uBranch} Branch`;
         document.getElementById('profile-img').src = "https://ui-avatars.com/api/?name=" + encodeURIComponent(uName) + "&background=c62828&color=fff";
         
         loadDashboardStats();
         initVehicleData();
+
+        // System Owner specific UI adjustments
+        if (uRole === 'system owner') {
+            document.getElementById('new-user-company').style.display = 'block';
+            document.getElementById('perm-company-filter').style.display = 'block';
+            document.querySelector('.branch-form-card').style.display = 'block';
+        } else {
+            document.querySelector('.branch-form-card').style.display = 'none';
+        }
 
         apiCall('getBranchList', {}, 'GET').then(res => { 
             var select = document.getElementById('new-user-branch'); 
@@ -911,38 +967,31 @@
         });
 
         apiCall('getUsernamesList', {}, 'GET').then(res => { 
-            var resetList = document.getElementById('reset-uname'); 
-            var permList = document.getElementById('perm-user-list');
             if(res.data) { 
-                systemUsersList = res.data;
-                res.data.forEach(u => {
-                    if(resetList) {
-                        let opt1 = document.createElement('option');
-                        opt1.value = u;
-                        resetList.appendChild(opt1);
-                    }
-                    if(permList) {
-                        let opt2 = document.createElement('option');
-                        opt2.value = u;
-                        permList.appendChild(opt2);
-                    }
-                }); 
+                systemUsersData = res.data;
+                
+                // Populate Company Filter for System Owner
+                var compFilter = document.getElementById('perm-company-filter');
+                if (compFilter && uRole === 'system owner') {
+                   let comps = [...new Set(res.data.map(u => u.company))];
+                   comps.forEach(c => compFilter.add(new Option(c, c)));
+                }
+
+                populateUserDatalists('ALL');
             } 
         });
 
         // ========================================================
-        // DYNAMIC PERMISSION CONTROL LOGIC (NEW)
+        // DYNAMIC PERMISSION CONTROL LOGIC
         // ========================================================
         var modules = res.allowedModules || "";
         
-        // Backward compatibility: If no permissions are set yet, give Super Admins full access.
         if (!modules && (uRole === 'super admin' || uRole === 'admin' || uRole === 'system owner')) {
             modules = "Dashboard,Courier-Send,Courier-Action,RMV-Request,RMV-Action,Valuation-New,Valuation-Pending,Valuation-History,CR-New,CR-Pending,CR-History,Print-Add,Print-Paper,Print-Box,Admin-UserMgt,Admin-Map";
         } else if (!modules) {
-            modules = "Dashboard"; // Fallback for normal users until updated
+            modules = "Dashboard"; 
         }
 
-        // Helper function to safely show/hide elements
         const setVisibility = (selector, isVisible, displayType = 'flex') => {
            let el = document.querySelector(selector);
            if (el) el.style.display = isVisible ? displayType : 'none';
@@ -1113,21 +1162,21 @@
         var cTbody = document.querySelector("#dashMasterTable tbody");
         if(cTbody) {
             cTbody.innerHTML = "";
-            if(data.courier.list.length === 0) cTbody.innerHTML = "<tr><td colspan='9' style='text-align:center;'>No Recent Activity</td></tr>";
+            if(data.courier.list.length === 0) cTbody.innerHTML = "<tr><td colspan='10' style='text-align:center;'>No Recent Activity</td></tr>";
             data.courier.list.forEach(r => {
               var badge = r.status.toLowerCase() === 'pending' ? '<span class="badge-pending">Pending</span>' : '<span class="badge-accepted">Delivered</span>';
-              cTbody.innerHTML += `<tr><td>${r.id}</td><td>${r.type}</td><td>${r.route}</td><td>${r.vehicle}</td><td>${r.sentDate}</td><td>${r.recDate}</td><td>${r.sender}</td><td>${r.receiver}</td><td>${badge}</td></tr>`;
+              cTbody.innerHTML += `<tr><td><b style="color:#e67e22;">${r.company}</b></td><td>${r.id}</td><td>${r.type}</td><td>${r.route}</td><td>${r.vehicle}</td><td>${r.sentDate}</td><td>${r.recDate}</td><td>${r.sender}</td><td>${r.receiver}</td><td>${badge}</td></tr>`;
             });
         }
 
         var rTbody = document.querySelector("#dashRmvTable tbody");
         if(rTbody) {
             rTbody.innerHTML = "";
-            if(data.rmv.list.length === 0) rTbody.innerHTML = "<tr><td colspan='7' style='text-align:center;'>No Recent Activity</td></tr>";
+            if(data.rmv.list.length === 0) rTbody.innerHTML = "<tr><td colspan='8' style='text-align:center;'>No Recent Activity</td></tr>";
             data.rmv.list.forEach(r => {
               var badge = r.status.toLowerCase() === 'pending' ? '<span class="badge-pending">Pending</span>' : (r.status.toLowerCase() === 'approved' ? '<span class="badge-accepted">Approved</span>' : '<span class="badge-rejected">Rejected</span>');
               var fileLink = r.fileUrl !== "No File" ? `<a href="${r.fileUrl}" target="_blank">View CR</a>` : "-";
-              rTbody.innerHTML += `<tr><td>${r.date}</td><td>${r.id}</td><td>${r.vehicle}</td><td>${r.branch}</td><td>${r.approvedBy}</td><td>${badge}</td><td>${fileLink}</td></tr>`;
+              rTbody.innerHTML += `<tr><td><b style="color:#e67e22;">${r.company}</b></td><td>${r.date}</td><td>${r.id}</td><td>${r.vehicle}</td><td>${r.branch}</td><td>${r.approvedBy}</td><td>${badge}</td><td>${fileLink}</td></tr>`;
             });
         }
 
@@ -1135,14 +1184,14 @@
         if(vTbody) {
             vTbody.innerHTML = "";
             globalDashValData = data.valuation.list; 
-            if(data.valuation.list.length === 0) vTbody.innerHTML = "<tr><td colspan='7' style='text-align:center;'>No Recent Activity</td></tr>";
+            if(data.valuation.list.length === 0) vTbody.innerHTML = "<tr><td colspan='8' style='text-align:center;'>No Recent Activity</td></tr>";
             
             data.valuation.list.forEach((r, idx) => {
               var badge = r.status.toLowerCase().includes('pending') ? '<span class="badge-pending">Pending Approval</span>' : (r.status.toLowerCase() === 'approved' ? '<span class="badge-accepted">Approved</span>' : '<span class="badge-rejected">Rejected</span>');
               var viewBtn = `<button onclick="openValViewModal(${idx}, 'dash')" style="background:#f39c12; color:white; border:none; padding:6px 12px; border-radius:4px; cursor:pointer; font-weight:bold; margin-right:5px; font-size:13px;">View</button>`;
               var pdfBtn = r.pdf ? `<a href="${r.pdf}" target="_blank" style="background:#0d6efd; color:white; padding:6px 12px; border-radius:4px; text-decoration:none; font-size:13px; font-weight:bold; display:inline-block;">PDF</a>` : "";
               
-              vTbody.innerHTML += `<tr><td>${r.date}</td><td><b>${r.vehNo}</b></td><td>${r.makeModel}</td><td>${r.marketVal}</td><td>${r.saleVal}</td><td>${badge}</td><td>${viewBtn}${pdfBtn}</td></tr>`;
+              vTbody.innerHTML += `<tr><td><b style="color:#e67e22;">${r.company}</b></td><td>${r.date}</td><td><b>${r.vehNo}</b></td><td>${r.makeModel}</td><td>${r.marketVal}</td><td>${r.saleVal}</td><td>${badge}</td><td>${viewBtn}${pdfBtn}</td></tr>`;
             });
         }
 
@@ -1200,23 +1249,24 @@
     async function loadRMVData() {
       var tbody = document.querySelector("#rmvTable tbody");
       if(!tbody) return;
-      tbody.innerHTML = "<tr><td colspan='7' style='text-align:center; padding:20px;'>Loading data...</td></tr>";
+      tbody.innerHTML = "<tr><td colspan='8' style='text-align:center; padding:20px;'>Loading data...</td></tr>";
       try {
         const res = await apiCall('getRMVData', {}, 'GET');
         var myRole = currentUser.role.toLowerCase(); var myBranch = currentUser.branch.toLowerCase();
-        globalRmvData = res.data.filter(r => (myRole === "super admin" || myRole === "rmv request approval user" || myBranch === "rmv" || String(r.branch).toLowerCase() === myBranch));
+        
+        globalRmvData = res.data;
         
         tbody.innerHTML = "";
-        if (globalRmvData.length === 0) { tbody.innerHTML = "<tr><td colspan='7' style='text-align:center; padding:20px;'>No RMV requests found.</td></tr>"; return; }
+        if (globalRmvData.length === 0) { tbody.innerHTML = "<tr><td colspan='8' style='text-align:center; padding:20px;'>No RMV requests found.</td></tr>"; return; }
         for (var i = 0; i < globalRmvData.length; i++) {
           var row = globalRmvData[i]; var statusBadge = "";
           if(row.status === 'Pending') statusBadge = '<span class="badge-pending">Pending</span>';
           else if(row.status === 'Approved') statusBadge = '<span class="badge-accepted">Approved</span>';
           else statusBadge = '<span class="badge-rejected">Rejected</span>';
           var actionBtn = "-";
-          if (myRole === 'super admin' || myRole === 'rmv request approval user' || myBranch === "rmv") { actionBtn = `<button onclick="openRmvModal(${i})" style="background:#0d6efd; color:#fff; padding:6px 12px; border:none; border-radius:4px; cursor:pointer; font-weight:bold;">View & Confirm</button>`; }
+          if (myRole === 'super admin' || myRole === 'system owner' || myRole === 'rmv request approval user' || myBranch === "rmv") { actionBtn = `<button onclick="openRmvModal(${i})" style="background:#0d6efd; color:#fff; padding:6px 12px; border:none; border-radius:4px; cursor:pointer; font-weight:bold;">View & Confirm</button>`; }
           var actByText = (row.approvedBy && row.approvedBy !== "-") ? row.approvedBy : '<span style="color:#999;font-size:12px;">Pending</span>';
-          tbody.innerHTML += `<tr style="border-bottom:1px solid #eee;"><td>${row.date}</td><td><b>${row.reqId}</b></td><td><span style="background:#2d2d2d; color:#fff; padding:3px 8px; border-radius:4px; font-weight:bold;">${row.vehicleNo}</span></td><td>${row.branch}</td><td>${actByText}</td><td>${statusBadge}</td><td>${actionBtn}</td></tr>`;
+          tbody.innerHTML += `<tr style="border-bottom:1px solid #eee;"><td><b style="color:#e67e22;">${row.company}</b></td><td>${row.date}</td><td><b>${row.reqId}</b></td><td><span style="background:#2d2d2d; color:#fff; padding:3px 8px; border-radius:4px; font-weight:bold;">${row.vehicleNo}</span></td><td>${row.branch}</td><td>${actByText}</td><td>${statusBadge}</td><td>${actionBtn}</td></tr>`;
         }
       } catch(e) { console.error(e); }
     }
@@ -1228,7 +1278,7 @@
       var tDate = document.getElementById("rmvToDate").value;
       var tr = document.getElementById("rmvTable").getElementsByTagName("tr");
       for (var i = 1; i < tr.length; i++) {
-        var tdDate = tr[i].getElementsByTagName("td")[0]; var tdId = tr[i].getElementsByTagName("td")[1]; var tdVeh = tr[i].getElementsByTagName("td")[2]; var tdStatus = tr[i].getElementsByTagName("td")[5]; 
+        var tdDate = tr[i].getElementsByTagName("td")[1]; var tdId = tr[i].getElementsByTagName("td")[2]; var tdVeh = tr[i].getElementsByTagName("td")[3]; var tdStatus = tr[i].getElementsByTagName("td")[6]; 
         if (tdDate && tdId && tdVeh && tdStatus) {
           var rowDaTestr = tdDate.textContent || tdDate.innerText; var rowDate = new Date(rowDaTestr.split(" ")[0]);
           var matchSearch = (tdId.innerText.toLowerCase().indexOf(input) > -1) || (tdVeh.innerText.toLowerCase().indexOf(input) > -1);
@@ -1302,29 +1352,53 @@
     }
 
     async function createUserAdmin() {
-      var b = document.getElementById('new-user-branch').value; var n = document.getElementById('new-user-name').value; var u = document.getElementById('new-user-uname').value; var e = document.getElementById('new-user-email').value;
+      var c = document.getElementById('new-user-company').value;
+      if (!c || c === "") { c = currentUser.company; }
+      
+      var b = document.getElementById('new-user-branch').value; 
+      var r = document.getElementById('new-user-role').value; 
+      var n = document.getElementById('new-user-name').value; 
+      var u = document.getElementById('new-user-uname').value; 
+      var e = document.getElementById('new-user-email').value;
+      
       if(!b || !n || !u || !e) { Swal.fire("Required", "Please fill all fields!", "warning"); return; }
       Swal.fire({title: 'Creating User...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
       try {
-        const res = await apiCall('createNewSystemUser', { branch: b, name: n, username: u, email: e });
+        const res = await apiCall('createNewSystemUser', { company: c, branch: b, name: n, username: u, email: e, role: r });
         if(res.success) { 
           Swal.fire("Success!", res.msg, "success"); 
           document.getElementById('new-user-name').value = ""; document.getElementById('new-user-uname').value = ""; document.getElementById('new-user-email').value = ""; 
+          
           apiCall('getUsernamesList', {}, 'GET').then(res2 => { 
-              var resetSelect = document.getElementById('reset-uname'); 
-              var permSelect = document.getElementById('perm-user-list');
-              if(resetSelect) resetSelect.innerHTML = '';
-              if(permSelect) permSelect.innerHTML = '';
-              
               if(res2.data){
-                  systemUsersList = res2.data;
-                  res2.data.forEach(usr => {
-                      if(resetSelect) resetSelect.appendChild(new Option(usr, usr));
-                      if(permSelect) permSelect.appendChild(new Option(usr, usr));
-                  });
+                  systemUsersData = res2.data;
+                  populateUserDatalists(document.getElementById('perm-company-filter') ? document.getElementById('perm-company-filter').value : 'ALL');
               }
           }); 
         } else { Swal.fire("Error", res.msg || "Failed", "error"); }
+      } catch(error) { Swal.fire("Error", "Server Error", "error"); }
+    }
+
+    async function createCompanyBranch() {
+      var c = document.getElementById('new-cb-company').value; 
+      var b = document.getElementById('new-cb-branch').value; 
+      var code = document.getElementById('new-cb-code').value; 
+      if(!c || !b || !code) { Swal.fire("Required", "Please fill all fields!", "warning"); return; }
+      Swal.fire({title: 'Adding...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+      try {
+        const res = await apiCall('addCompanyBranch', { company: c, branch: b, code: code });
+        if(res.success) { 
+          Swal.fire("Success!", res.msg, "success"); 
+          document.getElementById('new-cb-company').value = ""; document.getElementById('new-cb-branch').value = ""; document.getElementById('new-cb-code').value = "";
+          // Refresh Branch List
+          apiCall('getBranchList', {}, 'GET').then(res2 => { 
+            var select = document.getElementById('new-user-branch'); 
+            var permSelect = document.getElementById('perm-branch-select');
+            if(select) select.innerHTML = '<option value="">-- Select Branch --</option>';
+            if(permSelect) permSelect.innerHTML = '';
+            if(res2.data){ res2.data.forEach(br => { select.add(new Option(br, br)); if(permSelect) permSelect.add(new Option(br, br)); }); } 
+          });
+        } else { Swal.fire("Error", res.error || "Failed", "error"); }
       } catch(error) { Swal.fire("Error", "Server Error", "error"); }
     }
 
@@ -1363,7 +1437,8 @@
       var user = document.getElementById('perm-user-search').value;
       var section = document.getElementById('perm-details-section');
       
-      if(!user || !systemUsersList.includes(user)) {
+      var isUserValid = systemUsersData.some(u => u.username === user);
+      if(!user || !isUserValid) {
          section.style.display = 'none';
          return;
       }
@@ -1593,24 +1668,24 @@
     async function loadCourierData() {
       var tbody = document.querySelector("#parcelTable tbody");
       if(!tbody) return;
-      tbody.innerHTML = "<tr><td colspan='7' style='text-align:center;'>Loading data...</td></tr>";
+      tbody.innerHTML = "<tr><td colspan='8' style='text-align:center;'>Loading data...</td></tr>";
       try {
         const res = await apiCall('getCourierData', {}, 'GET'); const data = res.data; tbody.innerHTML = "";
-        if(!data || data.length === 0) { tbody.innerHTML = "<tr><td colspan='7' style='text-align:center;'>No Data Found</td></tr>"; return; }
+        if(!data || data.length === 0) { tbody.innerHTML = "<tr><td colspan='8' style='text-align:center;'>No Data Found</td></tr>"; return; }
         
         var hasData = false; var myBr = currentUser.branch ? currentUser.branch.trim().toLowerCase() : ""; var myRole = currentUser.role ? currentUser.role.trim().toLowerCase() : "user";
         data.forEach(row => {
-          if(row[0] === "Error") { tbody.innerHTML += `<tr><td colspan='7' style='color:red; text-align:center;'><b>System Error:</b> ${row[1]}</td></tr>`; hasData = true; return; }
-          var fromBr = row[3] ? String(row[3]).trim().toLowerCase() : ""; var toBr = row[4] ? String(row[4]).trim().toLowerCase() : "";
-          if(myRole === 'super admin' || myBr === fromBr || myBr === toBr) {
-            hasData = true; var status = row[7] ? String(row[7]).trim() : "Pending";
+          if(row[0] === "Error") { tbody.innerHTML += `<tr><td colspan='8' style='color:red; text-align:center;'><b>System Error:</b> ${row[1]}</td></tr>`; hasData = true; return; }
+          var fromBr = row[4] ? String(row[4]).trim().toLowerCase() : ""; var toBr = row[5] ? String(row[5]).trim().toLowerCase() : "";
+          if(myRole === 'super admin' || myRole === 'system owner' || myBr === fromBr || myBr === toBr) {
+            hasData = true; var status = row[8] ? String(row[8]).trim() : "Pending";
             var badge = status.toLowerCase() === 'pending' ? '<span class="badge-pending">Pending</span>' : '<span class="badge-accepted">Delivered</span>';
-            var btn = (status.toLowerCase() === 'pending' && (myBr === toBr || myRole === 'super admin')) ? `<button onclick="receiveCourier('${row[1]}')" style="background:#198754;color:white;border:none;padding:5px 10px;border-radius:4px;cursor:pointer;">Mark Received</button>` : "-";
-            tbody.innerHTML += `<tr><td>${row[0]}</td><td><b>${row[1]}</b></td><td>${row[2]}</td><td>${row[3]} ➔ ${row[4]}</td><td>${row[5]}</td><td>${badge}</td><td>${btn}</td></tr>`;
+            var btn = (status.toLowerCase() === 'pending' && (myBr === toBr || myRole === 'super admin' || myRole === 'system owner')) ? `<button onclick="receiveCourier('${row[2]}')" style="background:#198754;color:white;border:none;padding:5px 10px;border-radius:4px;cursor:pointer;">Mark Received</button>` : "-";
+            tbody.innerHTML += `<tr><td><b style="color:#e67e22;">${row[0]}</b></td><td>${row[1]}</td><td><b>${row[2]}</b></td><td>${row[3]}</td><td>${row[4]} ➔ ${row[5]}</td><td>${row[6]}<br><small>${row[7]}</small></td><td>${badge}</td><td>${btn}</td></tr>`;
           }
         });
-        if(!hasData) { tbody.innerHTML = "<tr><td colspan='7' style='text-align:center;'>No Couriers Found for your branch.</td></tr>"; }
-      } catch(e) { tbody.innerHTML = "<tr><td colspan='7' style='text-align:center;color:red;'>Error Loading Data</td></tr>"; }
+        if(!hasData) { tbody.innerHTML = "<tr><td colspan='8' style='text-align:center;'>No Couriers Found for your branch.</td></tr>"; }
+      } catch(e) { tbody.innerHTML = "<tr><td colspan='8' style='text-align:center;color:red;'>Error Loading Data</td></tr>"; }
     }
 
     function receiveCourier(id) {
@@ -1730,7 +1805,7 @@
         const data = res.data; container.innerHTML = "";
         if(!data || data.length === 0) { container.innerHTML = "<div style='text-align:center; padding:20px; background:#fff; border-radius:8px;'>No pending valuations found.</div>"; return; }
         
-        var isAdmin = String(currentUser.role || "").toLowerCase().includes('admin') || String(currentUser.role || "").toLowerCase().includes('approval');
+        var isAdmin = String(currentUser.role || "").toLowerCase().includes('admin') || String(currentUser.role || "").toLowerCase().includes('approval') || String(currentUser.role || "").toLowerCase().includes('owner');
         data.forEach(req => {
           var imgHtml = ''; var errImg = "this.onerror=null; this.src='https://placehold.co/250x180?text=Image+Error';";
           if(req.imgFront !== 'No Image') imgHtml += `<div class="admin-photo-item" onclick="openModal('${getImgUrl(req.imgFront)}')"><img src="${getImgUrl(req.imgFront)}" onerror="${errImg}"><div class="admin-photo-label">Front View</div></div>`;
@@ -1746,7 +1821,7 @@
 
           var actionHtml = '';
           if (isAdmin) {
-             actionHtml = `<div class="admin-valuation-form"><h4 style="margin-bottom:15px; color:#c62828;">Inspector Assessment</h4><div class="admin-input-row"><div><label>Market Value (LKR)</label><input type="number" id="mVal_${req.row}" class="admin-input" value="${req.defaultMarket || ''}"></div><div><label>Forced Sale Value (LKR)</label><input type="number" id="sVal_${req.row}" class="admin-input" value="${req.defaultSale || ''}"></div></div><label>Remarks</label><input type="text" id="rem_${req.row}" class="admin-input" placeholder="Add any comments..."><div style="display:flex; gap:10px; margin-top:10px;"><button onclick="processValuation(${req.row}, 'Approved')" style="flex:1; background:#198754; color:white; padding:12px; border:none; border-radius:5px; font-weight:bold; cursor:pointer;">Approve & Generate PDF</button><button onclick="processValuation(${req.row}, 'Rejected')" style="flex:1; background:#dc3545; color:white; padding:12px; border:none; border-radius:5px; font-weight:bold; cursor:pointer;">Reject Request</button></div></div>`;
+             actionHtml = `<div class="admin-valuation-form"><h4 style="margin-bottom:15px; color:#c62828;">Inspector Assessment <span style="font-size:12px; color:#555;">(${req.company})</span></h4><div class="admin-input-row"><div><label>Market Value (LKR)</label><input type="number" id="mVal_${req.row}" class="admin-input" value="${req.defaultMarket || ''}"></div><div><label>Forced Sale Value (LKR)</label><input type="number" id="sVal_${req.row}" class="admin-input" value="${req.defaultSale || ''}"></div></div><label>Remarks</label><input type="text" id="rem_${req.row}" class="admin-input" placeholder="Add any comments..."><div style="display:flex; gap:10px; margin-top:10px;"><button onclick="processValuation(${req.row}, 'Approved')" style="flex:1; background:#198754; color:white; padding:12px; border:none; border-radius:5px; font-weight:bold; cursor:pointer;">Approve & Generate PDF</button><button onclick="processValuation(${req.row}, 'Rejected')" style="flex:1; background:#dc3545; color:white; padding:12px; border:none; border-radius:5px; font-weight:bold; cursor:pointer;">Reject Request</button></div></div>`;
           } else { actionHtml = '<div style="background:#fff3cd; padding:15px; border-radius:5px; text-align:center; font-weight:bold; color:#856404; border:1px solid #ffeeba; margin-top:15px;">Status: Pending Admin Approval ⏳</div>'; }
 
           var card = `<div class="admin-req-card"><div class="info-grid"><div class="info-box"><strong>Vehicle No</strong><span>${req.vehNo}</span></div><div class="info-box"><strong>Make & Model</strong><span>${req.make} ${req.model}</span></div><div class="info-box"><strong>YOM</strong><span>${req.yom}</span></div><div class="info-box"><strong>Requested By</strong><span>${req.reqName} (${req.reqBranch})</span></div><div class="info-box"><strong>Req Amount</strong><span>Rs. ${req.reqAmount}</span></div><div class="info-box"><strong>Chassis No</strong><span>${req.chassisNo}</span></div></div><div class="admin-photo-grid">${imgHtml}</div>${actionHtml}</div>`;
@@ -1768,26 +1843,26 @@
 
     async function loadValuationHistory() {
       var tbody = document.getElementById("valHistoryBody"); if(!tbody) return;
-      tbody.innerHTML = "<tr><td colspan='6' style='text-align:center;'>Loading...</td></tr>";
+      tbody.innerHTML = "<tr><td colspan='7' style='text-align:center;'>Loading...</td></tr>";
       try {
         const res = await apiCall('getValuationSummary', { role: currentUser.role, branch: currentUser.branch, email: currentUser.email }, 'GET');
         const data = res.data; tbody.innerHTML = "";
         globalHistoryValData = data; 
         
-        if(!data || data.length === 0) { tbody.innerHTML = "<tr><td colspan='6' style='text-align:center;'>No History Found</td></tr>"; return; }
+        if(!data || data.length === 0) { tbody.innerHTML = "<tr><td colspan='7' style='text-align:center;'>No History Found</td></tr>"; return; }
         data.forEach((row, idx) => {
           var statusBadge = row.status.toLowerCase() === 'approved' ? '<span class="badge-accepted">Approved</span>' : (row.status.toLowerCase() === 'rejected' ? '<span class="badge-rejected">Rejected</span>' : '<span class="badge-pending">Pending Approval</span>');
           var viewBtn = `<button onclick="openValViewModal(${idx}, 'history')" style="background:#f39c12; color:white; border:none; padding:6px 12px; border-radius:4px; cursor:pointer; font-weight:bold; margin-right:5px; font-size:13px;">View</button>`;
           var pdfLink = row.pdf ? `<a href="${row.pdf}" target="_blank" style="background:#0d6efd; color:white; padding:6px 12px; border-radius:4px; text-decoration:none; font-size:13px; font-weight:bold; display:inline-block;">PDF</a>` : "";
-          tbody.innerHTML += `<tr><td>${row.date}</td><td><b>${row.reqName}</b><br><small style="color:#777;">${row.branch}</small></td><td><b>${row.vehNo}</b></td><td>${row.makeModel}</td><td>${statusBadge}</td><td>${viewBtn}${pdfLink}</td></tr>`;
+          tbody.innerHTML += `<tr><td><b style="color:#e67e22;">${row.company}</b></td><td>${row.date}</td><td><b>${row.reqName}</b><br><small style="color:#777;">${row.branch}</small></td><td><b>${row.vehNo}</b></td><td>${row.makeModel}</td><td>${statusBadge}</td><td>${viewBtn}${pdfLink}</td></tr>`;
         });
-      } catch(e) { tbody.innerHTML = "<tr><td colspan='6' style='text-align:center;color:red;'>Error Loading History</td></tr>"; }
+      } catch(e) { tbody.innerHTML = "<tr><td colspan='7' style='text-align:center;color:red;'>Error Loading History</td></tr>"; }
     }
 
     function filterValHistoryTable() {
       var fDate = document.getElementById("valFromDate").value; var tDate = document.getElementById("valToDate").value; var search = document.getElementById("valSearch").value.toLowerCase(); var tr = document.getElementById("valHistoryTable").getElementsByTagName("tr");
       for (var i = 1; i < tr.length; i++) {
-        var tdDate = tr[i].getElementsByTagName("td")[0]; var tdVeh = tr[i].getElementsByTagName("td")[2];
+        var tdDate = tr[i].getElementsByTagName("td")[1]; var tdVeh = tr[i].getElementsByTagName("td")[3];
         if (tdDate && tdVeh) {
           var rowDaTestr = tdDate.textContent || tdDate.innerText; var rowDate = new Date(rowDaTestr); var matchSearch = tdVeh.innerText.toLowerCase().indexOf(search) > -1; var matchDate = true;
           if (fDate) { if (rowDate < new Date(fDate)) matchDate = false; }
@@ -1801,7 +1876,9 @@
 
     function filterDashboardTables() {
         var fDate = document.getElementById("dashFromDate").value; var tDate = document.getElementById("dashToDate").value; var search = document.getElementById("dashSearch").value.toLowerCase();
-        var tables = [ {id: "dashMasterTable", dateCol: 4, searchCols: [0, 3]}, {id: "dashRmvTable", dateCol: 0, searchCols: [1, 2]}, {id: "dashValTable", dateCol: 0, searchCols: [1]} ];
+        
+        // Col updates: Courier date=5, id=1 | RMV date=1, id=2 | Val date=1, veh=2
+        var tables = [ {id: "dashMasterTable", dateCol: 5, searchCols: [1, 4]}, {id: "dashRmvTable", dateCol: 1, searchCols: [2, 3]}, {id: "dashValTable", dateCol: 1, searchCols: [2]} ];
         tables.forEach(tbl => {
             var tbody = document.querySelector("#" + tbl.id + " tbody"); if(!tbody) return; var tr = tbody.getElementsByTagName("tr");
             for (var i = 0; i < tr.length; i++) {
@@ -1821,7 +1898,7 @@
     function filterCourierTable() {
         var fDate = document.getElementById("courierFromDate").value; var tDate = document.getElementById("courierToDate").value; var search = document.getElementById("courierSearch").value.toLowerCase(); var status = document.getElementById("courierStatusFilter").value.toLowerCase(); var tr = document.getElementById("parcelTable").getElementsByTagName("tr");
         for (var i = 1; i < tr.length; i++) {
-            var tdDate = tr[i].getElementsByTagName("td")[0]; var tdId = tr[i].getElementsByTagName("td")[1]; var tdVeh = tr[i].getElementsByTagName("td")[4]; var tdStatus = tr[i].getElementsByTagName("td")[5];
+            var tdDate = tr[i].getElementsByTagName("td")[1]; var tdId = tr[i].getElementsByTagName("td")[2]; var tdVeh = tr[i].getElementsByTagName("td")[5]; var tdStatus = tr[i].getElementsByTagName("td")[6];
             if (tdDate && tdId && tdVeh && tdStatus) {
                 var rowDaTestr = tdDate.textContent || tdDate.innerText; var rowDate = new Date(rowDaTestr.split(" ")[0]);
                 var matchSearch = (tdId.innerText.toLowerCase().indexOf(search) > -1) || (tdVeh.innerText.toLowerCase().indexOf(search) > -1);
@@ -1849,7 +1926,7 @@
         globalPendingCR.forEach(item => {
           var option = document.createElement('option');
           option.value = item.vehNo;
-          option.text = `Ref: ${item.refNo} | Branch: ${item.branch}`;
+          option.text = `Ref: ${item.refNo} | Branch: ${item.branch} | Comp: ${item.company}`;
           datalist.appendChild(option);
         });
       } catch (error) { console.error("Error loading pending CRs", error); }
@@ -1944,44 +2021,44 @@
     async function loadCRHistory() {
       var tbody = document.querySelector("#crHistoryTable tbody");
       if(!tbody) return;
-      tbody.innerHTML = "<tr><td colspan='6' style='text-align:center;'>Loading data...</td></tr>";
+      tbody.innerHTML = "<tr><td colspan='7' style='text-align:center;'>Loading data...</td></tr>";
       
       try {
         const res = await apiCall('getCRUploadHistory', { role: currentUser.role, branch: currentUser.branch, email: currentUser.email }, 'GET');
         tbody.innerHTML = "";
         if (res.data.length === 0) {
-          tbody.innerHTML = "<tr><td colspan='6' style='text-align:center;'>No CR Upload History found.</td></tr>";
+          tbody.innerHTML = "<tr><td colspan='7' style='text-align:center;'>No CR Upload History found.</td></tr>";
           return;
         }
         
         res.data.forEach(r => {
           var fileLink = `<a href="${r.crUrl}" target="_blank" style="background:#28a745; color:white; padding:5px 10px; border-radius:4px; text-decoration:none; font-size:12px; font-weight:bold;">View Document</a>`;
-          tbody.innerHTML += `<tr><td>${r.uploadDate}</td><td><b>${r.refNo}</b></td><td><span style="color:#0d6efd;font-weight:bold;">${r.vehNo}</span></td><td>${r.makeModel}</td><td>${r.uploadedBy}</td><td>${fileLink}</td></tr>`;
+          tbody.innerHTML += `<tr><td><b style="color:#e67e22;">${r.company}</b></td><td>${r.uploadDate}</td><td><b>${r.refNo}</b></td><td><span style="color:#0d6efd;font-weight:bold;">${r.vehNo}</span></td><td>${r.makeModel}</td><td>${r.uploadedBy}</td><td>${fileLink}</td></tr>`;
         });
       } catch(e) {
-        tbody.innerHTML = "<tr><td colspan='6' style='text-align:center; color:red;'>Error Loading Report</td></tr>";
+        tbody.innerHTML = "<tr><td colspan='7' style='text-align:center; color:red;'>Error Loading Report</td></tr>";
       }
     }
 
     async function loadPendingCRTable() {
       var tbody = document.querySelector("#crPendingTable tbody");
       if(!tbody) return;
-      tbody.innerHTML = "<tr><td colspan='5' style='text-align:center;'>Loading data...</td></tr>";
+      tbody.innerHTML = "<tr><td colspan='6' style='text-align:center;'>Loading data...</td></tr>";
       
       try {
         const res = await apiCall('getPendingCRUploads', { role: currentUser.role, branch: currentUser.branch, email: currentUser.email }, 'GET');
         tbody.innerHTML = "";
         if (res.data.length === 0) {
-          tbody.innerHTML = "<tr><td colspan='5' style='text-align:center;'>No Pending CRs found.</td></tr>";
+          tbody.innerHTML = "<tr><td colspan='6' style='text-align:center;'>No Pending CRs found.</td></tr>";
           return;
         }
         
         res.data.forEach(r => {
           var daysColor = r.pendingDays > 14 ? "color:red; font-weight:bold;" : "color:black;";
-          tbody.innerHTML += `<tr><td>${r.valDate}</td><td><span style="color:#0d6efd;font-weight:bold;">${r.vehNo}</span></td><td>${r.branch}</td><td>${r.reqUser}</td><td style="${daysColor}">${r.pendingDays} Days</td></tr>`;
+          tbody.innerHTML += `<tr><td><b style="color:#e67e22;">${r.company}</b></td><td>${r.valDate}</td><td><span style="color:#0d6efd;font-weight:bold;">${r.vehNo}</span></td><td>${r.branch}</td><td>${r.reqUser}</td><td style="${daysColor}">${r.pendingDays} Days</td></tr>`;
         });
       } catch(e) {
-        tbody.innerHTML = "<tr><td colspan='5' style='text-align:center; color:red;'>Error Loading Pending List</td></tr>";
+        tbody.innerHTML = "<tr><td colspan='6' style='text-align:center; color:red;'>Error Loading Pending List</td></tr>";
       }
     }
 
