@@ -808,14 +808,15 @@
         let url = API_URL; let options = {};
         
         if (currentUser && currentUser.role) {
-            payload.role = currentUser.role; 
-            payload.company = payload.company || currentUser.company; // Root company
+            if (payload.role === undefined) payload.role = currentUser.role; 
+            if (payload.company === undefined || payload.company === "") payload.company = currentUser.company; 
             payload.creatorRole = currentUser.role;
             payload.creatorCompany = currentUser.company;
             
-            // Fix 1: Inject company into payload.data to ensure Sheets get the right company
             if (payload.data && typeof payload.data === 'object') {
-                payload.data.company = payload.data.company || currentUser.company;
+                if (payload.data.company === undefined || payload.data.company === "") {
+                    payload.data.company = currentUser.company;
+                }
             }
         }
 
@@ -841,7 +842,7 @@
     var globalDashValData = []; 
     var globalHistoryValData = [];
     var systemUsersData = []; 
-    var globalBranchesFull = []; // Fix 2: Global Branch Data array for filtering
+    var globalBranchesFull = []; 
 
     function getImgUrl(url) {
        if (!url || url === 'No Image') return '';
@@ -949,7 +950,6 @@
       document.getElementById('perm-details-section').style.display = 'none';
     }
 
-    // Fix 3: Branch filter helper
     function filterBranchDropdown(companyName, dropdownId) {
         var select = document.getElementById(dropdownId);
         if(!select) return;
@@ -1430,7 +1430,14 @@
         const res = await apiCall('createNewSystemUser', { company: c, branch: b, name: n, username: u, email: e, role: r });
         if(res.success) { 
           Swal.fire("Success!", res.msg, "success"); 
-          document.getElementById('new-user-name').value = ""; document.getElementById('new-user-uname').value = ""; document.getElementById('new-user-email').value = ""; 
+          
+          // Fix 1: Form Fields Clear on Success
+          document.getElementById('new-user-company').value = ""; 
+          document.getElementById('new-user-branch').value = ""; 
+          document.getElementById('new-user-role').value = "User"; 
+          document.getElementById('new-user-name').value = ""; 
+          document.getElementById('new-user-uname').value = ""; 
+          document.getElementById('new-user-email').value = ""; 
           
           apiCall('getUsernamesList', {}, 'GET').then(res2 => { 
               if(res2.data){
