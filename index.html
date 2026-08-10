@@ -1739,16 +1739,17 @@
         const res = await apiCall('getCourierData', {}, 'GET'); const data = res.data; tbody.innerHTML = "";
         if(!data || data.length === 0) { tbody.innerHTML = "<tr><td colspan='8' style='text-align:center;'>No Data Found</td></tr>"; return; }
         
-        var hasData = false; var myBr = currentUser.branch ? currentUser.branch.trim().toLowerCase() : ""; var myRole = currentUser.role ? currentUser.role.trim().toLowerCase() : "user";
+        var hasData = false;
         data.forEach(row => {
           if(row[0] === "Error") { tbody.innerHTML += `<tr><td colspan='8' style='color:red; text-align:center;'><b>System Error:</b> ${row[1]}</td></tr>`; hasData = true; return; }
-          var fromBr = row[4] ? String(row[4]).trim().toLowerCase() : ""; var toBr = row[5] ? String(row[5]).trim().toLowerCase() : "";
-          if(myRole === 'super admin' || myRole === 'system owner' || myBr === fromBr || myBr === toBr) {
-            hasData = true; var status = row[8] ? String(row[8]).trim() : "Pending";
-            var badge = status.toLowerCase() === 'pending' ? '<span class="badge-pending">Pending</span>' : '<span class="badge-accepted">Delivered</span>';
-            var btn = (status.toLowerCase() === 'pending' && (myBr === toBr || myRole === 'super admin' || myRole === 'system owner')) ? `<button onclick="receiveCourier('${row[2]}')" style="background:#198754;color:white;border:none;padding:5px 10px;border-radius:4px;cursor:pointer;">Mark Received</button>` : "-";
-            tbody.innerHTML += `<tr><td><b style="color:#e67e22;">${row[0]}</b></td><td>${row[1]}</td><td><b>${row[2]}</b></td><td>${row[3]}</td><td>${row[4]} ➔ ${row[5]}</td><td>${row[6]}<br><small>${row[7]}</small></td><td>${badge}</td><td>${btn}</td></tr>`;
-          }
+          hasData = true; var status = row[8] ? String(row[8]).trim() : "Pending";
+          var badge = status.toLowerCase() === 'pending' ? '<span class="badge-pending">Pending</span>' : '<span class="badge-accepted">Delivered</span>';
+          
+          var toBr = row[5] ? String(row[5]).trim().toLowerCase() : "";
+          var myRole = currentUser.role ? currentUser.role.trim().toLowerCase() : "";
+          var btn = (status.toLowerCase() === 'pending' && (currentUser.branch.toLowerCase() === toBr || myRole === 'super admin' || myRole === 'system owner' || (toBr === 'rmv' && (myRole === 'rmv request approval user' || myRole === 'rmv branch')))) ? `<button onclick="receiveCourier('${row[2]}')" style="background:#198754;color:white;border:none;padding:5px 10px;border-radius:4px;cursor:pointer;">Mark Received</button>` : "-";
+          
+          tbody.innerHTML += `<tr><td><b style="color:#e67e22;">${row[0]}</b></td><td>${row[1]}</td><td><b>${row[2]}</b></td><td>${row[3]}</td><td>${row[4]} ➔ ${row[5]}</td><td>${row[6]}<br><small>${row[7]}</small></td><td>${badge}</td><td>${btn}</td></tr>`;
         });
         if(!hasData) { tbody.innerHTML = "<tr><td colspan='8' style='text-align:center;'>No Couriers Found for your branch.</td></tr>"; }
       } catch(e) { tbody.innerHTML = "<tr><td colspan='8' style='text-align:center;color:red;'>Error Loading Data</td></tr>"; }
