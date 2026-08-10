@@ -334,7 +334,7 @@
             <!-- 1. Create User Card -->
             <div class="user-form-card">
               <h3><i class="fas fa-user-plus"></i> Create New User</h3>
-              <input type="text" id="new-user-company" list="comp-list" class="admin-input" placeholder="Select or Type Company Name" style="display:none; margin-bottom:10px;" onchange="updateNewUserBranches()">
+              <input type="text" id="new-user-company" list="comp-list" class="admin-input" placeholder="Select or Type Company Name" style="display:none; margin-bottom:10px;" onchange="filterBranchDropdown(this.value, 'new-user-branch')">
               <select id="new-user-branch" class="admin-input" style="margin-bottom:10px;"><option value="">-- Select Branch --</option></select>
               <select id="new-user-role" class="admin-input" style="margin-bottom:10px;">
                  <option value="User">User</option>
@@ -809,14 +809,13 @@
         
         if (currentUser && currentUser.role) {
             payload.role = currentUser.role; 
+            payload.company = payload.company || currentUser.company; // Root company
             payload.creatorRole = currentUser.role;
             payload.creatorCompany = currentUser.company;
             
+            // Fix 1: Inject company into payload.data to ensure Sheets get the right company
             if (payload.data && typeof payload.data === 'object') {
-                 payload.data.company = payload.data.company || currentUser.company;
-            }
-            if (!payload.company) {
-                payload.company = currentUser.company;
+                payload.data.company = payload.data.company || currentUser.company;
             }
         }
 
@@ -842,6 +841,7 @@
     var globalDashValData = []; 
     var globalHistoryValData = [];
     var systemUsersData = []; 
+    var globalBranchesFull = []; // Fix 2: Global Branch Data array for filtering
 
     function getImgUrl(url) {
        if (!url || url === 'No Image') return '';
@@ -919,14 +919,10 @@
       setupDashboardPostLogin(currentUser);
     }
     
-    // FIX 01: Ensure 'Enter' key only triggers login if login box is actually visible
     window.addEventListener('keypress', function(e) {
       if (e.key === 'Enter') { 
-        var loginContainer = document.getElementById('login-container');
-        if(loginContainer && loginContainer.style.display !== 'none') {
-           if(document.getElementById('loginBox').style.display !== 'none') doLogin(); 
-           else if (document.getElementById('changePassBox').style.display !== 'none') saveNewPassword();
-        }
+        if(document.getElementById('loginBox') && document.getElementById('loginBox').style.display !== 'none') doLogin(); 
+        else if (document.getElementById('changePassBox') && document.getElementById('changePassBox').style.display !== 'none') saveNewPassword();
       }
     });
 
@@ -953,18 +949,21 @@
       document.getElementById('perm-details-section').style.display = 'none';
     }
 
-    // FIX 03: Make sure branch list loads specific to selected company in Create New User card
-    window.updateNewUserBranches = function() {
-        var comp = document.getElementById('new-user-company').value;
-        if (!comp) comp = currentUser.company;
-        apiCall('getBranchList', { strictCompanyFilter: comp }, 'GET').then(res => { 
-            var select = document.getElementById('new-user-branch'); 
-            if(select) {
-                select.innerHTML = '<option value="">-- Select Branch --</option>';
-                if(res.data) res.data.forEach(b => select.add(new Option(b, b))); 
-            }
+    // Fix 3: Branch filter helper
+    function filterBranchDropdown(companyName, dropdownId) {
+        var select = document.getElementById(dropdownId);
+        if(!select) return;
+        select.innerHTML = '<option value="">-- Select Branch --</option>';
+        
+        var filtered = globalBranchesFull;
+        if (companyName && companyName !== 'ALL') {
+            filtered = globalBranchesFull.filter(b => b.company.toLowerCase() === companyName.toLowerCase());
+        }
+        
+        filtered.forEach(b => {
+            select.add(new Option(b.branch, b.branch));
         });
-    };
+    }
 
     function setupDashboardPostLogin(res) {
       try {
@@ -1007,17 +1006,18 @@
            }
         });
 
-        // Initialize branch lists for the logged-in user's default company
-        apiCall('getBranchList', {}, 'GET').then(res => { 
-            var select = document.getElementById('new-user-branch'); 
-            var permSelect = document.getElementById('perm-branch-select');
-            if(select) select.innerHTML = '<option value="">-- Select Branch --</option>';
-            if(permSelect) permSelect.innerHTML = '';
-            if(select && res.data){ 
-                res.data.forEach(b => {
-                    select.add(new Option(b, b));
-                    if(permSelect) permSelect.add(new Option(b, b));
-                }); 
+        apiCall('getBranchListFull', {}, 'GET').then(res => { 
+            if(res.data){ 
+                globalBranchesFull = res.data;
+                
+                var permSelect = document.getElementById('perm-branch-select');
+                if(permSelect) {
+                   permSelect.innerHTML = '';
+                   globalBranchesFull.forEach(b => permSelect.add(new Option(b.branch, b.branch)));
+                }
+
+                filterBranchDropdown(uRole === 'system owner' ? '' : uComp, 'new-user-branch');
+                filterBranchDropdown(uRole === 'system owner' ? '' : uComp, 'target_branch');
             } 
         });
 
@@ -1096,12 +1096,7 @@
             try {
               const formData = {}; 
               e.target.querySelectorAll('input:not([type="file"]), select, textarea').forEach(inp => formData[inp.name] = inp.value); 
-              
-              // FIX 02: Explicitly attach company
-              formData.company = currentUser.company;
-              formData.requesterEmail = currentUser.email || ""; 
-              formData.requesterName = currentUser.user || "Unknown"; 
-              formData.branch = currentUser.branch || "Unknown"; 
+              formData.requesterEmail = currentUser.email || ""; formData.requesterName = currentUser.user || "Unknown"; formData.branch = currentUser.branch || "Unknown"; 
               
               let filesToUpload = []; 
               e.target.querySelectorAll('input[type="file"]').forEach(inp => { if (inp.files.length > 0) filesToUpload.push({ inputName: inp.name, file: inp.files[0] }); else formData[inp.name] = "No Image"; });
@@ -1136,8 +1131,7 @@
             const executeSubmit = async function(lat, lng) {
               rbtn.innerText = "Uploading CR Book... ⏳";
               try {
-                // FIX 02: Explicitly attach company
-                const formData = { company: currentUser.company, vehicleNo: e.target.vehicleNo.value, email: currentUser.email, user: currentUser.user, branch: currentUser.branch, lat: lat, lng: lng };
+                const formData = { vehicleNo: e.target.vehicleNo.value, email: currentUser.email, user: currentUser.user, branch: currentUser.branch, lat: lat, lng: lng };
                 let fileInput = e.target.querySelector('input[type="file"]');
                 if(fileInput.files.length > 0) {
                   let f = fileInput.files[0]; let base64Str, typeStr, nameStr;
@@ -1460,12 +1454,13 @@
           Swal.fire("Success!", res.msg, "success"); 
           document.getElementById('new-cb-company').value = ""; document.getElementById('new-cb-branch').value = ""; document.getElementById('new-cb-code').value = "";
           
-          apiCall('getBranchList', {}, 'GET').then(res2 => { 
-            var select = document.getElementById('new-user-branch'); 
-            var permSelect = document.getElementById('perm-branch-select');
-            if(select) select.innerHTML = '<option value="">-- Select Branch --</option>';
-            if(permSelect) permSelect.innerHTML = '';
-            if(res2.data){ res2.data.forEach(br => { select.add(new Option(br, br)); if(permSelect) permSelect.add(new Option(br, br)); }); } 
+          apiCall('getBranchListFull', {}, 'GET').then(res2 => { 
+            if(res2.data){ 
+                globalBranchesFull = res2.data;
+                var comp = currentUser.role.toLowerCase() === 'system owner' ? '' : currentUser.company;
+                filterBranchDropdown(comp, 'new-user-branch');
+                filterBranchDropdown(comp, 'target_branch');
+            } 
           });
         } else { Swal.fire("Error", res.error || res.msg || "Failed", "error"); }
       } catch(error) { Swal.fire("Error", "Server Error", "error"); }
@@ -1673,7 +1668,7 @@
       document.querySelectorAll('.view-section').forEach(el => el.style.display = 'none');
       var view = document.getElementById('view-' + viewId); if(view) view.style.display = 'block';
       if(viewId === 'dashboard') loadDashboardStats();
-      if(viewId === 'courier-new') { generateAutoId(); loadBranchDropdown(); }
+      if(viewId === 'courier-new') { generateAutoId(); }
       if(viewId === 'courier-admin') loadCourierData();
       if(viewId === 'rmv-admin') { loadRMVData(); }
       if(viewId === 'val-admin') { loadPendingValuations(); }
@@ -1704,21 +1699,13 @@
       }
     }
 
-    async function loadBranchDropdown() {
-      var select = document.getElementById('target_branch');
-      if(select) {
-        try { const res = await apiCall('getBranchList', {}, 'GET'); select.innerHTML = '<option value="">-- Select Target Branch --</option>'; res.data.forEach(b => select.add(new Option(b, b))); } catch(e) {}
-      }
-    }
-
     function saveCourierData() {
       var id = document.getElementById('p_id').value; var type = document.getElementById('p_type').value; var branch = document.getElementById('target_branch').value; var vehicle = document.getElementById('p_vehicle').value; var remarks = document.getElementById('p_remarks').value;
       if(!branch) return Swal.fire("Required", "Please select Target Branch!", "warning");
       var btn = document.getElementById('sendBtn'); btn.disabled = true; btn.innerText = "Getting Location & Dispatching... 📍";
 
       const executeCourierSubmit = async function(lat, lng) {
-         // FIX 02: Pass company directly in the form data
-         var data = { company: currentUser.company, id: id, type: type, toBranch: branch, vehicle: vehicle, remarks: remarks, fromBranch: currentUser.branch, sender: currentUser.user, email: currentUser.email, lat: lat, lng: lng };
+         var data = { id: id, type: type, toBranch: branch, vehicle: vehicle, remarks: remarks, fromBranch: currentUser.branch, sender: currentUser.user, email: currentUser.email, lat: lat, lng: lng };
          try {
              const res = await apiCall('submitCourier', { data: data });
              if(res.success) { 
@@ -1972,4 +1959,165 @@
                 var rowDaTestr = tdDate.textContent || tdDate.innerText; var rowDate = new Date(rowDaTestr.split(" ")[0]);
                 var matchSearch = (tdId.innerText.toLowerCase().indexOf(search) > -1) || (tdVeh.innerText.toLowerCase().indexOf(search) > -1);
                 var matchStatus = (status === "" || status === "all statuses" || tdStatus.innerText.toLowerCase().indexOf(status) > -1); var matchDate = true;
-                if (fDate) { if (rowDate < new Date(fDate)) matchDate = false; } if (tI encountered an error doing what you asked. Could you try again?
+                if (fDate) { if (rowDate < new Date(fDate)) matchDate = false; } if (tDate) { var toDateObj = new Date(tDate); toDateObj.setHours(23, 59, 59, 999); if (rowDate > toDateObj) matchDate = false; }
+                tr[i].style.display = (matchSearch && matchStatus && matchDate) ? "" : "none";
+            }
+        }
+    }
+    function clearCourierFilters() { document.getElementById("courierFromDate").value = ""; document.getElementById("courierToDate").value = ""; document.getElementById("courierSearch").value = ""; document.getElementById("courierStatusFilter").value = ""; filterCourierTable(); }
+  
+    // ==========================================
+    // CR UPLOAD MODULE FRONTEND LOGIC
+    // ==========================================
+    
+    var globalPendingCR = [];
+
+    async function loadPendingCRList() {
+      try {
+        const res = await apiCall('getPendingCRUploads', { role: currentUser.role, branch: currentUser.branch, email: currentUser.email }, 'GET');
+        globalPendingCR = res.data || [];
+        var datalist = document.getElementById('pending_cr_list');
+        datalist.innerHTML = "";
+        
+        globalPendingCR.forEach(item => {
+          var option = document.createElement('option');
+          option.value = item.vehNo;
+          option.text = `Ref: ${item.refNo} | Branch: ${item.branch} | Comp: ${item.company}`;
+          datalist.appendChild(option);
+        });
+      } catch (error) { console.error("Error loading pending CRs", error); }
+    }
+
+    function loadCRDetails() {
+      var searchVal = document.getElementById('cr_search_input').value;
+      var selected = globalPendingCR.find(x => x.vehNo === searchVal || x.refNo === searchVal);
+      
+      var detailsBox = document.getElementById('cr_details_box');
+      var uploadSec = document.getElementById('cr_upload_section');
+      
+      if (selected) {
+        document.getElementById('lbl_cr_ref').innerText = selected.refNo;
+        document.getElementById('lbl_cr_veh').innerText = selected.vehNo;
+        document.getElementById('lbl_cr_make').innerText = selected.makeModel;
+        document.getElementById('lbl_cr_appdate').innerText = selected.appDate;
+        document.getElementById('lbl_cr_branch').innerText = selected.branch;
+        document.getElementById('lbl_cr_user').innerText = selected.reqUser;
+        document.getElementById('cr_row_index').value = selected.row;
+        
+        detailsBox.style.display = 'block';
+        uploadSec.style.display = 'block';
+      } else {
+        detailsBox.style.display = 'none';
+        uploadSec.style.display = 'none';
+      }
+    }
+
+    async function submitFinalCR() {
+      var fileInput = document.getElementById('final_cr_file');
+      var rowIndex = document.getElementById('cr_row_index').value;
+      var vehNo = document.getElementById('lbl_cr_veh').innerText;
+      var refNo = document.getElementById('lbl_cr_ref').innerText;
+
+      if (fileInput.files.length === 0) {
+        return Swal.fire("Required", "Please select a CR document to upload!", "warning");
+      }
+
+      var btn = document.getElementById('crSubmitBtn');
+      btn.disabled = true;
+      btn.innerText = "Processing File... ⏳";
+
+      try {
+        let f = fileInput.files[0];
+        let base64Str, typeStr, nameStr;
+
+        if (f.type === "application/pdf") { 
+          btn.innerText = "Applying Seal to PDF... ⏳";
+          base64Str = await watermarkPDF(f);
+          typeStr = 'application/pdf'; 
+          nameStr = f.name; 
+        } else { 
+          btn.innerText = "Applying Seal to Image... ⏳";
+          let compressed = await compressAndWatermarkImage(f, 1000, 0.7); 
+          base64Str = compressed.data; 
+          typeStr = compressed.type; 
+          nameStr = compressed.name; 
+        }
+
+        btn.innerText = "Uploading to Drive & Saving to Sheet... 🚀";
+        
+        var payload = {
+          row: rowIndex,
+          vehNo: vehNo,
+          refNo: refNo,
+          uploadedBy: currentUser.user,
+          fileData: { base64: base64Str, type: typeStr, name: nameStr }
+        };
+
+        const serverRes = await apiCall('uploadFinalCR', payload);
+        
+        if (serverRes.success) {
+          Swal.fire("Success", "Final CR Uploaded Successfully!", "success");
+          document.getElementById('cr_search_input').value = "";
+          document.getElementById('final_cr_file').value = "";
+          document.getElementById('cr_details_box').style.display = 'none';
+          document.getElementById('cr_upload_section').style.display = 'none';
+          loadPendingCRList(); 
+          loadDashboardStats(); 
+        } else {
+          Swal.fire("Error", serverRes.error, "error");
+        }
+      } catch (error) {
+        Swal.fire("Error", error.message, "error");
+      } finally {
+        btn.disabled = false;
+        btn.innerText = "Upload & Save CR";
+      }
+    }
+
+    async function loadCRHistory() {
+      var tbody = document.querySelector("#crHistoryTable tbody");
+      if(!tbody) return;
+      tbody.innerHTML = "<tr><td colspan='7' style='text-align:center;'>Loading data...</td></tr>";
+      
+      try {
+        const res = await apiCall('getCRUploadHistory', { role: currentUser.role, branch: currentUser.branch, email: currentUser.email }, 'GET');
+        tbody.innerHTML = "";
+        if (!res.data || res.data.length === 0) {
+          tbody.innerHTML = "<tr><td colspan='7' style='text-align:center;'>No CR Upload History found.</td></tr>";
+          return;
+        }
+        
+        res.data.forEach(r => {
+          var fileLink = `<a href="${r.crUrl}" target="_blank" style="background:#28a745; color:white; padding:5px 10px; border-radius:4px; text-decoration:none; font-size:12px; font-weight:bold;">View Document</a>`;
+          tbody.innerHTML += `<tr><td><b style="color:#e67e22;">${r.company}</b></td><td>${r.uploadDate}</td><td><b>${r.refNo}</b></td><td><span style="color:#0d6efd;font-weight:bold;">${r.vehNo}</span></td><td>${r.makeModel}</td><td>${r.uploadedBy}</td><td>${fileLink}</td></tr>`;
+        });
+      } catch(e) {
+        tbody.innerHTML = "<tr><td colspan='7' style='text-align:center; color:red;'>Error Loading Report</td></tr>";
+      }
+    }
+
+    async function loadPendingCRTable() {
+      var tbody = document.querySelector("#crPendingTable tbody");
+      if(!tbody) return;
+      tbody.innerHTML = "<tr><td colspan='6' style='text-align:center;'>Loading data...</td></tr>";
+      
+      try {
+        const res = await apiCall('getPendingCRUploads', { role: currentUser.role, branch: currentUser.branch, email: currentUser.email }, 'GET');
+        tbody.innerHTML = "";
+        if (!res.data || res.data.length === 0) {
+          tbody.innerHTML = "<tr><td colspan='6' style='text-align:center;'>No Pending CRs found.</td></tr>";
+          return;
+        }
+        
+        res.data.forEach(r => {
+          var daysColor = r.pendingDays > 14 ? "color:red; font-weight:bold;" : "color:black;";
+          tbody.innerHTML += `<tr><td><b style="color:#e67e22;">${r.company}</b></td><td>${r.valDate}</td><td><span style="color:#0d6efd;font-weight:bold;">${r.vehNo}</span></td><td>${r.branch}</td><td>${r.reqUser}</td><td style="${daysColor}">${r.pendingDays} Days</td></tr>`;
+        });
+      } catch(e) {
+        tbody.innerHTML = "<tr><td colspan='6' style='text-align:center; color:red;'>Error Loading Pending List</td></tr>";
+      }
+    }
+
+  </script>
+</body>
+</html>
