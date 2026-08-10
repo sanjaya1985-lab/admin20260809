@@ -464,7 +464,8 @@
                        <h4>Data Visibility Scope</h4>
                        <label class="perm-label"><input type="radio" name="data_scope" value="OWN" onchange="toggleBranchSelect()" checked> Own/Current Branch Only</label>
                        <label class="perm-label"><input type="radio" name="data_scope" value="SELECTED" onchange="toggleBranchSelect()"> Selected Branches</label>
-                       <label class="perm-label"><input type="radio" name="data_scope" value="ALL" onchange="toggleBranchSelect()"> All Branches (Global View)</label>
+                       <label class="perm-label"><input type="radio" name="data_scope" value="ALL" onchange="toggleBranchSelect()"> All Branches (Global View - Same Company)</label>
+                       <label class="perm-label"><input type="radio" name="data_scope" value="ALL_COMPANIES" onchange="toggleBranchSelect()"> All Companies & Branches (System Admin)</label>
                        
                        <div id="selected-branches-div" style="display:none; margin-top:10px; background:#fff; padding:10px; border:1px solid #ccc; border-radius:4px;">
                           <label style="font-size:12px; font-weight:bold; margin-bottom:5px; display:block;">Select Allowed Branches:</label>
@@ -1431,7 +1432,7 @@
         if(res.success) { 
           Swal.fire("Success!", res.msg, "success"); 
           
-          // Fix 1: Form Fields Clear on Success
+          // Form Fields Clear on Success
           document.getElementById('new-user-company').value = ""; 
           document.getElementById('new-user-branch').value = ""; 
           document.getElementById('new-user-role').value = "User"; 
@@ -1556,7 +1557,8 @@
            if (m.includes("Admin-UserMgt") && m.includes("Admin-Map")) document.getElementById('chk_admin_main').checked = true;
            
            if (res.data.scope) {
-              document.querySelector(`input[name="data_scope"][value="${res.data.scope}"]`).checked = true;
+              let scopeRadio = document.querySelector(`input[name="data_scope"][value="${res.data.scope}"]`);
+              if(scopeRadio) scopeRadio.checked = true;
            }
            
            if (res.data.scope === 'SELECTED' && res.data.branches) {
