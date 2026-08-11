@@ -802,6 +802,7 @@
 
   <script>
     // ====== API CONFIGURATION ======
+    // ====== API CONFIGURATION ======
     const API_URL = "https://script.google.com/macros/s/AKfycbzR24pEGo5uUfw0_Mjc1d4x7muVbiD2s4Ehs3Ryc34dYhW0tRj0Trlesv5Vac4FpQIzNQ/exec";
 
     async function apiCall(action, payload = {}, method = 'POST') {
@@ -813,7 +814,9 @@
             if (payload.company === undefined || payload.company === "") payload.company = currentUser.company; 
             payload.creatorRole = currentUser.role;
             payload.creatorCompany = currentUser.company;
-            payload.username = currentUser.username; // Email එක වෙනුවට Username එක යවමු 
+            
+            // වෙනස: දැනටමත් username එකක් දීලා නැත්නම් විතරක් ලොග් වෙලා ඉන්න කෙනාගේ username එක දානවා
+            if (payload.username === undefined) payload.username = currentUser.username; 
             
             if (payload.data && typeof payload.data === 'object') {
                 if (payload.data.company === undefined || payload.data.company === "") {
@@ -836,7 +839,6 @@
         return data;
       } catch (error) { console.error("API Call Failed:", error); throw error; }
     }
-
     var currentUser = {}; var rmvMap = null; var mapMarkers = []; var allVehicleData = [];
     var globalRmvData = []; var currentRmvIndex = -1;
     var vehicleDB = []; var tempUserData = null;
