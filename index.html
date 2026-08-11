@@ -1015,7 +1015,10 @@
                 var permSelect = document.getElementById('perm-branch-select');
                 if(permSelect) {
                    permSelect.innerHTML = '';
-                   globalBranchesFull.forEach(b => permSelect.add(new Option(b.branch, b.branch)));
+                   globalBranchesFull.forEach(b => {
+                       // වෙනස මෙතනයි: පේන්නේ "Branch (Company)", සේව් වෙන්නේ "Company - Branch"
+                       permSelect.add(new Option(b.branch + " (" + b.company + ")", b.company + " - " + b.branch));
+                   });
                 }
 
                 filterBranchDropdown(uRole === 'system owner' ? '' : uComp, 'new-user-branch');
