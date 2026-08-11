@@ -339,7 +339,7 @@
               <select id="new-user-role" class="admin-input" style="margin-bottom:10px;">
                  <option value="User">User</option>
                  <option value="rmv branch">RMV Branch User</option>
-                 <option value="rmv request approval user">RMV Request Approval User</option>
+                 <option value="rmv approval">RMV Request Approval User</option>
                  <option value="valuation admin">Valuation Admin</option>
                  <option value="super admin">Super Admin</option>
               </select>
@@ -813,6 +813,7 @@
             if (payload.company === undefined || payload.company === "") payload.company = currentUser.company; 
             payload.creatorRole = currentUser.role;
             payload.creatorCompany = currentUser.company;
+            payload.email = currentUser.email; 
             
             if (payload.data && typeof payload.data === 'object') {
                 if (payload.data.company === undefined || payload.data.company === "") {
@@ -962,7 +963,7 @@
         }
         
         filtered.forEach(b => {
-            select.add(new Option(b.branch, b.branch));
+            select.add(new Option(b.branch + " (" + b.company + ")", b.branch));
         });
     }
 
@@ -1328,7 +1329,7 @@
           else if(row.status === 'Approved') statusBadge = '<span class="badge-accepted">Approved</span>';
           else statusBadge = '<span class="badge-rejected">Rejected</span>';
           var actionBtn = "-";
-          if (myRole === 'super admin' || myRole === 'system owner' || myRole === 'rmv request approval user' || myBranch === "rmv") { actionBtn = `<button onclick="openRmvModal(${i})" style="background:#0d6efd; color:#fff; padding:6px 12px; border:none; border-radius:4px; cursor:pointer; font-weight:bold;">View & Confirm</button>`; }
+          if (myRole === 'super admin' || myRole === 'system owner' || myRole === 'rmv approval' || myBranch === "rmv") { actionBtn = `<button onclick="openRmvModal(${i})" style="background:#0d6efd; color:#fff; padding:6px 12px; border:none; border-radius:4px; cursor:pointer; font-weight:bold;">View & Confirm</button>`; }
           var actByText = (row.approvedBy && row.approvedBy !== "-") ? row.approvedBy : '<span style="color:#999;font-size:12px;">Pending</span>';
           tbody.innerHTML += `<tr style="border-bottom:1px solid #eee;"><td><b style="color:#e67e22;">${row.company}</b></td><td>${row.date}</td><td><b>${row.reqId}</b></td><td><span style="background:#2d2d2d; color:#fff; padding:3px 8px; border-radius:4px; font-weight:bold;">${row.vehicleNo}</span></td><td>${row.branch}</td><td>${actByText}</td><td>${statusBadge}</td><td>${actionBtn}</td></tr>`;
         }
@@ -1432,7 +1433,6 @@
         if(res.success) { 
           Swal.fire("Success!", res.msg, "success"); 
           
-          // Form Fields Clear on Success
           document.getElementById('new-user-company').value = ""; 
           document.getElementById('new-user-branch').value = ""; 
           document.getElementById('new-user-role').value = "User"; 
@@ -1747,7 +1747,7 @@
           
           var toBr = row[5] ? String(row[5]).trim().toLowerCase() : "";
           var myRole = currentUser.role ? currentUser.role.trim().toLowerCase() : "";
-          var btn = (status.toLowerCase() === 'pending' && (currentUser.branch.toLowerCase() === toBr || myRole === 'super admin' || myRole === 'system owner' || (toBr === 'rmv' && (myRole === 'rmv request approval user' || myRole === 'rmv branch')))) ? `<button onclick="receiveCourier('${row[2]}')" style="background:#198754;color:white;border:none;padding:5px 10px;border-radius:4px;cursor:pointer;">Mark Received</button>` : "-";
+          var btn = (status.toLowerCase() === 'pending' && (currentUser.branch.toLowerCase() === toBr || myRole === 'super admin' || myRole === 'system owner' || (toBr === 'rmv' && (myRole === 'rmv approval' || myRole === 'rmv branch')))) ? `<button onclick="receiveCourier('${row[2]}')" style="background:#198754;color:white;border:none;padding:5px 10px;border-radius:4px;cursor:pointer;">Mark Received</button>` : "-";
           
           tbody.innerHTML += `<tr><td><b style="color:#e67e22;">${row[0]}</b></td><td>${row[1]}</td><td><b>${row[2]}</b></td><td>${row[3]}</td><td>${row[4]} ➔ ${row[5]}</td><td>${row[6]}<br><small>${row[7]}</small></td><td>${badge}</td><td>${btn}</td></tr>`;
         });
