@@ -813,7 +813,7 @@
             if (payload.company === undefined || payload.company === "") payload.company = currentUser.company; 
             payload.creatorRole = currentUser.role;
             payload.creatorCompany = currentUser.company;
-            payload.email = currentUser.email; 
+            payload.username = currentUser.username; // Email එක වෙනුවට Username එක යවමු 
             
             if (payload.data && typeof payload.data === 'object') {
                 if (payload.data.company === undefined || payload.data.company === "") {
