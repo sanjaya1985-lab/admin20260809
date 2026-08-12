@@ -465,7 +465,7 @@
                        <label class="perm-label"><input type="radio" name="data_scope" value="OWN" onchange="toggleBranchSelect()" checked> Own/Current Branch Only</label>
                        <label class="perm-label"><input type="radio" name="data_scope" value="SELECTED" onchange="toggleBranchSelect()"> Selected Branches</label>
                        <label class="perm-label"><input type="radio" name="data_scope" value="ALL" onchange="toggleBranchSelect()"> All Branches (Global View - Same Company)</label>
-                       <label class="perm-label"><input type="radio" name="data_scope" value="ALL_COMPANIES" onchange="toggleBranchSelect()"> All Companies & Branches (System Admin)</label>
+                       <label class="perm-label" id="lbl_scope_all_companies"><input type="radio" name="data_scope" value="ALL_COMPANIES" onchange="toggleBranchSelect()"> All Companies & Branches (System Admin)</label>
                        
                        <div id="selected-branches-div" style="display:none; margin-top:10px; background:#fff; padding:10px; border:1px solid #ccc; border-radius:4px;">
                           <label style="font-size:12px; font-weight:bold; margin-bottom:5px; display:block;">Select Allowed Branches:</label>
@@ -1022,14 +1022,35 @@
         loadDashboardStats();
         initVehicleData();
 
-        if (uRole === 'system owner') {
+if (uRole === 'system owner') {
             document.getElementById('new-user-company').style.display = 'block';
             document.getElementById('perm-company-filter').style.display = 'block';
             document.querySelector('.branch-form-card').style.display = 'block';
             document.getElementById('template-setup-card').style.display = 'block';
+            
+            // System Owner ට ALL_COMPANIES scope එක පේන්න ඕනේ
+            var scopeAllComp = document.getElementById('lbl_scope_all_companies');
+            if (scopeAllComp) scopeAllComp.style.display = 'block';
+
+            // System Owner ට Roles ඔක්කොම පේන්න ඕනේ
+            var roleSelect = document.getElementById('new-user-role');
+            if (roleSelect) {
+                roleSelect.innerHTML = '<option value="User">User</option><option value="rmv branch">RMV Branch User</option><option value="rmv approval">RMV Request Approval User</option><option value="valuation admin">Valuation Admin</option><option value="super admin">Super Admin</option>';
+            }
+            
         } else {
             document.querySelector('.branch-form-card').style.display = 'none';
             document.getElementById('template-setup-card').style.display = 'none';
+            
+            // අනිත් අයට (Super Admin ඇතුළුව) ALL_COMPANIES scope එක Hide කිරීම
+            var scopeAllComp = document.getElementById('lbl_scope_all_companies');
+            if (scopeAllComp) scopeAllComp.style.display = 'none';
+
+            // Super Admin ට Create User කරද්දී Role එක 'User' විතරක් පෙන්වීම
+            var roleSelect = document.getElementById('new-user-role');
+            if (roleSelect) {
+                roleSelect.innerHTML = '<option value="User">User</option>';
+            }
         }
 
         apiCall('getCompanyList', {}, 'GET').then(res => {
