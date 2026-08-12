@@ -973,32 +973,31 @@
         if(!select) return;
         select.innerHTML = '<option value="">-- Select Branch --</option>';
         
-        var uComp = currentUser.company ? currentUser.company.toLowerCase() : "";
-        var uRole = currentUser.role ? currentUser.role.toLowerCase() : "";
+        var uComp = currentUser.company ? currentUser.company.toLowerCase().trim() : "";
+        var uRole = currentUser.role ? currentUser.role.toLowerCase().trim() : "";
         var scope = currentUser.dataScope ? currentUser.dataScope : "OWN";
         var assigned = currentUser.assignedBranches ? currentUser.assignedBranches.split(',').map(s => s.trim().toLowerCase()) : [];
         
         var filtered = globalBranchesFull;
         
         if (uRole === 'system owner' || scope === 'ALL_COMPANIES') {
-            // ඔක්කොම පෙන්නනවා
             filtered = globalBranchesFull;
         } else if (scope === 'SELECTED') {
-            // තෝරපු බ්‍රාන්ච් ටිකයි, තමන්ගේම බ්‍රාන්ච් එකයි විතරක් පෙන්නනවා
+            // Trim කරලා Exact Match එක බලනවා
             filtered = globalBranchesFull.filter(b => {
-                var exactMatch = (b.company + " - " + b.branch).toLowerCase();
-                return assigned.includes(exactMatch) || assigned.includes(b.branch.toLowerCase()) || (b.branch.toLowerCase() === currentUser.branch.toLowerCase() && b.company.toLowerCase() === uComp);
+                var c = b.company ? b.company.trim().toLowerCase() : "";
+                var br = b.branch ? b.branch.trim().toLowerCase() : "";
+                var exactMatch = c + " - " + br;
+                return assigned.includes(exactMatch) || assigned.includes(br) || (br === currentUser.branch.toLowerCase().trim() && c === uComp);
             });
         } else {
-            // OWN හෝ ALL scope එකේදී තමන්ගේ කම්පැනි එකේ බ්‍රාන්ච් ටික පෙන්නනවා
-            filtered = globalBranchesFull.filter(b => b.company.toLowerCase() === uComp);
+            filtered = globalBranchesFull.filter(b => b.company && b.company.trim().toLowerCase() === uComp);
         }
         
         filtered.forEach(b => {
             select.add(new Option(b.branch + " (" + b.company + ")", b.branch));
         });
-    }
-    function setupDashboardPostLogin(res) {
+    }    function setupDashboardPostLogin(res) {
       try {
         var uName = res.user ? res.user : "Admin";
         var uRole = res.role ? res.role.toLowerCase() : "user";
