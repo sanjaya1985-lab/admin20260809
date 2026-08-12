@@ -1005,7 +1005,8 @@
         filtered.forEach(b => {
             select.add(new Option(b.branch + " (" + b.company + ")", b.branch));
         });
-    }    function setupDashboardPostLogin(res) {
+    }    
+    function setupDashboardPostLogin(res) {
       try {
         var uName = res.user ? res.user : "Admin";
         var uRole = res.role ? res.role.toLowerCase() : "user";
