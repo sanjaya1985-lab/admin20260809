@@ -1023,8 +1023,10 @@
                    });
                 }
 
-                filterBranchDropdown(uRole === 'system owner' ? '' : uComp, 'new-user-branch');
-                filterBranchDropdown(uRole === 'system owner' ? '' : uComp, 'target_branch');
+                // Data Scope එක ALL_COMPANIES නම් හෝ Role එක System Owner නම් ඔක්කොම පෙන්නනවා
+                var isGlobalUser = (uRole === 'system owner' || currentUser.dataScope === 'ALL_COMPANIES');
+                filterBranchDropdown(isGlobalUser ? '' : uComp, 'new-user-branch');
+                filterBranchDropdown(isGlobalUser ? '' : uComp, 'target_branch');
             } 
         });
 
