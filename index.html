@@ -1791,6 +1791,14 @@
         });
         if(!hasData) { tbody.innerHTML = "<tr><td colspan='8' style='text-align:center;'>No Couriers Found for your branch.</td></tr>"; }
       } catch(e) { tbody.innerHTML = "<tr><td colspan='8' style='text-align:center;color:red;'>Error Loading Data</td></tr>"; }
+      });
+        if(!hasData) { tbody.innerHTML = "<tr><td colspan='8' style='text-align:center;'>No Couriers Found for your branch.</td></tr>"; }
+        
+        // ඩේටා ලෝඩ් වුණාට පස්සේ ඔටෝම Pending ෆිල්ටර් එක වැඩ කරන්න මේක දාන්න
+        filterCourierTable(); 
+        
+      } catch(e) { tbody.innerHTML = "<tr><td colspan='8' style='text-align:center;color:red;'>Error Loading Data</td></tr>"; }
+    }
     }
 
     function receiveCourier(id) {
