@@ -1801,18 +1801,16 @@
           
           tbody.innerHTML += `<tr><td><b style="color:#e67e22;">${row[0]}</b></td><td>${row[1]}</td><td><b>${row[2]}</b></td><td>${row[3]}</td><td>${row[4]} ➔ ${row[5]}</td><td>${row[6]}<br><small>${row[7]}</small></td><td>${badge}</td><td>${btn}</td></tr>`;
         });
-        if(!hasData) { tbody.innerHTML = "<tr><td colspan='8' style='text-align:center;'>No Couriers Found for your branch.</td></tr>"; }
-      } catch(e) { tbody.innerHTML = "<tr><td colspan='8' style='text-align:center;color:red;'>Error Loading Data</td></tr>"; }
-      });
+        
         if(!hasData) { tbody.innerHTML = "<tr><td colspan='8' style='text-align:center;'>No Couriers Found for your branch.</td></tr>"; }
         
         // ඩේටා ලෝඩ් වුණාට පස්සේ ඔටෝම Pending ෆිල්ටර් එක වැඩ කරන්න මේක දාන්න
         filterCourierTable(); 
         
-      } catch(e) { tbody.innerHTML = "<tr><td colspan='8' style='text-align:center;color:red;'>Error Loading Data</td></tr>"; }
+      } catch(e) { 
+        tbody.innerHTML = "<tr><td colspan='8' style='text-align:center;color:red;'>Error Loading Data</td></tr>"; 
+      }
     }
-    }
-
     function receiveCourier(id) {
         Swal.fire({ title: 'Receive Package?', text: `Mark package ${id} as delivered?`, icon: 'question', showCancelButton: true, confirmButtonText: 'Yes, Received!' }).then(async result => {
           if(result.isConfirmed) {
