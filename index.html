@@ -519,8 +519,9 @@
               <label style="font-size:12px;font-weight:bold;color:#555;">Status</label>
               <select id="courierStatusFilter" onchange="filterCourierTable()" style="width:100%; padding:10px; border:1px solid #ccc; border-radius:4px; outline:none;">
                   <option value="">All Statuses</option>
-                  <option>Pending</option>
+                  <option selected>Pending</option>
                   <option>Delivered</option>
+              </select>
               </select>
             </div>
             <div>
@@ -2011,8 +2012,7 @@
             }
         }
     }
-    function clearCourierFilters() { document.getElementById("courierFromDate").value = ""; document.getElementById("courierToDate").value = ""; document.getElementById("courierSearch").value = ""; document.getElementById("courierStatusFilter").value = ""; filterCourierTable(); }
-  
+    function clearCourierFilters() { document.getElementById("courierFromDate").value = ""; document.getElementById("courierToDate").value = ""; document.getElementById("courierSearch").value = ""; document.getElementById("courierStatusFilter").value = "Pending"; filterCourierTable(); }  
     // ==========================================
     // CR UPLOAD MODULE FRONTEND LOGIC
     // ==========================================
