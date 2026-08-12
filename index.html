@@ -968,7 +968,36 @@
             select.add(new Option(b.branch + " (" + b.company + ")", b.branch));
         });
     }
-
+  function populateTargetBranchDropdown() {
+        var select = document.getElementById('target_branch');
+        if(!select) return;
+        select.innerHTML = '<option value="">-- Select Branch --</option>';
+        
+        var uComp = currentUser.company ? currentUser.company.toLowerCase() : "";
+        var uRole = currentUser.role ? currentUser.role.toLowerCase() : "";
+        var scope = currentUser.dataScope ? currentUser.dataScope : "OWN";
+        var assigned = currentUser.assignedBranches ? currentUser.assignedBranches.split(',').map(s => s.trim().toLowerCase()) : [];
+        
+        var filtered = globalBranchesFull;
+        
+        if (uRole === 'system owner' || scope === 'ALL_COMPANIES') {
+            // ඔක්කොම පෙන්නනවා
+            filtered = globalBranchesFull;
+        } else if (scope === 'SELECTED') {
+            // තෝරපු බ්‍රාන්ච් ටිකයි, තමන්ගේම බ්‍රාන්ච් එකයි විතරක් පෙන්නනවා
+            filtered = globalBranchesFull.filter(b => {
+                var exactMatch = (b.company + " - " + b.branch).toLowerCase();
+                return assigned.includes(exactMatch) || assigned.includes(b.branch.toLowerCase()) || (b.branch.toLowerCase() === currentUser.branch.toLowerCase() && b.company.toLowerCase() === uComp);
+            });
+        } else {
+            // OWN හෝ ALL scope එකේදී තමන්ගේ කම්පැනි එකේ බ්‍රාන්ච් ටික පෙන්නනවා
+            filtered = globalBranchesFull.filter(b => b.company.toLowerCase() === uComp);
+        }
+        
+        filtered.forEach(b => {
+            select.add(new Option(b.branch + " (" + b.company + ")", b.branch));
+        });
+    }
     function setupDashboardPostLogin(res) {
       try {
         var uName = res.user ? res.user : "Admin";
@@ -1023,10 +1052,12 @@
                    });
                 }
 
-                // Data Scope එක ALL_COMPANIES නම් හෝ Role එක System Owner නම් ඔක්කොම පෙන්නනවා
+                // User Maintenance එකේ Dropdown එකට
                 var isGlobalUser = (uRole === 'system owner' || currentUser.dataScope === 'ALL_COMPANIES');
                 filterBranchDropdown(isGlobalUser ? '' : uComp, 'new-user-branch');
-                filterBranchDropdown(isGlobalUser ? '' : uComp, 'target_branch');
+                
+                // Target Branch Dropdown එකට අලුත් Function එක කෝල් කිරීම
+                populateTargetBranchDropdown();
             } 
         });
 
