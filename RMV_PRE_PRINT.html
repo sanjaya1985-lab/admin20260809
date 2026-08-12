@@ -478,11 +478,11 @@
           </div>
 
           <!-- (i) Licensing Authority Section Matching 2nd Image -->
-          <div class="mta8-text-small" style="font-weight: bold; margin-bottom: 10px; font-size: 9px;">
+          <div class="mta8-text-small" style="font-weight: bold; margin-bottom: 8px; font-size: 9px;">
             (i) බලපත්‍ර අධිකාරිය/அனுமதிப்பத்திர அதிகார සபை/Licensing Authority
           </div>
           
-          <div style="padding-left: 10px; margin-bottom: 5px;">
+          <div style="padding-left: 10px; margin-bottom: 1px;">
             <!-- Div Secretariat Full Horizontal Title -->
             <div class="mta8-text-small" style="font-weight: bold; white-space: nowrap; margin-bottom: 4px;">
               ප්‍රාදේශීය ලේකම් කොට්ඨාශය /பிரதேசசெயலகம்/Divisional Secretariat/
@@ -498,11 +498,14 @@
               </div>
             </div>
             
-            <!-- Province Title -->
-            <div class="mta8-text-small" style="font-weight: bold; white-space: nowrap; margin-bottom: 4px;">
-              පළාත/மாகாணம்/Province
+            <!-- Province Title & Boxes (Aligned in one row) -->
+            <div style="display: flex; align-items: flex-end; margin-bottom: 8px;">
+              <div class="mta8-text-small" style="font-weight: bold; white-space: nowrap; margin-right: 15px;">
+                පළාත/மாகாணம்/Province
+              </div>
+              <div id="pf_box_province" class="box-container"></div>
             </div>
-            
+          </div>            
             <!-- Province Boxes -->
             <div id="pf_box_province" class="box-container"></div>
           </div>
@@ -702,8 +705,8 @@
       document.getElementById('pf_box_postal').innerHTML = generateBoxesHtml(postalCode, 5);
       document.getElementById('pf_box_mobile').innerHTML = generateBoxesHtml(mobileNo, 10);
       
-      document.getElementById('pf_box_divSec').innerHTML = generateBoxesHtml(divSec, 15);
-      document.getElementById('pf_box_district').innerHTML = generateBoxesHtml(district, 15);
+      document.getElementById('pf_box_divSec').innerHTML = generateBoxesHtml(divSec, 14);
+      document.getElementById('pf_box_district').innerHTML = generateBoxesHtml(district, 14);
       document.getElementById('pf_box_province').innerHTML = generateBoxesHtml(provinceLoc, 15);
       
       document.getElementById('pf_box_dd').innerHTML = generateBoxesHtml(dDD, 2);
