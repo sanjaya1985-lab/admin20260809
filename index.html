@@ -1362,23 +1362,31 @@
       tbody.innerHTML = "<tr><td colspan='8' style='text-align:center; padding:20px;'>Loading data...</td></tr>";
       try {
         const res = await apiCall('getRMVData', {}, 'GET');
-        var myRole = currentUser.role.toLowerCase(); var myBranch = currentUser.branch.toLowerCase();
+        var myRole = currentUser.role.toLowerCase(); 
+        var myBranch = currentUser.branch.toLowerCase();
         
         globalRmvData = res.data;
         
         tbody.innerHTML = "";
-        if (!globalRmvData || globalRmvData.length === 0) { tbody.innerHTML = "<tr><td colspan='8' style='text-align:center; padding:20px;'>No RMV requests found.</td></tr>"; return; }
+        if (!globalRmvData || globalRmvData.length === 0) { 
+            tbody.innerHTML = "<tr><td colspan='8' style='text-align:center; padding:20px;'>No RMV requests found.</td></tr>"; 
+            return; 
+        }
+        
         for (var i = 0; i < globalRmvData.length; i++) {
-          var row = globalRmvData[i]; var statusBadge = "";
+          var row = globalRmvData[i]; 
+          var statusBadge = "";
           if(row.status === 'Pending') statusBadge = '<span class="badge-pending">Pending</span>';
           else if(row.status === 'Approved') statusBadge = '<span class="badge-accepted">Approved</span>';
           else statusBadge = '<span class="badge-rejected">Rejected</span>';
+          
           var actionBtn = "-";
-          if (myRole === 'super admin' || myRole === 'system owner' || myRole === 'rmv approval' || myBranch === "rmv") { actionBtn = `<button onclick="openRmvModal(${i})" style="background:#0d6efd; color:#fff; padding:6px 12px; border:none; border-radius:4px; cursor:pointer; font-weight:bold;">View & Confirm</button>`; }
+          if (myRole === 'super admin' || myRole === 'system owner' || myRole === 'rmv approval' || myBranch === "rmv") { 
+              actionBtn = `<button onclick="openRmvModal(${i})" style="background:#0d6efd; color:#fff; padding:6px 12px; border:none; border-radius:4px; cursor:pointer; font-weight:bold;">View & Confirm</button>`; 
+          }
           var actByText = (row.approvedBy && row.approvedBy !== "-") ? row.approvedBy : '<span style="color:#999;font-size:12px;">Pending</span>';
+          
           tbody.innerHTML += `<tr style="border-bottom:1px solid #eee;"><td><b style="color:#e67e22;">${row.company}</b></td><td>${row.date}</td><td><b>${row.reqId}</b></td><td><span style="background:#2d2d2d; color:#fff; padding:3px 8px; border-radius:4px; font-weight:bold;">${row.vehicleNo}</span></td><td>${row.branch}</td><td>${actByText}</td><td>${statusBadge}</td><td>${actionBtn}</td></tr>`;
-        }
-        tbody.innerHTML += `<tr style="border-bottom:1px solid #eee;"><td><b style="color:#e67e22;">${row.company}</b></td><td>${row.date}</td><td><b>${row.reqId}</b></td><td><span style="background:#2d2d2d; color:#fff; padding:3px 8px; border-radius:4px; font-weight:bold;">${row.vehicleNo}</span></td><td>${row.branch}</td><td>${actByText}</td><td>${statusBadge}</td><td>${actionBtn}</td></tr>`;
         }
         
         // ඩේටා ලෝඩ් වුණාට පස්සේ ඔටෝම Pending ෆිල්ටර් එක වැඩ කරන්න මේක දාන්න
@@ -1386,7 +1394,6 @@
 
       } catch(e) { console.error(e); }
     }
-
     function filterRmvTable() {
       var input = document.getElementById("rmvSearch").value.toLowerCase();
       var status = document.getElementById("rmvStatusFilter").value.toLowerCase();
