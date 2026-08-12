@@ -82,12 +82,14 @@
     
     /* Specific styles for the Full MTA 8 Page */
     .mta8-page .char-box {
-      width: 14px; 
+      width: 14.5px; /* කොටු වල සයිස් එක පොඩ්ඩක් හැදුවා */
       height: 20px;
       font-size: 12px;
+      flex-shrink: 0;
     }
     .mta8-page .box-container {
-      gap: 1px;
+      gap: 3.5px; /* කොටු අතර පරතරය හැදුවා */
+      justify-content: flex-end; /* කොටු ඔක්කොම දකුණු පැත්තට පෙළගස්වනවා */
     }
     
     .text-line-3 {
