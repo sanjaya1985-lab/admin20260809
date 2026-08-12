@@ -570,7 +570,14 @@
              <h3 style="color:#800000; margin-bottom:20px;">All Registration Requests</h3>
              <div style="display:flex; gap:15px; margin-bottom:20px; align-items:flex-end;">
                <div style="flex:1;"><label style="font-size:12px;font-weight:bold;color:#555;">Search</label><input type="text" id="rmvSearch" onkeyup="filterRmvTable()" placeholder="Search ID or Vehicle..." style="width:100%; padding:10px; border:1px solid #ccc; border-radius:4px; outline:none;"></div>
-               <div style="flex:1;"><label style="font-size:12px;font-weight:bold;color:#555;">Status</label><select id="rmvStatusFilter" onchange="filterRmvTable()" style="width:100%; padding:10px; border:1px solid #ccc; border-radius:4px; outline:none;"><option value="">All Statuses</option><option>Pending</option><option>Approved</option><option>Rejected</option></select></div>
+               <div style="flex:1;"><label style="font-size:12px;font-weight:bold;color:#555;">Status</label>
+                 <select id="rmvStatusFilter" onchange="filterRmvTable()" style="width:100%; padding:10px; border:1px solid #ccc; border-radius:4px; outline:none;">
+                <option value="">All Statuses</option>
+                <option selected>Pending</option>
+                <option>Approved</option>
+                <option>Rejected</option>
+                </select>
+               </div>
                <div style="flex:1;"><label style="font-size:12px;font-weight:bold;color:#555;">From Date</label><input type="date" id="rmvFromDate" onchange="filterRmvTable()" style="width:100%; padding:10px; border:1px solid #ccc; border-radius:4px; outline:none;"></div>
                <div style="flex:1;"><label style="font-size:12px;font-weight:bold;color:#555;">To Date</label><input type="date" id="rmvToDate" onchange="filterRmvTable()" style="width:100%; padding:10px; border:1px solid #ccc; border-radius:4px; outline:none;"></div>
                <div><button onclick="clearRmvFilters()" style="background:#6c757d; color:#fff; padding:10px 20px; border:none; border-radius:4px; cursor:pointer;">Clear</button></div>
