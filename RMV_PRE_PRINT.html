@@ -643,8 +643,21 @@
       if(line3Count > 0) {
         document.getElementById(baseId + '_line3').innerHTML = generateBoxesHtml(text.substring(line1Count + line2Count, line1Count + line2Count + line3Count), line3Count);
       }
+    // වැඩිපුර තියෙන අකුරු (Overflow) ටික යටින් පෙන්නන කොටස
+      let overflowContainer = document.getElementById(baseId + '_overflow_container');
+      let overflowText = document.getElementById(baseId + '_overflow');
+      
+      if (overflowContainer && overflowText) {
+        if (text.length > totalBoxes) {
+          overflowContainer.style.display = 'flex';
+          overflowText.innerHTML = text.substring(totalBoxes);
+        } else {
+          overflowContainer.style.display = 'none';
+          overflowText.innerHTML = '';
+        }
+      }
     }
-
+    
     function saveDataAndPreparePrint() {
       const dDD = document.getElementById('i_dateDD').value;
       const dMM = document.getElementById('i_dateMM').value;
