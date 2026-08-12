@@ -1378,6 +1378,12 @@
           var actByText = (row.approvedBy && row.approvedBy !== "-") ? row.approvedBy : '<span style="color:#999;font-size:12px;">Pending</span>';
           tbody.innerHTML += `<tr style="border-bottom:1px solid #eee;"><td><b style="color:#e67e22;">${row.company}</b></td><td>${row.date}</td><td><b>${row.reqId}</b></td><td><span style="background:#2d2d2d; color:#fff; padding:3px 8px; border-radius:4px; font-weight:bold;">${row.vehicleNo}</span></td><td>${row.branch}</td><td>${actByText}</td><td>${statusBadge}</td><td>${actionBtn}</td></tr>`;
         }
+        tbody.innerHTML += `<tr style="border-bottom:1px solid #eee;"><td><b style="color:#e67e22;">${row.company}</b></td><td>${row.date}</td><td><b>${row.reqId}</b></td><td><span style="background:#2d2d2d; color:#fff; padding:3px 8px; border-radius:4px; font-weight:bold;">${row.vehicleNo}</span></td><td>${row.branch}</td><td>${actByText}</td><td>${statusBadge}</td><td>${actionBtn}</td></tr>`;
+        }
+        
+        // ඩේටා ලෝඩ් වුණාට පස්සේ ඔටෝම Pending ෆිල්ටර් එක වැඩ කරන්න මේක දාන්න
+        filterRmvTable();
+
       } catch(e) { console.error(e); }
     }
 
