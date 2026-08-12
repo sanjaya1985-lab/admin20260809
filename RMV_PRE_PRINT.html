@@ -411,7 +411,6 @@
             </div>
           </div>
 
-         <!-- Old Name (Previously registered) -->
           <!-- Old Name (Previously registered) -->
           <div style="display: flex; align-items: flex-end; margin-bottom: 3px; width: 100%;">
             <div class="mta8-text-small" style="font-weight: bold; white-space: nowrap;">Previously registered</div>
@@ -450,6 +449,7 @@
           <div class="sub-label" style="text-align: center; margin-bottom: 12px;">
             පැවරුම්ලාභියාගේ නම/ மாற்றிப் பெறுபவரின் பெயர்/ Name of Transferee
           </div>
+
           <!-- New Address (residing at) -->
           <div style="display: flex; align-items: flex-end; margin-bottom: 3px; width: 100%;">
             <div class="mta8-text-small" style="font-weight: bold; white-space: nowrap;">residing at</div>
@@ -524,8 +524,7 @@
               <div id="pf_box_province" class="box-container"></div>
             </div>
           </div>            
-            <!-- Province Boxes -->
-            <div id="pf_box_province" class="box-container"></div>
+            
           </div>
 
           <!-- Date -->
@@ -658,10 +657,14 @@
       document.getElementById(baseId + '_line1').innerHTML = generateBoxesHtml(text.substring(0, line1Count), line1Count);
       document.getElementById(baseId + '_line2').innerHTML = generateBoxesHtml(text.substring(line1Count, line1Count + line2Count), line2Count);
       
+      let totalBoxes = line1Count + line2Count; // <-- Fixed here
+      
       if(line3Count > 0) {
-        document.getElementById(baseId + '_line3').innerHTML = generateBoxesHtml(text.substring(line1Count + line2Count, line1Count + line2Count + line3Count), line3Count);
+        document.getElementById(baseId + '_line3').innerHTML = generateBoxesHtml(text.substring(totalBoxes, totalBoxes + line3Count), line3Count);
+        totalBoxes += line3Count; // <-- Fixed here
       }
-    // වැඩිපුර තියෙන අකුරු (Overflow) ටික යටින් පෙන්නන කොටස
+      
+      // වැඩිපුර තියෙන අකුරු (Overflow) ටික යටින් පෙන්නන කොටස
       let overflowContainer = document.getElementById(baseId + '_overflow_container');
       let overflowText = document.getElementById(baseId + '_overflow');
       
@@ -728,7 +731,7 @@
       document.getElementById('pf_box_vehLetters').innerHTML = generateBoxesHtml(vLetters, 3);
       document.getElementById('pf_box_vehNums').innerHTML = generateBoxesHtml(vNums, 4);
 
-      fillDynamicBoxLines('pf_box_oldName', oldName, 27, 37, 0);       
+      fillDynamicBoxLines('pf_box_oldName', oldName, 27, 37, 0);        
       fillDynamicBoxLines('pf_box_newName', newName, 34, 37, 37);      
       fillDynamicBoxLines('pf_box_newAddress', newAddress, 31, 37, 37);
 
