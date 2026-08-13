@@ -178,51 +178,15 @@
       <div class="form-group"><label>Address</label><input type="text" id="i_newAddress" class="form-control" oninput="this.value = this.value.toUpperCase()"></div>
       <div class="form-group"><label>Transferee ID Number</label><input type="text" id="i_newId" class="form-control" maxlength="12" oninput="this.value = this.value.toUpperCase()"></div>
 
-      <!-- MTA 8 Details -->
+      <!-- MTA 8 Specific Details -->
       <h4 style="margin-top: 20px; margin-bottom: 10px; color: #007bff;">MTA 8 Specific Details</h4>
+      
+      <!-- Row 1: Province | District | Divisional Secretariat -->
       <div style="display:flex; gap:10px;">
-        <div class="form-group" style="width: 50%;">
-            <label>Divisional Secretariat</label>
-            <input type="text" id="i_divSec" class="form-control" list="divsec-list" placeholder="Select or Type..." oninput="this.value = this.value.toUpperCase()">
-            <datalist id="divsec-list"></datalist> 
-        </div>
-        <div class="form-group" style="width: 50%;">
-            <label>District</label>
-            <select id="i_district" class="form-control" style="cursor: pointer;">
-                <option value="">-- Select District --</option>
-                <option value="COLOMBO">COLOMBO</option>
-                <option value="GAMPAHA">GAMPAHA</option>
-                <option value="KALUTARA">KALUTARA</option>
-                <option value="KANDY">KANDY</option>
-                <option value="MATALE">MATALE</option>
-                <option value="NUWARA ELIYA">NUWARA ELIYA</option>
-                <option value="GALLE">GALLE</option>
-                <option value="MATARA">MATARA</option>
-                <option value="HAMBANTOTA">HAMBANTOTA</option>
-                <option value="JAFFNA">JAFFNA</option>
-                <option value="KILINOCHCHI">KILINOCHCHI</option>
-                <option value="MANNAR">MANNAR</option>
-                <option value="VAVUNIYA">VAVUNIYA</option>
-                <option value="MULLAITIVU">MULLAITIVU</option>
-                <option value="BATTICALOA">BATTICALOA</option>
-                <option value="AMPARA">AMPARA</option>
-                <option value="TRINCOMALEE">TRINCOMALEE</option>
-                <option value="KURUNEGALA">KURUNEGALA</option>
-                <option value="PUTTALAM">PUTTALAM</option>
-                <option value="ANURADHAPURA">ANURADHAPURA</option>
-                <option value="POLONNARUWA">POLONNARUWA</option>
-                <option value="BADULLA">BADULLA</option>
-                <option value="MONARAGALA">MONARAGALA</option>
-                <option value="RATNAPURA">RATNAPURA</option>
-                <option value="KEGALLE">KEGALLE</option>
-            </select>
-        </div>
-      </div>
-      <div style="display:flex; gap:10px;">
-        <div class="form-group" style="width: 33%;">
+        <div class="form-group" style="width: 33.33%;">
             <label>Province</label>
             <select id="i_provinceLoc" class="form-control" style="cursor: pointer;">
-                <option value="">-- Select --</option>
+                <option value="">-- SELECT PROVINCE --</option>
                 <option value="WESTERN">WESTERN</option>
                 <option value="CENTRAL">CENTRAL</option>
                 <option value="SOUTHERN">SOUTHERN</option>
@@ -234,18 +198,40 @@
                 <option value="SABARAGAMUWA">SABARAGAMUWA</option>
             </select>
         </div>
-        <div class="form-group" style="width: 33%;">
-            <label>Postal Code</label>
-            <input type="text" id="i_postalCode" class="form-control" list="postal-list" placeholder="Code..." maxlength="5" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-            <datalist id="postal-list"></datalist>
+        <div class="form-group" style="width: 33.33%;">
+            <label>District</label>
+            <select id="i_district" class="form-control" style="cursor: pointer;">
+                <option value="">-- SELECT DISTRICT --</option>
+            </select>
         </div>
-        <div class="form-group" style="width: 34%;">
-            <label>Mobile Number</label>
-            <input type="text" id="i_mobileNo" class="form-control" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+        <div class="form-group" style="width: 33.33%;">
+            <label>Divisional Secretariat</label>
+            <select id="i_divSec" class="form-control" style="cursor: pointer;">
+                <option value="">-- SELECT DIV SEC --</option>
+            </select>
         </div>
       </div>
+
+      <!-- Row 2: Postal Area | Postal Code | Mobile Number -->
+      <div style="display:flex; gap:10px;">
+        <div class="form-group" style="width: 33.33%;">
+            <label>Postal Area</label>
+            <input type="text" id="i_postalArea" class="form-control" list="postalarea-list" placeholder="Select or Type..." oninput="this.value = this.value.toUpperCase()">
+            <datalist id="postalarea-list"></datalist>
+        </div>
+        <div class="form-group" style="width: 33.33%;">
+            <label>Postal Code</label>
+            <input type="text" id="i_postalCode" class="form-control" placeholder="Code" maxlength="5" style="background-color: #f8f9fa;" readonly>
+        </div>
+        <div class="form-group" style="width: 33.33%;">
+            <label>Mobile Number</label>
+            <input type="text" id="i_mobileNo" class="form-control" placeholder="07XXXXXXXX" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+        </div>
+      </div>
+
+      <!-- Row 3: Collect Office -->
       <div class="form-group" style="width: 100%;">
-          <label>Collect Office (Preferred District)</label>
+          <label>Collect Office (Number Plate)</label>
           <input type="text" id="i_collectOffice" class="form-control" oninput="this.value = this.value.toUpperCase()">
       </div>
 
@@ -295,7 +281,7 @@
           </div>
           <div style="display: flex;">
             <div style="width: 30px;"></div>
-            <div class="sub-label" style="flex-grow: 1; margin-bottom: 3px;">පැවරුම්කරුගේ නම/ ஫ாம்றிக்பகாடுப்பල஭ின் பப஬஭்/Name of Transferor</div>
+            <div class="sub-label" style="flex-grow: 1; margin-bottom: 3px;">පැවරුම්කරුගේ නම/ ஫ாம்றிக்பகாடுப்பල஭ின் பப஬஭්/Name of Transferor</div>
           </div>
 
           <div style="display: flex; align-items: center; justify-content: flex-end; margin-bottom: 3px;">
@@ -313,7 +299,7 @@
           </div>
           <div style="display: flex;">
             <div style="width: 30px;"></div>
-            <div class="sub-label" style="flex-grow: 1; margin-bottom: -3px;">පැවරුම්කරුගේ ලිපිනය /஫ாம்றிக்பகாடுப்பල஭ின் முகல஭ி / Address of Transferor</div>
+            <div class="sub-label" style="flex-grow: 1; margin-bottom: -3px;">පැවරුම්කරුගේ ලිපිනය /஫ாம்றிக்பகாடுப்பල஭ின் முகල஭ி / Address of Transferor</div>
           </div>
 
           <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 5px; margin-bottom: 4px;">
@@ -358,7 +344,7 @@
           </div>
           <div style="display: flex;">
             <div style="width: 30px;"></div>
-            <div class="sub-label" style="flex-grow: 1; margin-bottom: 0px;">පැවරුම්භියාගේ ලිපිනය/ ஫ாம்றிப்பபறுபல஭ின் முகல஭ி / Address of Transferee</div>
+            <div class="sub-label" style="flex-grow: 1; margin-bottom: 0px;">පැවරුම්භියාගේ ලිපිනය/ ஫ாம்றிப்பபறுபல஭ின் முகල஭ி / Address of Transferee</div>
           </div>
         </div>
 
@@ -552,7 +538,7 @@
 
           <!-- (i) Licensing Authority Section Matching 2nd Image -->
           <div class="mta8-text-small" style="font-weight: bold; margin-bottom: 8px; font-size: 9px;">
-            (i) බලපත්‍ර අධිකාරිය/அனுமதிப்பத்திர அதிகார சபை/Licensing Authority
+            (i) බලපත්‍ර අධිකාරිය/அனுமதிப்பத்திர அதிகார සபை/Licensing Authority
           </div>
           
           <div style="padding-left: 10px; margin-bottom: 1px;">
@@ -683,6 +669,10 @@
             "GAMPAHA": {
                 divs: ["NEGOMBO", "KATANA", "DIVULAPITIYA", "MIRIGAMA", "MINUWANGODA", "WATTALA", "JA ELA", "GAMPAHA", "ATTANAGALLA", "DOMPE", "MAHARA", "KELANIYA", "BIYAGAMA"],
                 postal: {"PUGODA":"10660", "KAPUGODA":"10662", "TITTAPATTARA":"10664", "GAMPAHA":"11000", "RAGAMA":"11010", "BATUWATTA":"11011", "WALPOLA (WP)":"11012", "GANEMULLA":"11020", "BOLLETE":"11024", "UDUGAMPOLA":"11030", "MADELGAMUWA":"11033", "UGGALBODA":"11034", "BEMMULLA":"11040", "PETHIYAGODA":"11043", "AMBAGASPITIYA":"11052", "UDATHUTHIRIPITIYA":"11054", "MANDAWALA":"11061", "LUNUGAMA":"11062", "WANALUWEWA":"11068", "VEYANGODA":"11100", "DEWALAPOLA":"11102", "WATINAPAHA":"11104", "ESSELLA":"11108", "MABODALE":"11114", "ELLAKKALA":"11116", "ATTANAGALLA":"11120", "ALAWALA":"11122", "URAPOLA":"11126", "RUKMALE":"11129", "BOPAGAMA":"11134", "RUGGAHAWILA":"11142", "KAHATOWITA":"11144", "WALGAMMULLA":"11146", "PALLEWELA":"11150", "KALELIYA":"11160", "LOLUWAGODA":"11204", "DIVULDENIYA":"11208", "AMBEPUSSA":"11212", "PAMUNUWATTA":"11214", "BOKALAGAMA":"11216", "KALUAGGALA":"11224", "WALPITA":"11226", "DELWAGURA":"11228", "MELLAWAGEDARA":"11234", "BANDURAGODA":"11244", "DIVULAPITIYA":"11250", "MARANDAGAHAMULA":"11260", "HUNUMULLA":"11262", "DUNAGAHA":"11264", "IHALA MADAMPELLA":"11265", "DEMANHANDIYA":"11270", "WATTALA":"11300", "KANDANA":"11320", "POLPITHIMUKULANA":"11324", "USWETAKEIYAWA":"11328", "JA-ELA":"11350", "MAKEWITA":"11358", "PAMUNUGAMA":"11370", "EKALA":"11380", "RADDOLUGAMA":"11400", "SEEDUWA":"11410", "KATUNAYAKE":"11450", "NEGOMBO":"11500", "TALAHENA":"11504", "DAGONNA":"11524", "THIMBIRIGASKATUWA":"11532", "AKARAGAMA":"11536", "BADALGAMA":"11538", "MINUWANGODA":"11550", "ANDIAMBALAMA":"11558", "HORAMPELLA":"11564", "YATIYANA(WP)":"11566", "HINATIYANA":"11568", "SIYAMBALAPE":"11607", "HEIYANTHUDUWA":"11618", "GONAWALAWP":"11630", "MAKOLA":"11640", "BIYAGAMA":"11650", "MALWANA":"11670", "BIYAGAMA IPZ":"11672", "DOMPE":"11680", "DEKATANA":"11690", "DEMALAGAMA":"11692", "DELGODA":"11700", "HENEGAMA":"11715", "BUTHPITIYA":"11720", "WATHURUGAMA":"11724", "RADAWANA":"11725", "HISWELLA":"11734", "PEPILIYAWALA":"11741", "PELIYAGODA":"11830", "KADAWATHA":"11850", "IMBULGODA":"11856", "WEBODA":"11858", "YAKKALA":"11870", "KALAGEDIHENA":"11875", "DEBAHERA":"11889", "PASYALA":"11890", "RADAWADUNNA":"11892", "DANOWITA":"11896"}
+            },
+            "KALUTARA": {
+                divs: ["PANADURA", "BANDARAGAMA", "HORANA", "INGIRIYA", "BULATHSINHALA", "MADURAWALA", "MILLANIYA", "KALUTARA", "BERUWALA", "DODANGODA", "MATUGAMA", "AGALAWATTA", "PALINDANUWARA", "WALALLAWITA"],
+                postal: {"KALUTARA":"12000", "GALPATHA":"12005", "YATAWARA JUNCTION":"12006", "BOLOSSAGAMA":"12008", "REMUNAGODA":"12009", "GAMAGODA":"12016", "DODANGODA":"12020", "BOMBUWALA":"12024", "TEBUWANA":"12025", "PAIYAGALA":"12050", "HALKANDAWILA":"12055", "MAGGONA":"12060", "BERUWALA":"12070", "PADAGODA":"12074", "KALAWILA KIRANTHIDIYA":"12078", "ALUTHGAMA":"12080", "DHARGA TOWN":"12090", "MEEGAMA":"12094", "MATUGAMA":"12100", "YATADOLAWATTA":"12104", "NAWUTHTHUDUWA":"12106", "WALAGEDARA":"12112", "PANNILA":"12114", "ITTAPANA":"12116", "HALWALA":"12118", "PARAIGAMA":"12122", "YAGIRALA":"12124", "MAHAKALUPAHANA":"12126", "UTUMGAMA":"12127", "MEEGAHATENNA":"12130", "WALALLAWITA":"12134", "POLGAMPOLA":"12136", "PELAWATTA":"12138", "BORALUGODA":"12142", "PAHALAHEWESSA":"12144", "DANAWALATHINIYAWALA":"12148", "AGALAWATTA":"12200", "VEYANGALLA":"12204", "MAHAGAMA":"12210", "PELANDA":"12214", "BELLANA":"12224", "BADURALIYA":"12230", "HEDIGALLA COLONY":"12234", "GURULUBADDA":"12236", "BULATHSINHALA":"12300", "PARAGODA":"12302", "DELMELLA":"12304", "HALWATURA":"12306", "DIWALAKADA":"12308", "GOVINNA":"12310", "ANGURUWATOTA":"12320", "UDUWARA":"12322", "HORANA":"12400", "POKUNUWITA":"12404", "GONAPOLA":"12410", "PARAGASTOTA":"12414", "DOMBAGODA":"12416", "KANANWILA":"12418", "KANDANAGAMA":"12428", "PORUWEDANDA":"12432", "LNGIRIYA":"12440", "PANADURA":"12500", "ALUBOMULLA":"12524", "BANDARAGAMA":"12530", "HALTOTA":"12538", "WADDUWA":"12560", "WASKADUWA":"12580"}
             }
         },
         "CENTRAL": {
@@ -791,57 +781,83 @@
         }
     };
 
-    function updateLocationData() {
-        let selectedDistrict = document.getElementById("i_district").value;
-        let provSelect = document.getElementById("i_provinceLoc");
-        let divSecList = document.getElementById("divsec-list");
-        let postalList = document.getElementById("postal-list");
+    function initCascadingDropdowns() {
+      const provSelect = document.getElementById("i_provinceLoc");
+      const distSelect = document.getElementById("i_district");
+      const divSecSelect = document.getElementById("i_divSec");
+      const postalAreaInput = document.getElementById("i_postalArea");
+      const postalAreaList = document.getElementById("postalarea-list");
+      const postalCodeInput = document.getElementById("i_postalCode");
 
-        // මුලින්ම Datalist හිස් කරනවා
-        divSecList.innerHTML = "";
-        postalList.innerHTML = "";
-        provSelect.value = ""; 
+      // 1. Province Change -> Populate Districts
+      provSelect.addEventListener("change", function() {
+        let prov = this.value;
+        distSelect.innerHTML = '<option value="">-- SELECT DISTRICT --</option>';
+        divSecSelect.innerHTML = '<option value="">-- SELECT DIV SEC --</option>';
+        postalAreaInput.value = "";
+        postalAreaList.innerHTML = "";
+        postalCodeInput.value = "";
 
-        if (!selectedDistrict) return;
+        if (prov && slLocationData[prov]) {
+          for (let dist in slLocationData[prov]) {
+            let opt = document.createElement("option");
+            opt.value = dist;
+            opt.text = dist;
+            distSelect.appendChild(opt);
+          }
+        }
+      });
 
-        // slLocationData එකෙන් අදාළ Province එක සහ District එක හොයනවා
-        for (let province in slLocationData) {
-            if (slLocationData[province][selectedDistrict]) {
-                
-                // 1. Province එක ඔටෝ තෝරනවා
-                provSelect.value = province;
-                
-                let distData = slLocationData[province][selectedDistrict];
+      // 2. District Change -> Populate DivSec & Postal Areas
+      distSelect.addEventListener("change", function() {
+        let prov = provSelect.value;
+        let dist = this.value;
+        divSecSelect.innerHTML = '<option value="">-- SELECT DIV SEC --</option>';
+        postalAreaInput.value = "";
+        postalAreaList.innerHTML = "";
+        postalCodeInput.value = "";
 
-                // 2. Divisional Secretariats ටික Datalist එකට දානවා
-                if (distData.divs) {
-                    distData.divs.forEach(div => {
-                        let option = document.createElement('option');
-                        option.value = div;
-                        divSecList.appendChild(option);
-                    });
-                }
+        if (prov && dist && slLocationData[prov] && slLocationData[prov][dist]) {
+          let data = slLocationData[prov][dist];
+          
+          // DivSecs
+          if (data.divs) {
+            data.divs.forEach(d => {
+              let opt = document.createElement("option");
+              opt.value = d;
+              opt.text = d;
+              divSecSelect.appendChild(opt);
+            });
+          }
 
-                // 3. Postal Codes ටික Datalist එකට දානවා
-                if (distData.postal) {
-                    for (let area in distData.postal) {
-                        let option = document.createElement('option');
-                        option.value = distData.postal[area];
-                        option.text = area; // නම පේන්න දානවා
-                        postalList.appendChild(option);
-                    }
-                }
-                break; // District එක හම්බවුණාම ලූප් එකෙන් එළියට එනවා
+          // Postal Areas
+          if (data.postal) {
+            for (let area in data.postal) {
+              let opt = document.createElement("option");
+              opt.value = area;
+              postalAreaList.appendChild(opt);
             }
+          }
         }
+      });
+
+      // 3. Postal Area Input -> Auto Set Postal Code
+      postalAreaInput.addEventListener("input", function() {
+        let prov = provSelect.value;
+        let dist = distSelect.value;
+        let area = this.value.toUpperCase();
+
+        if (prov && dist && area && slLocationData[prov] && slLocationData[prov][dist] && slLocationData[prov][dist].postal) {
+          let code = slLocationData[prov][dist].postal[area];
+          if (code) {
+            postalCodeInput.value = code;
+          }
+        }
+      });
     }
-    
-    // HTML එකේ Load වුණාම District Dropdown එකට Event Listener එකක් දානවා
+
     document.addEventListener("DOMContentLoaded", function() {
-        let distDropdown = document.getElementById("i_district");
-        if(distDropdown) {
-            distDropdown.addEventListener("change", updateLocationData);
-        }
+      initCascadingDropdowns();
     });
 
     function switchTab(tabId) {
