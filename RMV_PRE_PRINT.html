@@ -1037,19 +1037,28 @@
       document.getElementById('pf_box_collect').innerHTML = generateBoxesHtml(collectOffice, 15);
 
       // PAGE 3 & 4: MTA 3
-      document.getElementById('p3f_financeName').innerText = financeName;
-      document.getElementById('p3f_financeAddress').innerText = financeAddress;
+      // 1. Finance Name & Address Swapped
+      document.getElementById('p3f_financeName').innerText = financeAddress; 
+      document.getElementById('p3f_financeAddress').innerText = financeName;
       
-      // නම සහ ලිපිනය දිග වැඩි නම් කෑලි 2කට කඩලා පේළි 2ට දානවා
-      document.getElementById('p3f_newName1').innerText = newName.substring(0, 20);
-      document.getElementById('p3f_newName2').innerText = newName.substring(20, 80);
+      // 2. Exact splitting to fit on dotted lines properly
+      document.getElementById('p3f_newName1').innerText = newName.substring(0, 45);
+      document.getElementById('p3f_newName2').innerText = newName.substring(45, 100);
       
-      document.getElementById('p3f_newAddress1').innerText = newAddress.substring(0, 30);
-      document.getElementById('p3f_newAddress2').innerText = newAddress.substring(30, 110);
+      document.getElementById('p3f_newAddress1').innerText = newAddress.substring(0, 50);
+      document.getElementById('p3f_newAddress2').innerText = newAddress.substring(50, 140);
 
-      document.getElementById('p3f_newName3').innerText = newName;
-      document.getElementById('p3f_newAddress3').innerText = newAddress;
+      document.getElementById('p3f_newName3').innerText = newName.substring(0, 75);
+      let remName = newName.substring(75);
+      
+      // Combine leftover name with address for bottom lines
+      let botAddr = remName + (remName ? " " : "") + newAddress;
+      document.getElementById('p3f_newAddress3').innerText = botAddr.substring(0, 105);
+      document.getElementById('p3f_newAddress4').innerText = botAddr.substring(105, 210);
 
+      document.getElementById('p3b_financeName').innerText = financeName.substring(0, 50);
+      document.getElementById('p3b_financeName2').innerText = financeName.substring(50, 120);
+      document.getElementById('p3b_financeAddress').innerText = financeAddress;
       // Page 4 (Back Page)
       document.getElementById('p3b_financeName').innerText = financeName.substring(0, 50);
       document.getElementById('p3b_financeName2').innerText = financeName.substring(50, 120);
