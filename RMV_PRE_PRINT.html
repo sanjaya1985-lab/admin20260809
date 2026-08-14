@@ -1099,9 +1099,18 @@
       document.getElementById('p3f_newAddress4').innerText = botNameParts[1];
 
       // Page 4 (Back Page)
-      document.getElementById('p3b_financeName').innerText = financeName.substring(0, 50);
-      document.getElementById('p3b_financeName2').innerText = financeName.substring(50, 120);
-      document.getElementById('p3b_financeAddress').innerText = financeAddress;
+      // Page 4 (Back Page)
+      
+      // 1. Finance Address (Swapped: Address First) - Line 1: ~45 chars, Line 2: ~40 chars
+      let bAddrParts = splitText(financeAddress, [45, 40]);
+      document.getElementById('p3b_financeAddress1').innerText = bAddrParts[0];
+      document.getElementById('p3b_financeAddress2').innerText = bAddrParts[1];
+      document.getElementById('p3b_financeAddress_overflow2').innerText = bAddrParts[2]; // Overflow goes under line 2
+      
+      // 2. Finance Name (Swapped: Name Second) - Space available: ~35 chars
+      let bNameParts = splitText(financeName, [35, 100]);
+      document.getElementById('p3b_financeName1').innerText = bNameParts[0];
+      document.getElementById('p3b_financeName_overflow1').innerText = bNameParts[1]; // Overflow goes under line 2
       
       switchTab('print');
     }
