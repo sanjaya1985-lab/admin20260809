@@ -699,21 +699,34 @@
       <!-- PAGE 4: MTA 3 Back OVERLAY -->
       <div class="a4-page last-page">
         <div class="print-absolute-block" style="top: 100px; left: 40px; right: 40px;">
-          <div class="mta3-text">
-            <div style="margin-bottom: 15px;">
-              I do hereby acknowledge that the motor vehicle has been let to me by 
-              <span id="p3b_financeName" class="dotted-line"></span>
+          <div class="mta3-text" style="font-family: 'Times New Roman', Times, serif; font-size: 10px; font-weight: normal; line-height: 1.5;">
+            
+            <!-- Line 1: "...let to me by 1" + Finance Address Part 1 -->
+            <div style="display: flex; align-items: flex-end; margin-bottom: 12px; width: 100%; position: relative;">
+              <span style="margin-right: 10px; white-space: nowrap;">I do hereby acknowledge that the motor vehicle has been let to me by <sup>1</sup></span>
+              <span id="p3b_financeAddress1" class="dotted-line" style="flex-grow: 1;"></span>
+              <!-- Overflow for Address Part 1 -->
+              <div id="p3b_financeAddress_overflow1" style="position: absolute; top: 16px; left: 320px; width: 100%; font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: 10px; color: #000; text-transform: uppercase;"></div>
             </div>
-            <div style="margin-bottom: 15px;">
-              <span id="p3b_financeName2" class="dotted-line" style="min-width: 100%;"></span>
+
+            <!-- Line 2: Finance Address Part 2 + "of 2" + Finance Name + "under a hire..." -->
+            <div style="display: flex; align-items: flex-end; margin-bottom: 12px; width: 100%; position: relative;">
+              <span id="p3b_financeAddress2" class="dotted-line" style="width: 35%;"></span>
+              <!-- Overflow for Address Part 2 (Drops below line) -->
+              <div id="p3b_financeAddress_overflow2" style="position: absolute; top: 16px; left: 5px; width: 35%; font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: 10px; color: #000; text-transform: uppercase;"></div>
+              
+              <span style="margin: 0 10px; white-space: nowrap;">of <sup>2</sup></span>
+              
+              <span id="p3b_financeName1" class="dotted-line" style="flex-grow: 1;"></span>
+              <!-- Overflow for Finance Name (Drops below line) -->
+              <div id="p3b_financeName_overflow1" style="position: absolute; top: 16px; left: 40%; width: 60%; font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: 10px; color: #000; text-transform: uppercase;"></div>
+              
+              <span style="margin-left: 10px; white-space: nowrap;">under a hire-purchase agreement.</span>
             </div>
-            <div style="margin-bottom: 15px;">
-              of <span id="p3b_financeAddress" class="dotted-line"></span> under a hire-purchase agreement.
-            </div>
+
           </div>
         </div>
       </div>
-
     </div>
   </div>
 
