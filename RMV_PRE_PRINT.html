@@ -1066,26 +1066,26 @@
       document.getElementById('p3f_financeName1').innerText = fNameParts[0];
       document.getElementById('p3f_financeName2').innerText = fNameParts[1];
       
-      // 2. Customer Name (Red Box -> 25 chars, next line -> 60 chars up to 'of 4')
-      let cNameParts = splitText(newName, [25, 60]);
-      document.getElementById('p3f_newName1').innerText = cNameParts[0];
-      document.getElementById('p3f_newName2').innerText = cNameParts[1];
-      document.getElementById('p3f_newName_overflow').innerText = cNameParts[2];
+      // 2. Customer ADDRESS (Swapped - ලිපිනය මුලින් එනවා)
+      let cAddrParts = splitText(newAddress, [25, 60]);
+      document.getElementById('p3f_newName1').innerText = cAddrParts[0];
+      document.getElementById('p3f_newName2').innerText = cAddrParts[1];
+      document.getElementById('p3f_newName_overflow').innerText = cAddrParts[2];
       
-      // 3. Customer Address (After 'of 4' -> 45 chars, next line -> 80 chars)
-      let cAddrParts = splitText(newAddress, [45, 80]);
-      document.getElementById('p3f_newAddress1').innerText = cAddrParts[0];
-      document.getElementById('p3f_newAddress2').innerText = cAddrParts[1];
-      document.getElementById('p3f_newAddress_overflow2').innerText = cAddrParts[2];
+      // 3. Customer NAME (Swapped - නම දෙවනුව එනවා)
+      let cNameParts = splitText(newName, [45, 80]);
+      document.getElementById('p3f_newAddress1').innerText = cNameParts[0];
+      document.getElementById('p3f_newAddress2').innerText = cNameParts[1];
+      document.getElementById('p3f_newAddress_overflow2').innerText = cNameParts[2];
 
-      // Bottom Name & Address
-      let botNameParts = splitText(newName, [75]);
-      document.getElementById('p3f_newName3').innerText = botNameParts[0];
-      document.getElementById('p3f_newName4').innerText = botNameParts[1];
+      // Bottom ADDRESS & NAME (Swapped - මෙතනත් ලිපිනය මුලින්, නම දෙවනුව)
+      let botAddrParts = splitText(newAddress, [75]);
+      document.getElementById('p3f_newName3').innerText = botAddrParts[0];
+      document.getElementById('p3f_newName4').innerText = botAddrParts[1];
 
-      let botAddrParts = splitText(newAddress, [100]);
-      document.getElementById('p3f_newAddress3').innerText = botAddrParts[0];
-      document.getElementById('p3f_newAddress4').innerText = botAddrParts[1];
+      let botNameParts = splitText(newName, [100]);
+      document.getElementById('p3f_newAddress3').innerText = botNameParts[0];
+      document.getElementById('p3f_newAddress4').innerText = botNameParts[1];
 
       // Page 4 (Back Page)
       document.getElementById('p3b_financeName').innerText = financeName.substring(0, 50);
