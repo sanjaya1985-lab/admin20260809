@@ -9,7 +9,7 @@
   </script>
   
   <meta charset="UTF-8">
-  <title>RMV Print Portal - Auto Fill Forms</title>
+  <title>RMV Universal Print Portal</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
@@ -17,10 +17,13 @@
     body { font-family: 'Inter', sans-serif; background: #525659; margin: 0; padding: 0; color: #333; }
     
     .sticky-wrapper { position: sticky; top: 0; z-index: 1000; background: #525659; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+    
     .header { background: #121212; color: #fff; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #c62828; }
+    .header h2 { margin: 0; font-size: 16px; } 
     .tabs { display: flex; background: #fff; border-bottom: 1px solid #ddd; padding: 0 20px; }
-    .tab { padding: 15px 20px; cursor: pointer; font-weight: bold; color: #666; border-bottom: 3px solid transparent; }
+    .tab { padding: 12px 20px; cursor: pointer; font-weight: bold; font-size: 13px; color: #666; border-bottom: 3px solid transparent; display: flex; align-items: center; gap: 8px;}
     .tab.active { color: #c62828; border-bottom-color: #c62828; }
+    
     .content-section { padding: 30px; display: none; }
     .content-section.active { display: block; }
     
@@ -28,7 +31,8 @@
     .form-group { margin-bottom: 15px; }
     .form-group label { display: block; font-weight: bold; font-size: 14px; margin-bottom: 5px; color: #444; }
     .form-control { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; outline: none; box-sizing: border-box; font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: 15px; text-transform: uppercase;}
-    .btn { padding: 12px 20px; background: #0d6efd; color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; width: 100%; }
+    .btn { padding: 12px 20px; background: #0d6efd; color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; width: 100%; transition: 0.2s;}
+    .btn:hover { opacity: 0.9; }
     .btn-print { background: #198754; width: auto; margin-bottom: 20px; display: block; margin-left: auto; margin-right: auto; font-size: 16px; padding: 15px 30px; }
     
     .a4-preview-container { display: flex; flex-direction: column; gap: 30px; align-items: center; overflow-y: auto; padding-bottom: 50px; }
@@ -37,14 +41,43 @@
       background-color: white; width: 210mm; height: 297mm; box-shadow: 0 5px 15px rgba(0,0,0,0.5); 
       box-sizing: border-box; position: relative; background-size: 100% 100%; background-repeat: no-repeat; page-break-after: always; 
     }
+
+    /* Source 1 (Original Print) Styles */
     .p-text { position: absolute; font-size: 15px; font-family: 'Courier New', Courier, monospace; font-weight: bold; color: #000; white-space: nowrap; }
+
+    /* Source 2 (Box Print) Styles */
+    .print-absolute-block { position: absolute; background-color: #ffffff; padding: 10px; box-sizing: border-box; }
+    .flex-row { display: flex; align-items: center; }
+    .box-container { display: flex; gap: 2px; } 
+    .char-box {
+      width: 16px; height: 22px; border: 1px solid #000; display: flex; align-items: center; justify-content: center;
+      font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: 13px; text-transform: uppercase; color: #000;
+    }
+    .mta8-page .char-box { width: 14.5px; height: 20px; font-size: 12px; flex-shrink: 0; }
+    .mta8-page .box-container { gap: 3.5px; justify-content: flex-end; }
+    
+    .text-line-3 { font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: 10px; letter-spacing: 0.5px; text-transform: uppercase; color: #000; width: 100%; text-align: left; padding-left: 2px; word-break: break-word; }
+    .field-label { font-size: 13px; font-family: Arial, sans-serif; color: #000; font-weight: bold; }
+    .sub-label { font-size: 9px; color: #333; text-align: center; margin-top: 2px; margin-bottom: 5px; font-family: Arial, sans-serif; }
+    
+    .dotted-line {
+      border-bottom: 2px dotted #000; display: inline-block; min-width: 150px; text-transform: uppercase;
+      font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: 12px; color: #000; text-align: left; padding: 0 5px; line-height: 1.2; white-space: nowrap; overflow: hidden;
+    }
+    .mta3-text { font-size: 12px; line-height: 1.5; font-family: Arial, sans-serif; font-weight: bold; color: #000; } 
+    .mta8-text-small { font-size: 10px; font-family: Arial, sans-serif; line-height: 1.4; color: #000; }
 
     @page { size: A4 portrait; margin: 0; } 
     
     @media print {
       .sticky-wrapper, #sec-add, .btn-print, .tabs, .header, .no-print { display: none !important; }
       body, html { background: white !important; margin: 0 !important; padding: 0 !important; height: 100%; }
-      #sec-print { display: block !important; position: relative !important; margin: 0 !important; padding: 0 !important; }
+      
+      .content-section { display: none !important; }
+      #sec-print-full.active, #sec-print-box.active { 
+        display: block !important; position: absolute !important; top: 0; left: 0; width: 100%; margin: 0 !important; padding: 0 !important; 
+      }
+      
       .a4-preview-container { display: block !important; padding: 0 !important; margin: 0 !important; gap: 0 !important; }
       
       .a4-page { 
@@ -59,22 +92,25 @@
 </head>
 <body>
 
+  <!-- UI Wrapper -->
   <div class="sticky-wrapper no-print">
     <div class="header">
-      <h2><i class="fas fa-file-invoice"></i> RMV Documents Print Portal</h2>
-      <button style="background: transparent; border: 1px solid white; color: white; padding: 5px 15px; border-radius: 4px; cursor: pointer;" onclick="window.close()">Close</button>
+      <h2><i class="fas fa-file-invoice"></i> RMV Universal Print Portal</h2>
+      <button style="background: transparent; border: 1px solid white; color: white; padding: 5px 15px; border-radius: 4px; cursor: pointer; transition: 0.2s;" onclick="window.close()" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='transparent'">Close</button>
     </div>
-
     <div class="tabs">
       <div class="tab active" id="tab-add" onclick="switchTab('add')"><i class="fas fa-edit"></i> Type Details</div>
-      <div class="tab" id="tab-print" onclick="switchTab('print')"><i class="fas fa-print"></i> Print Original Forms</div>
+      <div class="tab" id="tab-print-full" onclick="switchTab('print-full')"><i class="fas fa-image"></i> Original Print Format</div>
+      <div class="tab" id="tab-print-box" onclick="switchTab('print-box')"><i class="fas fa-border-all"></i> Box Overlay Format</div>
     </div>
   </div>
 
+  <!-- ADD DATA SECTION -->
   <div id="sec-add" class="content-section active no-print">
     <div class="form-box">
       <h3 style="color: #c62828; margin-top: 0; border-bottom: 1px solid #eee; padding-bottom: 10px;">Type Transfer Details Here</h3>
       
+      <!-- Date -->
       <div class="form-group">
         <label>Transfer Date</label>
         <div style="display:flex; gap:10px;">
@@ -84,65 +120,78 @@
         </div>
       </div>
 
+      <!-- Vehicle Number -->
       <div class="form-group">
         <label>Vehicle Number</label>
         <div style="display:flex; gap:10px;">
           <select id="i_vehProv" class="form-control" style="width: 90px; text-align: center;" onchange="document.getElementById('i_vehLetters').focus();">
             <option value="">Prov</option>
-            <option value="WP">WP</option>
-            <option value="CP">CP</option>
-            <option value="SP">SP</option>
-            <option value="NP">NP</option>
-            <option value="EP">EP</option>
-            <option value="NW">NW</option>
-            <option value="NC">NC</option>
-            <option value="UP">UP</option>
-            <option value="SG">SG</option>
+            <option value="WP">WP</option><option value="CP">CP</option><option value="SP">SP</option><option value="NP">NP</option><option value="EP">EP</option>
+            <option value="NW">NW</option><option value="NC">NC</option><option value="UP">UP</option><option value="SG">SG</option>
           </select>
           <input type="text" id="i_vehLetters" class="form-control" placeholder="CAB" maxlength="3" style="width: 80px; text-align: center;" oninput="this.value = this.value.toUpperCase(); if(this.value.length === 3) document.getElementById('i_vehNum').focus();">
           <input type="text" id="i_vehNum" class="form-control" placeholder="1234" maxlength="4" style="width: 100px; text-align: center;" oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(this.value.length === 4) document.getElementById('i_oldName').focus();">
         </div>
       </div>
       
+      <!-- Transferor -->
       <h4 style="margin-top: 20px; margin-bottom: 10px; color: #555;">Transferor (Previous Owner)</h4>
       <div class="form-group"><label>Name</label><input type="text" id="i_oldName" class="form-control" oninput="this.value = this.value.toUpperCase()"></div>
       <div class="form-group"><label>Address</label><input type="text" id="i_oldAddress" class="form-control" oninput="this.value = this.value.toUpperCase()"></div>
       <div class="form-group"><label>Transferor ID Number</label><input type="text" id="i_oldId" class="form-control" oninput="this.value = this.value.toUpperCase()"></div>
       
+      <!-- Transferee -->
       <h4 style="margin-top: 20px; margin-bottom: 10px; color: #555;">Transferee (New Owner)</h4>
       <div class="form-group"><label>Name</label><input type="text" id="i_newName" class="form-control" oninput="this.value = this.value.toUpperCase()"></div>
       <div class="form-group"><label>Address</label><input type="text" id="i_newAddress" class="form-control" oninput="this.value = this.value.toUpperCase()"></div>
       <div class="form-group"><label>Transferee ID Number</label><input type="text" id="i_newId" class="form-control" oninput="this.value = this.value.toUpperCase()"></div>
 
+      <!-- MTA 8 Specific Details -->
       <h4 style="margin-top: 20px; margin-bottom: 10px; color: #007bff;">MTA 8 Specific Details</h4>
       
-      <div style="display:flex; gap:10px; margin-bottom:15px;">
-        <div class="form-group" style="width: 33%;">
+      <div style="display:flex; gap:10px;">
+        <div class="form-group" style="width: 33.33%;">
             <label>Province</label>
-            <select id="i_provinceLoc" class="form-control" onchange="loadDistricts()"></select>
+            <select id="i_provinceLoc" class="form-control" style="cursor: pointer;">
+                <option value="">-- SELECT PROVINCE --</option>
+                <option value="WESTERN">WESTERN</option>
+                <option value="CENTRAL">CENTRAL</option>
+                <option value="SOUTHERN">SOUTHERN</option>
+                <option value="NORTHERN">NORTHERN</option>
+                <option value="EASTERN">EASTERN</option>
+                <option value="NORTH WESTERN">NORTH WESTERN</option>
+                <option value="NORTH CENTRAL">NORTH CENTRAL</option>
+                <option value="UVA">UVA</option>
+                <option value="SABARAGAMUWA">SABARAGAMUWA</option>
+            </select>
         </div>
-        <div class="form-group" style="width: 33%;">
+        <div class="form-group" style="width: 33.33%;">
             <label>District</label>
-            <select id="i_district" class="form-control" onchange="loadDivSecAndPostal()"></select>
+            <select id="i_district" class="form-control" style="cursor: pointer;">
+                <option value="">-- SELECT DISTRICT --</option>
+            </select>
         </div>
-        <div class="form-group" style="width: 33%;">
+        <div class="form-group" style="width: 33.33%;">
             <label>Divisional Secretariat</label>
-            <select id="i_divSec" class="form-control"></select>
+            <select id="i_divSec" class="form-control" style="cursor: pointer;">
+                <option value="">-- SELECT DIV SEC --</option>
+            </select>
         </div>
       </div>
-      
+
       <div style="display:flex; gap:10px;">
-        <div class="form-group" style="width: 33%;">
+        <div class="form-group" style="width: 33.33%;">
             <label>Postal Area</label>
-            <select id="i_postalArea" class="form-control" onchange="setPostalCode()"></select>
+            <input type="text" id="i_postalArea" class="form-control" list="postalarea-list" placeholder="Select or Type..." oninput="this.value = this.value.toUpperCase()">
+            <datalist id="postalarea-list"></datalist>
         </div>
-        <div class="form-group" style="width: 33%;">
+        <div class="form-group" style="width: 33.33%;">
             <label>Postal Code</label>
-            <input type="text" id="i_postalCode" class="form-control" readonly style="background:#e9ecef; color:#000;">
+            <input type="text" id="i_postalCode" class="form-control" placeholder="Code" maxlength="5" style="background-color: #f8f9fa;" readonly>
         </div>
-        <div class="form-group" style="width: 33%;">
+        <div class="form-group" style="width: 33.33%;">
             <label>Mobile Number</label>
-            <input type="text" id="i_mobileNo" class="form-control" maxlength="10" placeholder="07XXXXXXXX" oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(this.value.length === 10) this.style.borderColor = '#198754'; else this.style.borderColor = '#ccc';">
+            <input type="text" id="i_mobileNo" class="form-control" placeholder="07XXXXXXXX" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(this.value.length === 10) this.style.borderColor = '#198754'; else this.style.borderColor = '#ccc';">
         </div>
       </div>
 
@@ -151,18 +200,23 @@
           <input type="text" id="i_collectOffice" class="form-control" oninput="this.value = this.value.toUpperCase()">
       </div>
 
+      <!-- Finance -->
       <h4 style="margin-top: 20px; margin-bottom: 10px; color: #555;">Hire-Purchase (Finance)</h4>
       <div style="display:flex; gap:10px;">
         <div class="form-group" style="width: 50%;"><label>Finance Company Name</label><input type="text" id="i_financeName" class="form-control" oninput="this.value = this.value.toUpperCase()"></div>
         <div class="form-group" style="width: 50%;"><label>Finance Company Address</label><input type="text" id="i_financeAddress" class="form-control" oninput="this.value = this.value.toUpperCase()"></div>
       </div>
 
-      <button class="btn" onclick="saveDataAndPreparePrint()" style="margin-top: 15px; font-size: 16px;">Set Data to Forms & Proceed to Print <i class="fas fa-arrow-right"></i></button>
+      <div style="display: flex; gap: 15px; margin-top: 25px;">
+        <button class="btn" onclick="saveDataAndPreparePrint('print-full')" style="background: #0d6efd; font-size: 16px; flex: 1;">Generate Original Print <i class="fas fa-image"></i></button>
+        <button class="btn" onclick="saveDataAndPreparePrint('print-box')" style="background: #198754; font-size: 16px; flex: 1;">Generate Box Print <i class="fas fa-border-all"></i></button>
+      </div>
     </div>
   </div>
 
-  <div id="sec-print" class="content-section" style="padding: 20px 0;">
-    <button class="btn btn-print no-print" onclick="window.print()"><i class="fas fa-print"></i> Print Forms Now</button>
+  <!-- MODULE 1: FULL ORIGINAL PRINT SECTION -->
+  <div id="sec-print-full" class="content-section" style="padding: 20px 0;">
+    <button class="btn btn-print no-print" style="background: #0d6efd;" onclick="window.print()"><i class="fas fa-print"></i> Print Original Format</button>
     <div class="a4-preview-container">
       
       <!-- PAGE 1: MTA 6 -->
@@ -246,6 +300,493 @@
     </div>
   </div>
 
+  <!-- MODULE 2: BOX FORMAT OVERLAY PRINT SECTION -->
+  <div id="sec-print-box" class="content-section" style="padding: 20px 0;">
+    <button class="btn btn-print no-print" onclick="window.print()"><i class="fas fa-print"></i> Print Box Format Overlay</button>
+    
+    <div class="a4-preview-container">
+      
+      <!-- PAGE 1: MTA 6 OVERLAY -->
+      <div class="a4-page">
+        <div class="print-absolute-block" style="top: 76mm; left: 40px; right: 20px;">
+          
+          <div style="font-size: 11px; font-weight: bold; margin-bottom: -1px; font-family: Arial, sans-serif;">
+            To: THE COMMISSIONER GENERAL OF MOTOR TRAFFIC
+          </div>
+
+          <div style="display: flex; justify-content: flex-end; gap: 35px; margin-bottom: 4px;">
+            <div class="flex-row"><span class="field-label" style="margin-right: 15px;">Date of Transfer</span><span class="field-label" style="margin-right: 5px;">Date</span><div id="p1_box_dd" class="box-container"></div></div>
+            <div class="flex-row"><span class="field-label" style="margin-right: 5px;">Month</span><div id="p1_box_mm" class="box-container"></div></div>
+            <div class="flex-row"><span class="field-label" style="margin-right: 5px;">Year</span><div id="p1_box_yyyy" class="box-container"></div></div>
+          </div>
+
+          <div style="display: flex; align-items: center; justify-content: flex-end; margin-bottom: 3px;">
+            <div class="field-label" style="margin-right: auto;">I</div>
+            <div id="p1_box_oldName_line1" class="box-container"></div>
+          </div>
+          <div style="display: flex; justify-content: flex-end; margin-bottom: 0px;">
+            <div id="p1_box_oldName_line2" class="box-container"></div>
+          </div>
+          <div id="p1_box_oldName_line3_container" style="display: none; align-items: center; margin-top: 2px; margin-bottom: 0px;">
+            <div style="width: 30px;"></div>
+            <div style="flex-grow: 1; display: flex;">
+              <div id="p1_box_oldName_line3" class="text-line-3"></div>
+            </div>
+          </div>
+          <div style="display: flex;">
+            <div style="width: 30px;"></div>
+            <div class="sub-label" style="flex-grow: 1; margin-bottom: 3px;">පැවරුම්කරුගේ නම/ ஫ாம்றிக்பகாடுப்பල஭ின் பப஬஭்/Name of Transferor</div>
+          </div>
+
+          <div style="display: flex; align-items: center; justify-content: flex-end; margin-bottom: 3px;">
+            <div class="field-label" style="margin-right: auto;">of</div>
+            <div id="p1_box_oldAddress_line1" class="box-container"></div>
+          </div>
+          <div style="display: flex; justify-content: flex-end; margin-bottom: 0px;">
+            <div id="p1_box_oldAddress_line2" class="box-container"></div>
+          </div>
+          <div id="p1_box_oldAddress_line3_container" style="display: none; align-items: center; margin-top: 2px; margin-bottom: 0px;">
+            <div style="width: 30px;"></div>
+            <div style="flex-grow: 1; display: flex;">
+              <div id="p1_box_oldAddress_line3" class="text-line-3"></div>
+            </div>
+          </div>
+          <div style="display: flex;">
+            <div style="width: 30px;"></div>
+            <div class="sub-label" style="flex-grow: 1; margin-bottom: -3px;">පැවරුම්කරුගේ ලිපිනය /஫ாம்றிக்பகாடுப்பල஭ின் முகல஭ி / Address of Transferor</div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 5px; margin-bottom: 4px;">
+            <div class="field-label">transferred the possession of Motor Vehicle No.</div>
+            <div style="display: flex; gap: 10px;">
+              <div id="p1_box_vehProv" class="box-container"></div>
+              <div id="p1_box_vehLetters" class="box-container"></div>
+              <div id="p1_box_vehNums" class="box-container"></div>
+            </div>
+          </div>
+
+          <div style="display: flex; align-items: center; justify-content: flex-end; margin-bottom: 3px;">
+            <div class="field-label" style="margin-right: auto;">to</div>
+            <div id="p1_box_newName_line1" class="box-container"></div>
+          </div>
+          <div style="display: flex; justify-content: flex-end; margin-bottom: 0px;">
+            <div id="p1_box_newName_line2" class="box-container"></div>
+          </div>
+          <div id="p1_box_newName_line3_container" style="display: none; align-items: center; margin-top: 2px; margin-bottom: 0px;">
+            <div style="width: 30px;"></div>
+            <div style="flex-grow: 1; display: flex;">
+              <div id="p1_box_newName_line3" class="text-line-3"></div>
+            </div>
+          </div>
+          <div style="display: flex;">
+            <div style="width: 30px;"></div>
+            <div class="sub-label" style="flex-grow: 1; margin-bottom: 3px;">පැවරුම්භියාගේ නම/ ஫ாம்றிப்பபறுபல஭ின் பப஬஭/ ் Name of Transferee</div>
+          </div>
+
+          <div style="display: flex; align-items: center; justify-content: flex-end; margin-bottom: 3px;">
+            <div class="field-label" style="margin-right: auto;">of</div>
+            <div id="p1_box_newAddress_line1" class="box-container"></div>
+          </div>
+          <div style="display: flex; justify-content: flex-end; margin-bottom: 0px;">
+            <div id="p1_box_newAddress_line2" class="box-container"></div>
+          </div>
+          <div id="p1_box_newAddress_line3_container" style="display: none; align-items: center; margin-top: 2px; margin-bottom: 0px;">
+            <div style="width: 30px;"></div>
+            <div style="flex-grow: 1; display: flex;">
+              <div id="p1_box_newAddress_line3" class="text-line-3"></div>
+            </div>
+          </div>
+          <div style="display: flex;">
+            <div style="width: 30px;"></div>
+            <div class="sub-label" style="flex-grow: 1; margin-bottom: 0px;">පැවරුම්භියාගේ ලිපිනය/ ஫ாம்றிப்பபறுபல஭ின் முகல஭ி / Address of Transferee</div>
+          </div>
+        </div>
+
+        <div class="print-absolute-block" style="top: 789px; left: 40px;">
+          <div style="margin-bottom: 1px;">
+            <span class="field-label" style="font-size: 10px;">පැවරුම්කරුගේ ජා.හැ.අංකය / Identity Card No.:</span>
+          </div>
+          <div id="p1_box_oldId" class="box-container" style="margin-left: 5px;"></div>
+        </div>
+
+        <div class="print-absolute-block" style="top: 938px; left: 40px;">
+          <div style="margin-bottom: 1px;">
+            <span class="field-label" style="font-size: 10px;">පැවරුම්ලාභියාගේ ජා.හැ.අංකය / Identity Card No.:</span>
+          </div>
+          <div id="p1_box_newId" class="box-container" style="margin-left: 5px;"></div>
+        </div>
+
+        <div class="print-absolute-block" style="top: 1000px; left: 40px; right: 20px;">
+          <div style="font-size: 12px; font-family: Arial, sans-serif; font-weight: bold; color: #000;">
+            I hereby acknowledge my consent for transfer of Vehicle no. 
+            <span id="p1_consent_vehNo" style="font-family: 'Courier New', Courier, monospace; font-size: 14px; display: inline-block; min-width: 150px; text-align: center; border-bottom: 2px dotted #000;"></span> 
+            to above named transferee by one
+          </div>
+        </div>
+      </div>
+
+      <!-- PAGE 2: FULL MTA 8 PAGE -->
+      <div class="a4-page mta8-page" id="box_page_mta8" style="padding: 8mm 8mm; font-family: Arial, sans-serif; position: relative;">
+        
+        <!-- Top Row (Header) -->
+        <div style="display: flex; justify-content: space-between; width: 100%;">
+           <div style="display: flex;">
+              <div style="font-size: 10px; font-weight: bold; line-height: 1.6; white-space: nowrap; color: #000;">
+                <div>මෝටර් රථ ප්‍රවාහන කොමසාරිස් ජනරාල්ගේ පිටපත</div>
+                <div>மோட்டார் வாகனப் போக்குவரத்து ஆணையாளரின் பிரதி</div>
+                <div>Copy of the Commissioner of Motor Traffic</div>
+              </div>
+              <div style="display: flex; align-items: stretch; margin-left: 0px; font-size: 11px; font-weight: bold; line-height: 1.6; color: #000;">
+                <div style="border-right: 1.5px solid #2b78e4; border-top: 1.5px solid #2b78e4; border-bottom: 1.5px solid #2b78e4; width: 5px; margin-right: 10px; margin-top: 2px; margin-bottom: 2px;"></div>
+                <div style="display: flex; gap: 5px; white-space: nowrap;">
+                   <div style="display: flex; flex-direction: column; justify-content: space-between; text-align: center;">
+                     <div>සී</div><div>ச</div><div>C</div>
+                   </div>
+                   <div style="display: flex; flex-direction: column; justify-content: space-between;">
+                     <div style="visibility: hidden;">-</div>
+                     <div>ශ්‍රී ලංකා රජයේ මුද්‍රණ දෙපාර්තමේන්තුව</div>
+                     <div>இலங்கை அரசாங்க அச்சுத் திணைக்களம்</div>
+                   </div>
+                </div>
+              </div>
+           </div>
+           
+           <div style="text-align: center; font-size: 11px; font-weight: bold; line-height: 1.4; white-space: nowrap; color: #000;">
+              <div>එම්.ටී.ඒ.8</div>
+              <div>எம்.ரீ. ஏ.8</div>
+              <div>M.T.A. 8</div>
+              <div>(F2*S.,T.&amp;E.) 6/76</div>
+           </div>
+        </div>
+
+        <!-- Center Section & Photo -->
+        <div style="position: relative; margin-top: 14px; font-family: Arial, sans-serif; color: #000; min-height: 160px;">
+           <div style="text-align: center; line-height: 1.4; padding-right: 4.5cm;">
+              <div style="font-size: 10px; font-weight: bold;">13 (1) වැනි වගන්තිය</div>
+              <div style="font-size: 10px; font-weight: bold;">பிரிவு 13 (1)</div>
+              <div style="font-size: 10px; font-weight: bold;">Section 13 (1)</div>
+              
+              <div style="margin-top: 5px;"></div>
+              
+              <div style="font-size: 10px; font-weight: bold; white-space: nowrap;">පැවරීමක දී වාහනයක් ලියාපදිංචි කිරීම සඳහා අයදුම්පත</div>
+              <div style="font-size: 10px; font-weight: bold; white-space: nowrap;">உரிமை மாற்றத்தின்போதான மோட்டார் வாகனப் பதிவுக்கான விண்ணப்பம்</div>
+              <div style="font-size: 10px; font-weight: bold; white-space: nowrap;">APPLICATION FOR REGISTARTION OF A MOTOR VEHICLE ON TRANSFER</div>
+              
+              <div style="color: red; font-size: 10px; margin-top: 5px; line-height: 1.4; white-space: nowrap; font-weight: normal; text-align: left;">
+                 <div>මෙම අයදුම්පත ඉංග්‍රීසි කැපිටල් අකුරෙන් පමණක් පිරවිය යුතුය.</div>
+                 <div>இந்த விண்ணப்பத்தை ஆங்கில பெரிய எழுத்துக்களில் மட்டுமே நிரப்புதல் வேண்டும்.</div>
+                 <div>This form should be filled In English block letters.</div>
+              </div>
+           </div>
+           
+           <div style="position: absolute; right: 0; top: 0;">
+              <div style="width: 3cm; height: 4cm; border: 2px solid #000; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 10px; font-weight: bold; text-align: center; line-height: 1.4;">
+                <div>ඡායාරූපය</div>
+                <div>புகைப்படம்</div>
+                <div>Photo</div>
+                <div style="margin-top: 5px; font-size: 10px; font-weight: normal;">3.5 cm x 4.5 cm</div>
+              </div>
+           </div>
+        </div>
+        
+        <div style="margin-top: 5px; font-size: 10px; font-weight: bold;">
+           To: THE COMMISSIONER GENERAL OF MOTOR TRAFFIC
+        </div>
+
+        <!-- Dynamic Form Fields Container -->
+        <div style="margin-top: 5px;">
+          
+          <!-- Vehicle No -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <div class="mta8-text-small" style="font-weight: bold;">I hereby apply to be registered as the new owner of the Vehicle Number</div>
+            <div style="display: flex; gap: 10px;">
+              <div id="pf_box_vehProv" class="box-container"></div>
+              <div id="pf_box_vehLetters" class="box-container"></div>
+              <div id="pf_box_vehNums" class="box-container"></div>
+            </div>
+          </div>
+
+          <!-- Old Name (Previously registered) -->
+          <div style="display: flex; align-items: flex-end; margin-bottom: 3px; width: 100%;">
+            <div class="mta8-text-small" style="font-weight: bold; white-space: nowrap;">Previously registered</div>
+            <div id="pf_box_oldName_line1" class="box-container" style="flex-grow: 1;"></div>
+          </div>
+          <div style="display: flex; margin-bottom: 0px; width: 100%;">
+            <div id="pf_box_oldName_line2" class="box-container" style="width: 100%;"></div>
+          </div>
+          <!-- වැඩිපුර අකුරු වැටෙන පේළිය -->
+          <div id="pf_box_oldName_overflow_container" style="display: none; align-items: center; margin-top: 2px; margin-bottom: 0px;">
+            <div style="flex-grow: 1; display: flex;">
+              <div id="pf_box_oldName_overflow" class="text-line-3" style="font-size: 9px; padding-left: 5px;"></div>
+            </div>
+          </div>
+          <div class="sub-label" style="text-align: center; margin-bottom: 12px;">
+            පැවරුම්කරුගේ නම/ மாற்றிக் கொடுப்பவரின் பெயர் /Name of Transferor
+          </div>
+
+          <!-- New Name (to) -->
+          <div style="display: flex; align-items: flex-end; margin-bottom: 3px; width: 100%;">
+            <div class="mta8-text-small" style="font-weight: bold; white-space: nowrap;">to</div>
+            <div id="pf_box_newName_line1" class="box-container" style="flex-grow: 1;"></div>
+          </div>
+          <div style="display: flex; margin-bottom: 3px; width: 100%;">
+            <div id="pf_box_newName_line2" class="box-container" style="width: 100%;"></div>
+          </div>
+          <div style="display: flex; margin-bottom: 0px; width: 100%;">
+            <div id="pf_box_newName_line3" class="box-container" style="width: 100%;"></div>
+          </div>
+          <!-- වැඩිපුර අකුරු වැටෙන පේළිය -->
+          <div id="pf_box_newName_overflow_container" style="display: none; align-items: center; margin-top: 2px; margin-bottom: 0px;">
+            <div style="flex-grow: 1; display: flex;">
+              <div id="pf_box_newName_overflow" class="text-line-3" style="font-size: 9px; padding-left: 5px;"></div>
+            </div>
+          </div>
+          <div class="sub-label" style="text-align: center; margin-bottom: 12px;">
+            පැවරුම්ලාභියාගේ නම/ மாற்றிப் பெறுபவரின் பெயர்/ Name of Transferee
+          </div>
+
+          <!-- New Address (residing at) -->
+          <div style="display: flex; align-items: flex-end; margin-bottom: 3px; width: 100%;">
+            <div class="mta8-text-small" style="font-weight: bold; white-space: nowrap;">residing at</div>
+            <div id="pf_box_newAddress_line1" class="box-container" style="flex-grow: 1;"></div>
+          </div>
+          <div style="display: flex; margin-bottom: 3px; width: 100%;">
+            <div id="pf_box_newAddress_line2" class="box-container" style="width: 100%;"></div>
+          </div>
+          <div style="display: flex; margin-bottom: 0px; width: 100%;">
+            <div id="pf_box_newAddress_line3" class="box-container" style="width: 100%;"></div>
+          </div>
+          <!-- වැඩිපුර අකුරු වැටෙන පේළිය -->
+          <div id="pf_box_newAddress_overflow_container" style="display: none; align-items: center; margin-top: 2px; margin-bottom: 0px;">
+            <div style="flex-grow: 1; display: flex;">
+              <div id="pf_box_newAddress_overflow" class="text-line-3" style="font-size: 9px; padding-left: 5px;"></div>
+            </div>
+          </div>
+          <div class="sub-label" style="text-align: center; margin-bottom: 15px;">
+            පැවරුම්ලාභියාගේ ලිපිනය/ மாற்றிப் பெறுபவரின் முகவரி / Address of Transferee
+          </div>
+
+          <!-- Transferee ID -->
+          <div style="display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 10px;">
+            <div class="mta8-text-small" style="font-weight: bold; line-height: 1.4;">
+              <div>පැවරුම්ලාභියාගේ හැඳුනුම්පත් අංකය /மாற்றிப் பெறுபவரின் பெயர்அடையாள අட்டை இலக்கம்/Identity</div>
+              <div>Card Number of transferee</div>
+            </div>
+            <div id="pf_box_newId" class="box-container"></div>
+          </div>
+
+          <!-- Postal Code & Mobile -->
+          <div style="display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 25px;">
+            <div style="display: flex; align-items: flex-end; gap: 10px;">
+              <div class="mta8-text-small" style="font-weight: bold; margin-bottom: 2px;">තැපැල් අංකය/தபால் இல/Postal Code</div>
+              <div id="pf_box_postal" class="box-container"></div>
+            </div>
+            <div style="display: flex; align-items: flex-end; gap: 10px;">
+              <div class="mta8-text-small" style="font-weight: bold; line-height: 1.4;">
+                <div>දුරකථන අංකය/ கையடக்க</div>
+                <div>தொலைபேசி இல/Mobile Number</div>
+              </div>
+              <div id="pf_box_mobile" class="box-container"></div>
+            </div>
+          </div>
+
+          <!-- (i) Licensing Authority Section Matching 2nd Image -->
+          <div class="mta8-text-small" style="font-weight: bold; margin-bottom: 8px; font-size: 9px;">
+            (i) බලපත්‍ර අධිකාරිය/அனுமதிப்பத்திர அதிகார சபை/Licensing Authority
+          </div>
+          
+          <div style="padding-left: 10px; margin-bottom: 1px;">
+            <!-- Div Secretariat Full Horizontal Title -->
+            <div class="mta8-text-small" style="font-weight: bold; white-space: nowrap; margin-bottom: 4px;">
+              ප්‍රාදේශීය ලේකම් කොට්ඨාශය /பிரதேசசெயலகம்/Divisional Secretariat/
+            </div>
+            
+            <!-- DivSec Boxes on Left + District Label & Boxes on Right -->
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+              <div id="pf_box_divSec" class="box-container"></div>
+              
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span class="mta8-text-small" style="font-weight: bold; white-space: nowrap;">දිස්ත්‍රික්කය/மாவட்டம்/District</span>
+                <div id="pf_box_district" class="box-container"></div>
+              </div>
+            </div>
+            
+            <!-- Province Title & Boxes (Aligned in one row) -->
+            <div style="display: flex; align-items: flex-end; margin-bottom: 8px;">
+              <div class="mta8-text-small" style="font-weight: bold; white-space: nowrap; margin-right: 15px;">
+                පළාත/மாகாணம்/Province
+              </div>
+              <div id="pf_box_province" class="box-container"></div>
+            </div>
+          </div>            
+          
+          <!-- Date -->
+          <div style="display: flex; align-items: flex-start; margin-bottom: 1px;">
+            <div class="mta8-text-small" style="font-weight: bold; width: 350px; font-size: 9px; margin-top: 4px;">
+              (ii) <span style="font-size: 9px;">පැවරුම් දිනය/ உரிமை மாறும் திகதி/ Date of transfer:</span>
+            </div>
+            <div style="display: flex; gap: 20px;">
+              <div style="text-align: center;"><div id="pf_box_dd" class="box-container"></div><div style="font-size: 12px; margin-top:3px; font-family: Arial;">D</div></div>
+              <div style="text-align: center;"><div id="pf_box_mm" class="box-container"></div><div style="font-size: 12px; margin-top:3px; font-family: Arial;">M</div></div>
+              <div style="text-align: center;"><div id="pf_box_yyyy" class="box-container"></div><div style="font-size: 12px; margin-top:3px; font-family: Arial;">Y</div></div>
+            </div>
+          </div>
+
+          <!-- Receive number plates -->
+          <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 5px;">
+            <div class="mta8-text-small" style="font-weight: bold; line-height: 1.8;">
+              <div style="font-size: 12px;">(iii) <span style="font-size: 8px;">අංක තහඩුව ලබාගන්නා දිස්ත්‍රික් කාර්යාලය:</span></div>
+              <div style="margin-left: 25px; font-size: 9px;">இலக்கத் தகடு பெற்றுக் கொள்ள விரும்பும் மாவட்ட அலுவலகம்:</div>
+              <div style="margin-left: 25px; font-size: 9px;">Preferred District Secretarial to receive number plates.</div>
+            </div>
+            <div id="pf_box_collect" class="box-container"></div>
+          </div>
+
+          <!-- Attachments -->
+          <div style="margin-bottom: 10px;">
+            <div class="mta8-text-small" style="font-weight: bold; line-height: 1.8;">
+              <div style="font-size: 12px;">(iv) <span style="font-size: 9px;">පහත සඳහන් ලියකියවිලි මේ සමඟ ඉදිරිපත් කරමි.</span></div>
+              <div style="margin-left: 25px; font-size: 9px;">கீழே காட்டப்பட்டுள்ள ஆவணங்களை இத்துடன் இணைத்து அனுப்புகிறேன்.</div>
+              <div style="margin-left: 25px; font-size: 9px;">The following documents are attached herewith.</div>
+            </div>
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-left: 50px; margin-right: 50px; margin-top: 15px;">
+              <div class="mta8-text-small" style="font-weight: bold; line-height: 1.8; font-size: 10px;">
+                <div>(a) වාහනයේ ලියාපදිංචි සහතිකය.</div>
+                <div style="margin-left: 20px;">வாகனப் பதிவுச் சான்றிதழ்.</div>
+                <div style="margin-left: 20px;">Certificate of Registration of vehicle.</div>
+              </div>
+              <div style="width: 35px; height: 35px; border: 2px solid #000;"></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- PAGE 3: MTA 3 Front OVERLAY -->
+      <div class="a4-page" id="box_page_mta3_front">
+        <div class="print-absolute-block" style="top: 560px; left: 40px; right: 40px;">
+          <div class="mta3-text" style="font-family: 'Times New Roman', Times, serif; font-size: 12px; font-weight: normal; line-height: 1.5;">
+            
+            <!-- English Section 1 -->
+            <div style="display: flex; align-items: flex-end; margin-bottom: 15px; width: 100%; position: relative;">
+                <span style="margin-right: 10px; white-space: nowrap;">I <sup>1</sup></span>
+                <span id="box_p3f_financeAddress1" class="dotted-line" style="flex-grow: 1;"></span>
+                <div id="box_p3f_financeAddress2" style="position: absolute; top: 16px; left: 25px; width: 100%; font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: 12px; color: #000; text-transform: uppercase;"></div>
+            </div>
+            
+            <div style="display: flex; align-items: flex-end; margin-bottom: 12px; width: 100%; position: relative;">
+                <span style="margin-right: 10px; white-space: nowrap;">of <sup>2</sup></span>
+                <span id="box_p3f_financeName1" class="dotted-line" style="flex-grow: 1;"></span>
+                <div id="box_p3f_financeName2" style="position: absolute; top: 16px; left: 25px; width: 100%; font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: 12px; color: #000; text-transform: uppercase;"></div>
+            </div>
+
+            <div style="margin-bottom: 12px; position: relative;">
+                hereby give notice that I have let the motor vehicle in respect of which the attached application for registration is made to <sup>3</sup> 
+                <span id="box_p3f_newName1" class="dotted-line" style="width: 170px; text-align: left;"></span>
+            </div>
+            
+            <div style="display: flex; align-items: flex-end; margin-bottom: 12px; width: 100%; position: relative;">
+                <span id="box_p3f_newName2" class="dotted-line" style="width: 55%;"></span>
+                <div id="box_p3f_newName_overflow" style="position: absolute; top: 16px; left: 5px; width: 60%; font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: 12px; color: #000; text-transform: uppercase;"></div>
+                
+                <span style="margin: 0 10px; white-space: nowrap;">of <sup>4</sup></span>
+                <span id="box_p3f_newAddress1" class="dotted-line" style="flex-grow: 1;"></span>
+            </div>
+
+            <div style="display: flex; align-items: flex-end; margin-bottom: 12px; width: 100%; position: relative;">
+                <span id="box_p3f_newAddress2" class="dotted-line" style="flex-grow: 1;"></span>
+                <div id="box_p3f_newAddress_overflow2" style="position: absolute; top: 16px; left: 5px; width: 100%; font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: 12px; color: #000; text-transform: uppercase;"></div>
+                
+                <span style="margin-left: 10px; white-space: nowrap;">under the hire-purchase agreement.</span>
+            </div>
+
+            <!-- Sinhala Section -->
+            <div style="display: flex; align-items: flex-end; margin-bottom: 2px; margin-top: 5px;">
+                <span class="dotted-line" style="flex-grow: 1;"></span>
+                <span style="margin-left: 10px; font-family: Arial, sans-serif; font-size: 12px;"><sup>3</sup> පදිංචි</span>
+            </div>
+            <div style="display: flex; align-items: flex-end; margin-bottom: 2px;">
+                <span class="dotted-line" style="flex-grow: 1;"></span>
+                <span style="margin-left: 10px; font-family: Arial, sans-serif; font-size: 12px;"><sup>4</sup> වන යථෝක්ත තැනැත්තා, ඉහත කී ප්‍රකාර</span>
+            </div>
+            <div style="font-family: Arial, sans-serif; font-size: 12px; margin-bottom: 1px;">
+                වාහනය කුලියට ගත් බවට පහත අත්සන් කර ඇත.
+            </div>
+
+            <!-- Tamil Section -->
+            <div style="display: flex; align-items: flex-end; margin-bottom: 2px;">
+                <span class="dotted-line" style="flex-grow: 1;"></span>
+                <span style="margin-left: 10px; font-family: Arial, sans-serif; font-size: 12px;">சேர்ந்த</span>
+            </div>
+            <div style="display: flex; align-items: flex-end; margin-bottom: 2px;">
+                <span style="margin-right: 10px; font-family: Arial, sans-serif; font-size: 12px;">மேற்கூறப்பட்ட</span>
+                <span class="dotted-line" style="flex-grow: 1;"></span>
+                <span style="margin-left: 10px; font-family: Arial, sans-serif; font-size: 12px;">அவர்கள்</span>
+            </div>
+            <div style="font-family: Arial, sans-serif; font-size: 12px; margin-bottom: 15px;">
+                வாகனம் தனக்கு வாடகைக்கு விடப்பட்டுள்ளது என்பதை ஒப்புக்கொண்டு கீழே கையொப்பமிட்டுள்ளார்
+            </div>
+
+            <!-- English Section 2 -->
+            <div style="display: flex; align-items: flex-end; margin-bottom: 16px; position: relative;">
+                <span style="margin-right: 10px; white-space: nowrap;">The aforesaid <sup>3</sup></span>
+                <span id="box_p3f_newName3" class="dotted-line" style="flex-grow: 1;"></span>
+                <div id="box_p3f_newName4" style="position: absolute; top: 16px; left: 90px; width: 100%; font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: 12px; color: #000; text-transform: uppercase;"></div>
+                <span style="margin-left: 10px;">of</span>
+            </div>
+            
+            <div style="display: flex; align-items: flex-end; margin-bottom: 12px; position: relative;">
+                <span id="box_p3f_newAddress3" class="dotted-line" style="flex-grow: 1;"></span>
+                <div id="box_p3f_newAddress4" style="position: absolute; top: 16px; left: 5px; width: 100%; font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: 12px; color: #000; text-transform: uppercase;"></div>
+            </div>
+            
+            <div style="margin-top: 5px;">
+                has signed below in acknowledgement of the fact that the vehicle has been so let to him.
+            </div>
+
+          </div>
+        </div>
+      </div>      
+      
+      <!-- PAGE 4: MTA 3 Back OVERLAY -->
+      <div class="a4-page last-page" id="box_page_mta3_back">
+        <div class="print-absolute-block" style="top: 168px; left: 20px; right: 28px;">
+          <div class="mta3-text" style="font-family: 'Times New Roman', Times, serif; font-size: 12px; font-weight: normal; line-height: 1.5;">
+            
+            <!-- Line 1: "...let to me by 1" + Finance Address Part 1 -->
+            <div style="display: flex; align-items: flex-end; margin-bottom: 15px; width: 100%; position: relative;">
+              <span style="margin-right: 10px; white-space: nowrap;">I do hereby acknowledge that the motor vehicle has been let to me by <sup>1</sup></span>
+              <span id="box_p3b_financeAddress1" class="dotted-line" style="flex-grow: 1;"></span>
+              <!-- Overflow for Address Part 1 -->
+              <div id="box_p3b_financeAddress_overflow1" style="position: absolute; top: 16px; left: 320px; width: 100%; font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: 12px; color: #000; text-transform: uppercase;"></div>
+            </div>
+
+            <!-- Line 2: Finance Address Part 2 + "of 2" + Finance Name + "under a hire..." -->
+            <div style="display: flex; align-items: flex-end; margin-bottom: 15px; width: 100%; position: relative;">
+              <span id="box_p3b_financeAddress2" class="dotted-line" style="width: 38%;"></span>
+              
+              <!-- Left Column Overflow for Address -->
+              <div id="box_p3b_financeAddress_overflow" style="position: absolute; top: 18px; left: 5px; width: 38%; font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: 12px; color: #000; text-transform: uppercase; line-height: 1.6; white-space: normal;"></div>
+              
+              <span style="margin: 0 10px; white-space: nowrap;">of <sup>2</sup></span>
+              
+              <span id="box_p3b_financeName1" class="dotted-line" style="flex-grow: 1;"></span>
+              
+              <!-- Right Column Overflow for Name -->
+              <!-- Starts exactly after Address Part 2 (38%) + "of 2" margin spacing (~40px) -->
+              <div id="box_p3b_financeName_overflow" style="position: absolute; top: 18px; left: calc(38% + 40px); right: 0; font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: 12px; color: #000; text-transform: uppercase; line-height: 1.6; white-space: normal;"></div>
+              
+              <span style="margin-left: 10px; white-space: nowrap;">under a hire-purchase agreement.</span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
   <script>
     // --- FULL SRI LANKA LOCATION DATA DICTIONARY ---
     const slLocationData = {
@@ -260,7 +801,7 @@
             },
             "KALUTARA": {
                 divs: ["PANADURA", "BANDARAGAMA", "HORANA", "INGIRIYA", "BULATHSINHALA", "MADURAWALA", "MILLANIYA", "KALUTARA", "BERUWALA", "DODANGODA", "MATUGAMA", "AGALAWATTA", "PALINDANUWARA", "WALALLAWITA"],
-                postal: {"KALUTARA":"12000", "GALPATHA":"12005", "YATAWARA JUNCTION":"12006", "BOLOSSAGAMA":"12008", "REMUNAGODA":"12009", "GAMAGODA":"12016", "DODANGODA":"12020", "BOMBUWALA":"12024", "TEBUWANA":"12025", "PAIYAGALA":"12050", "HALKANDAWILA":"12055", "MAGGONA":"12060", "BERUWALA":"12070", "PADAGODA":"12074", "KALAWILA KIRANTHIDIYA":"12078", "ALUTGAMA":"12080", "DHARGA TOWN":"12090", "MEEGAMA":"12094", "MATUGAMA":"12100", "YATADOLAWATTA":"12104", "NAWUTHTHUDUWA":"12106", "WALAGEDARA":"12112", "PANNILA":"12114", "ITTAPANA":"12116", "HALWALA":"12118", "PARAIGAMA":"12122", "YAGIRALA":"12124", "MAHAKALUPAHANA":"12126", "UTUMGAMA":"12127", "MEEGAHATENNA":"12130", "WALALLAWITA":"12134", "POLGAMPOLA":"12136", "PELAWATTA":"12138", "BORALUGODA":"12142", "PAHALAHEWESSA":"12144", "DANAWALATHINIYAWALA":"12148", "AGALAWATTA":"12200", "VEYANGALLA":"12204", "MAHAGAMA":"12210", "PELANDA":"12214", "BELLANA":"12224", "BADURALIYA":"12230", "HEDIGALLA COLONY":"12234", "GURULUBADDA":"12236", "BULATHSINHALA":"12300", "PARAGODA":"12302", "DELMELLA":"12304", "HALWATURA":"12306", "DIWALAKADA":"12308", "GOVINNA":"12310", "ANGURUWATOTA":"12320", "UDUWARA":"12322", "HORANA":"12400", "POKUNUWITA":"12404", "GONAPOLA":"12410", "PARAGASTOTA":"12414", "DOMBAGODA":"12416", "KANANWILA":"12418", "KANDANAGAMA":"12428", "PORUWEDANDA":"12432", "LNGIRIYA":"12440", "PANADURA":"12500", "ALUBOMULLA":"12524", "BANDARAGAMA":"12530", "HALTOTA":"12538", "WADDUWA":"12560", "WASKADUWA":"12580"}
+                postal: {"KALUTARA":"12000", "GALPATHA":"12005", "YATAWARA JUNCTION":"12006", "BOLOSSAGAMA":"12008", "REMUNAGODA":"12009", "GAMAGODA":"12016", "DODANGODA":"12020", "BOMBUWALA":"12024", "TEBUWANA":"12025", "PAIYAGALA":"12050", "HALKANDAWILA":"12055", "MAGGONA":"12060", "BERUWALA":"12070", "PADAGODA":"12074", "KALAWILA KIRANTHIDIYA":"12078", "ALUTHGAMA":"12080", "DHARGA TOWN":"12090", "MEEGAMA":"12094", "MATUGAMA":"12100", "YATADOLAWATTA":"12104", "NAWUTHTHUDUWA":"12106", "WALAGEDARA":"12112", "PANNILA":"12114", "ITTAPANA":"12116", "HALWALA":"12118", "PARAIGAMA":"12122", "YAGIRALA":"12124", "MAHAKALUPAHANA":"12126", "UTUMGAMA":"12127", "MEEGAHATENNA":"12130", "WALALLAWITA":"12134", "POLGAMPOLA":"12136", "PELAWATTA":"12138", "BORALUGODA":"12142", "PAHALAHEWESSA":"12144", "DANAWALATHINIYAWALA":"12148", "AGALAWATTA":"12200", "VEYANGALLA":"12204", "MAHAGAMA":"12210", "PELANDA":"12214", "BELLANA":"12224", "BADURALIYA":"12230", "HEDIGALLA COLONY":"12234", "GURULUBADDA":"12236", "BULATHSINHALA":"12300", "PARAGODA":"12302", "DELMELLA":"12304", "HALWATURA":"12306", "DIWALAKADA":"12308", "GOVINNA":"12310", "ANGURUWATOTA":"12320", "UDUWARA":"12322", "HORANA":"12400", "POKUNUWITA":"12404", "GONAPOLA":"12410", "PARAGASTOTA":"12414", "DOMBAGODA":"12416", "KANANWILA":"12418", "KANDANAGAMA":"12428", "PORUWEDANDA":"12432", "LNGIRIYA":"12440", "PANADURA":"12500", "ALUBOMULLA":"12524", "BANDARAGAMA":"12530", "HALTOTA":"12538", "WADDUWA":"12560", "WASKADUWA":"12580"}
             }
         },
         "CENTRAL": {
@@ -369,61 +910,77 @@
         }
     };
 
-    window.onload = function() {
-        const provSelect = document.getElementById('i_provinceLoc');
-        provSelect.innerHTML = '<option value="">-- Select Province --</option>';
-        for (let prov in slLocationData) {
-            provSelect.add(new Option(prov, prov));
+    function initCascadingDropdowns() {
+      const provSelect = document.getElementById("i_provinceLoc");
+      const distSelect = document.getElementById("i_district");
+      const divSecSelect = document.getElementById("i_divSec");
+      const postalAreaInput = document.getElementById("i_postalArea");
+      const postalAreaList = document.getElementById("postalarea-list");
+      const postalCodeInput = document.getElementById("i_postalCode");
+
+      provSelect.addEventListener("change", function() {
+        let prov = this.value;
+        distSelect.innerHTML = '<option value="">-- SELECT DISTRICT --</option>';
+        divSecSelect.innerHTML = '<option value="">-- SELECT DIV SEC --</option>';
+        postalAreaInput.value = "";
+        postalAreaList.innerHTML = "";
+        postalCodeInput.value = "";
+
+        if (prov && slLocationData[prov]) {
+          for (let dist in slLocationData[prov]) {
+            let opt = document.createElement("option");
+            opt.value = dist;
+            opt.text = dist;
+            distSelect.appendChild(opt);
+          }
         }
-    };
+      });
 
-    function loadDistricts() {
-      const prov = document.getElementById('i_provinceLoc').value;
-      const distSelect = document.getElementById('i_district');
-      distSelect.innerHTML = '<option value="">-- Select District --</option>';
-      if(prov && slLocationData[prov]) {
-        for (let dist in slLocationData[prov]) {
-          distSelect.add(new Option(dist, dist));
+      distSelect.addEventListener("change", function() {
+        let prov = provSelect.value;
+        let dist = this.value;
+        divSecSelect.innerHTML = '<option value="">-- SELECT DIV SEC --</option>';
+        postalAreaInput.value = "";
+        postalAreaList.innerHTML = "";
+        postalCodeInput.value = "";
+
+        if (prov && dist && slLocationData[prov] && slLocationData[prov][dist]) {
+          let data = slLocationData[prov][dist];
+          if (data.divs) {
+            data.divs.forEach(d => {
+              let opt = document.createElement("option");
+              opt.value = d;
+              opt.text = d;
+              divSecSelect.appendChild(opt);
+            });
+          }
+          if (data.postal) {
+            for (let area in data.postal) {
+              let opt = document.createElement("option");
+              opt.value = area;
+              postalAreaList.appendChild(opt);
+            }
+          }
         }
-      }
-      loadDivSecAndPostal();
+      });
+
+      postalAreaInput.addEventListener("input", function() {
+        let prov = provSelect.value;
+        let dist = distSelect.value;
+        let area = this.value.toUpperCase();
+
+        if (prov && dist && area && slLocationData[prov] && slLocationData[prov][dist] && slLocationData[prov][dist].postal) {
+          let code = slLocationData[prov][dist].postal[area];
+          if (code) {
+            postalCodeInput.value = code;
+          }
+        }
+      });
     }
 
-    function loadDivSecAndPostal() {
-      const prov = document.getElementById('i_provinceLoc').value;
-      const dist = document.getElementById('i_district').value;
-      
-      const divSelect = document.getElementById('i_divSec');
-      const postSelect = document.getElementById('i_postalArea');
-      
-      divSelect.innerHTML = '<option value="">-- Select Div Sec --</option>';
-      postSelect.innerHTML = '<option value="">-- Select Area --</option>';
-      document.getElementById('i_postalCode').value = '';
-
-      document.getElementById('i_collectOffice').value = dist ? dist : "";
-
-      if(prov && dist && slLocationData[prov][dist]) {
-        const data = slLocationData[prov][dist];
-        data.divs.forEach(d => divSelect.add(new Option(d, d)));
-        
-        let postalKeys = Object.keys(data.postal).sort();
-        postalKeys.forEach(area => {
-          postSelect.add(new Option(area, area));
-        });
-      }
-    }
-
-    function setPostalCode() {
-      const prov = document.getElementById('i_provinceLoc').value;
-      const dist = document.getElementById('i_district').value;
-      const area = document.getElementById('i_postalArea').value;
-      
-      if(prov && dist && area && slLocationData[prov][dist].postal[area]) {
-        document.getElementById('i_postalCode').value = slLocationData[prov][dist].postal[area];
-      } else {
-        document.getElementById('i_postalCode').value = '';
-      }
-    }
+    document.addEventListener("DOMContentLoaded", function() {
+      initCascadingDropdowns();
+    });
 
     function switchTab(tabId) {
       document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -432,6 +989,7 @@
       document.getElementById('sec-' + tabId).classList.add('active');
     }
 
+    // ORIGINAL FORMAT HELPERS (Source 1)
     function applyTextToLines(el1Id, el2Id, el3Id, text, defaultSpacing) {
       let el1 = document.getElementById(el1Id);
       let el2 = document.getElementById(el2Id);
@@ -451,37 +1009,25 @@
     }
 
     function applyCustomTextTo4Lines(el1Id, el2Id, el3Id, el4Id, text, limit1, limit2, limit3, defaultSpacing) {
-      let el1 = document.getElementById(el1Id);
-      let el2 = document.getElementById(el2Id);
-      let el3 = document.getElementById(el3Id);
-      let el4 = document.getElementById(el4Id);
+      let el1 = document.getElementById(el1Id); let el2 = document.getElementById(el2Id);
+      let el3 = document.getElementById(el3Id); let el4 = document.getElementById(el4Id);
       if (!el1 || !el2 || !el3 || !el4) return;
 
-      let l1 = limit1;
-      let l2 = limit1 + limit2;
-      let l3 = limit1 + limit2 + limit3;
+      let l1 = limit1; let l2 = limit1 + limit2; let l3 = limit1 + limit2 + limit3;
 
       if(text.length <= l1) {
         el1.innerText = text; el2.innerText = ""; el3.innerText = ""; el4.innerText = "";
       } else if(text.length <= l2) {
-        el1.innerText = text.substring(0, l1);
-        el2.innerText = text.substring(l1, text.length);
+        el1.innerText = text.substring(0, l1); el2.innerText = text.substring(l1, text.length);
         el3.innerText = ""; el4.innerText = "";
       } else if(text.length <= l3) {
-        el1.innerText = text.substring(0, l1);
-        el2.innerText = text.substring(l1, l2);
-        el3.innerText = text.substring(l2, text.length);
-        el4.innerText = "";
+        el1.innerText = text.substring(0, l1); el2.innerText = text.substring(l1, l2);
+        el3.innerText = text.substring(l2, text.length); el4.innerText = "";
       } else {
-        el1.innerText = text.substring(0, l1);
-        el2.innerText = text.substring(l1, l2);
-        el3.innerText = text.substring(l2, l3);
-        el4.innerText = text.substring(l3, text.length); 
+        el1.innerText = text.substring(0, l1); el2.innerText = text.substring(l1, l2);
+        el3.innerText = text.substring(l2, l3); el4.innerText = text.substring(l3, text.length); 
       }
-      
-      el1.style.letterSpacing = defaultSpacing;
-      el2.style.letterSpacing = defaultSpacing;
-      el3.style.letterSpacing = defaultSpacing;
+      el1.style.letterSpacing = defaultSpacing; el2.style.letterSpacing = defaultSpacing; el3.style.letterSpacing = defaultSpacing;
     }
 
     function applyMta3Text(baseId, text, limit1, limit2) {
@@ -490,51 +1036,107 @@
       let ov2El = document.getElementById(baseId + "_ov2");
       
       if(!mainEl || !ovEl) return;
-      
       if(text.length <= limit1) {
-        mainEl.innerText = text;
-        ovEl.innerText = "";
-        if(ov2El) ov2El.innerText = "";
+        mainEl.innerText = text; ovEl.innerText = ""; if(ov2El) ov2El.innerText = "";
       } else {
         mainEl.innerText = text.substring(0, limit1);
         let remaining = text.substring(limit1, text.length);
-        
         if(limit2 && remaining.length > limit2) {
           ovEl.innerText = remaining.substring(0, limit2);
-          if(ov2El) {
-            ov2El.innerText = remaining.substring(limit2, remaining.length);
-          }
+          if(ov2El) ov2El.innerText = remaining.substring(limit2, remaining.length);
         } else {
-          ovEl.innerText = remaining;
-          if(ov2El) ov2El.innerText = "";
+          ovEl.innerText = remaining; if(ov2El) ov2El.innerText = "";
         }
       }
     }
 
-    function saveDataAndPreparePrint() {
+    // BOX OVERLAY HELPERS (Source 2)
+    function generateBoxesHtml(text, boxCount) {
+      let html = '';
+      text = text ? text.toUpperCase() : '';
+      for (let i = 0; i < boxCount; i++) {
+        let char = (i < text.length) ? text[i] : '';
+        html += `<div class="char-box">${char}</div>`;
+      }
+      return html;
+    }
+
+    function splitText(text, lengths) {
+      let parts = []; let currentIndex = 0;
+      for (let i = 0; i < lengths.length; i++) {
+          if (currentIndex >= text.length) {
+              parts.push("");
+          } else {
+              parts.push(text.substring(currentIndex, currentIndex + lengths[i]));
+              currentIndex += lengths[i];
+          }
+      }
+      parts.push(text.substring(currentIndex)); 
+      return parts;
+    }
+
+    function fill3LinesText(baseId, text, lineLength) {
+      document.getElementById(baseId + '_line1').innerHTML = generateBoxesHtml(text.substring(0, lineLength), lineLength);
+      document.getElementById(baseId + '_line2').innerHTML = generateBoxesHtml(text.substring(lineLength, lineLength * 2), lineLength);
+      let line3Container = document.getElementById(baseId + '_line3_container');
+      let line3Box = document.getElementById(baseId + '_line3');
+      
+      if (text.length > lineLength * 2) {
+        line3Container.style.display = 'flex'; line3Box.innerHTML = text.substring(lineLength * 2);
+      } else {
+        line3Container.style.display = 'none'; line3Box.innerHTML = '';
+      }
+    }
+
+    function fillDynamicBoxLines(baseId, text, line1Count, line2Count, line3Count) {
+      document.getElementById(baseId + '_line1').innerHTML = generateBoxesHtml(text.substring(0, line1Count), line1Count);
+      document.getElementById(baseId + '_line2').innerHTML = generateBoxesHtml(text.substring(line1Count, line1Count + line2Count), line2Count);
+      let totalBoxes = line1Count + line2Count;
+      if(line3Count > 0) {
+        document.getElementById(baseId + '_line3').innerHTML = generateBoxesHtml(text.substring(totalBoxes, totalBoxes + line3Count), line3Count);
+        totalBoxes += line3Count;
+      }
+      let overflowContainer = document.getElementById(baseId + '_overflow_container');
+      let overflowText = document.getElementById(baseId + '_overflow');
+      
+      if (overflowContainer && overflowText) {
+        if (text.length > totalBoxes) {
+          overflowContainer.style.display = 'flex'; overflowText.innerHTML = text.substring(totalBoxes);
+        } else {
+          overflowContainer.style.display = 'none'; overflowText.innerHTML = '';
+        }
+      }
+    }
+    
+    // MAIN POPULATION FUNCTION
+    function saveDataAndPreparePrint(targetTab) {
       const dDD = document.getElementById('i_dateDD').value;
       const dMM = document.getElementById('i_dateMM').value;
       const dYYYY = document.getElementById('i_dateYYYY').value;
       const vProv = document.getElementById('i_vehProv').value;
       const vLetters = document.getElementById('i_vehLetters').value;
       const vNums = document.getElementById('i_vehNum').value;
+      
       const oldName = document.getElementById('i_oldName').value;
       const oldAddress = document.getElementById('i_oldAddress').value;
-      const oldId = document.getElementById('i_oldId').value;
+      const oldId = document.getElementById('i_oldId').value.replace(/\s/g, ''); 
+      
       const newName = document.getElementById('i_newName').value;
       const newAddress = document.getElementById('i_newAddress').value;
-      const newId = document.getElementById('i_newId').value;
+      const newId = document.getElementById('i_newId').value.replace(/\s/g, ''); 
       
-      const financeName = document.getElementById('i_financeName').value;
-      const financeAddress = document.getElementById('i_financeAddress').value;
-
       const postalCode = document.getElementById('i_postalCode').value;
       const mobileNo = document.getElementById('i_mobileNo').value;
       const divSec = document.getElementById('i_divSec').value;
       const district = document.getElementById('i_district').value;
       const provinceLoc = document.getElementById('i_provinceLoc').value;
       const collectOffice = document.getElementById('i_collectOffice').value;
+      const financeName = document.getElementById('i_financeName').value;
+      const financeAddress = document.getElementById('i_financeAddress').value;
 
+      // ==========================================
+      // POPULATE ORIGINAL PRINT (MODULE 1)
+      // ==========================================
       document.getElementById('p1_date_dd').innerText = dDD;
       document.getElementById('p1_date_mm').innerText = dMM;
       document.getElementById('p1_date_yyyy').innerText = dYYYY;
@@ -547,9 +1149,9 @@
       applyTextToLines('p1_newName', 'p1_newName2', 'p1_newName3', newName, '10px');
       applyTextToLines('p1_newAddress', 'p1_newAddress2', 'p1_newAddress3', newAddress, '10px');
       
-      document.getElementById('p1_oldId').innerText = oldId.replace(/\s/g, ''); 
-      document.getElementById('p1_newId').innerText = newId.replace(/\s/g, ''); 
-      document.getElementById('p1_bottom_vehNo').innerText = vProv + "-" + vLetters + "-" + vNums;
+      document.getElementById('p1_oldId').innerText = oldId; 
+      document.getElementById('p1_newId').innerText = newId; 
+      document.getElementById('p1_bottom_vehNo').innerText = vProv + (vLetters ? "-" + vLetters : "") + (vNums ? "-" + vNums : "");
 
       document.getElementById('p2_veh_prov').innerText = vProv;
       document.getElementById('p2_veh_letters').innerText = vLetters;
@@ -570,7 +1172,7 @@
       applyCustomTextTo4Lines('p2_newName', 'p2_newName2', 'p2_newName3', 'p2_newName4', newName, 33, 35, 35, '12px');
       applyCustomTextTo4Lines('p2_newAddress', 'p2_newAddress2', 'p2_newAddress3', 'p2_newAddress4', newAddress, 31, 35, 35, '12px');
 
-      document.getElementById('p2_newId').innerText = newId.replace(/\s/g, ''); 
+      document.getElementById('p2_newId').innerText = newId; 
       document.getElementById('p2_postalCode').innerText = postalCode;
       document.getElementById('p2_mobileNo').innerText = mobileNo;
       document.getElementById('p2_divSec').innerText = divSec;
@@ -581,13 +1183,9 @@
       document.getElementById('p2_date_y').innerText = dYYYY;
       document.getElementById('p2_collectOffice').innerText = collectOffice;
 
-      document.querySelectorAll('.a4-page').forEach(el => el.classList.remove('last-page'));
-
       if(financeName.trim() !== "") {
         document.getElementById('page_mta3_front').style.display = "block";
         document.getElementById('page_mta3_back').style.display = "block";
-        
-        document.getElementById('page_mta3_back').classList.add('last-page');
         
         applyMta3Text('p3f_financeAddress1', financeAddress, 98);
         applyMta3Text('p3f_financeName1', financeName, 100);
@@ -598,15 +1196,106 @@
 
         applyMta3Text('p3b_financeAddress1', financeAddress, 55, 27);
         applyMta3Text('p3b_financeName1', financeName, 23);
-
       } else {
         document.getElementById('page_mta3_front').style.display = "none";
         document.getElementById('page_mta3_back').style.display = "none";
-        
-        document.getElementById('page_mta8').classList.add('last-page');
       }
 
-      switchTab('print');
+
+      // ==========================================
+      // POPULATE BOX OVERLAY PRINT (MODULE 2)
+      // ==========================================
+      document.getElementById('p1_box_dd').innerHTML = generateBoxesHtml(dDD, 2);
+      document.getElementById('p1_box_mm').innerHTML = generateBoxesHtml(dMM, 2);
+      document.getElementById('p1_box_yyyy').innerHTML = generateBoxesHtml(dYYYY, 4);
+      document.getElementById('p1_box_vehProv').innerHTML = generateBoxesHtml(vProv, 2);
+      document.getElementById('p1_box_vehLetters').innerHTML = generateBoxesHtml(vLetters, 3);
+      document.getElementById('p1_box_vehNums').innerHTML = generateBoxesHtml(vNums, 4);
+
+      fill3LinesText('p1_box_oldName', oldName, 35);
+      fill3LinesText('p1_box_oldAddress', oldAddress, 35);
+      fill3LinesText('p1_box_newName', newName, 35);
+      fill3LinesText('p1_box_newAddress', newAddress, 35);
+
+      document.getElementById('p1_box_oldId').innerHTML = generateBoxesHtml(oldId, 12); 
+      document.getElementById('p1_box_newId').innerHTML = generateBoxesHtml(newId, 12); 
+      document.getElementById('p1_consent_vehNo').innerText = fullVehNo.trim();
+
+      document.getElementById('pf_box_vehProv').innerHTML = generateBoxesHtml(vProv, 2);
+      document.getElementById('pf_box_vehLetters').innerHTML = generateBoxesHtml(vLetters, 3);
+      document.getElementById('pf_box_vehNums').innerHTML = generateBoxesHtml(vNums, 4);
+
+      fillDynamicBoxLines('pf_box_oldName', oldName, 27, 37, 0);        
+      fillDynamicBoxLines('pf_box_newName', newName, 34, 37, 37);      
+      fillDynamicBoxLines('pf_box_newAddress', newAddress, 31, 37, 37);
+
+      document.getElementById('pf_box_newId').innerHTML = generateBoxesHtml(newId, 12);
+      document.getElementById('pf_box_postal').innerHTML = generateBoxesHtml(postalCode, 5);
+      document.getElementById('pf_box_mobile').innerHTML = generateBoxesHtml(mobileNo, 10);
+      document.getElementById('pf_box_divSec').innerHTML = generateBoxesHtml(divSec, 14);
+      document.getElementById('pf_box_district').innerHTML = generateBoxesHtml(district, 14);
+      document.getElementById('pf_box_province').innerHTML = generateBoxesHtml(provinceLoc, 15);
+      document.getElementById('pf_box_dd').innerHTML = generateBoxesHtml(dDD, 2);
+      document.getElementById('pf_box_mm').innerHTML = generateBoxesHtml(dMM, 2);
+      document.getElementById('pf_box_yyyy').innerHTML = generateBoxesHtml(dYYYY, 4);
+      document.getElementById('pf_box_collect').innerHTML = generateBoxesHtml(collectOffice, 15);
+
+      if(financeName.trim() !== "") {
+        document.getElementById('box_page_mta3_front').style.display = "block";
+        document.getElementById('box_page_mta3_back').style.display = "block";
+
+        let fAddrParts = splitText(financeAddress, [80]);
+        document.getElementById('box_p3f_financeAddress1').innerText = fAddrParts[0];
+        document.getElementById('box_p3f_financeAddress2').innerText = fAddrParts[1];
+        
+        let fNameParts = splitText(financeName, [80]);
+        document.getElementById('box_p3f_financeName1').innerText = fNameParts[0];
+        document.getElementById('box_p3f_financeName2').innerText = fNameParts[1];
+        
+        let cAddrParts = splitText(newAddress, [22, 55]);
+        document.getElementById('box_p3f_newName1').innerText = cAddrParts[0];
+        document.getElementById('box_p3f_newName2').innerText = cAddrParts[1];
+        document.getElementById('box_p3f_newName_overflow').innerText = cAddrParts[2];
+        
+        let cNameParts = splitText(newName, [40, 75]);
+        document.getElementById('box_p3f_newAddress1').innerText = cNameParts[0];
+        document.getElementById('box_p3f_newAddress2').innerText = cNameParts[1];
+        document.getElementById('box_p3f_newAddress_overflow2').innerText = cNameParts[2];
+
+        let botAddrParts = splitText(newAddress, [70]);
+        document.getElementById('box_p3f_newName3').innerText = botAddrParts[0];
+        document.getElementById('box_p3f_newName4').innerText = botAddrParts[1];
+
+        let botNameParts = splitText(newName, [90]);
+        document.getElementById('box_p3f_newAddress3').innerText = botNameParts[0];
+        document.getElementById('box_p3f_newAddress4').innerText = botNameParts[1];
+
+        document.getElementById('box_p3b_financeAddress1').innerText = financeAddress.substring(0, 55);
+        document.getElementById('box_p3b_financeAddress2').innerText = financeAddress.substring(55, 90);
+        document.getElementById('box_p3b_financeAddress_overflow').innerText = financeAddress.substring(90);
+        
+        document.getElementById('box_p3b_financeName1').innerText = financeName.substring(0, 32);
+        document.getElementById('box_p3b_financeName_overflow').innerText = financeName.substring(32);
+      } else {
+        document.getElementById('box_page_mta3_front').style.display = "none";
+        document.getElementById('box_page_mta3_back').style.display = "none";
+      }
+
+      // ==========================================
+      // TOGGLE LAST PAGE CLASSES PROPERLY
+      // ==========================================
+      document.querySelectorAll('.a4-page').forEach(el => el.classList.remove('last-page'));
+      if(financeName.trim() !== "") {
+        document.getElementById('page_mta3_back').classList.add('last-page');
+        document.getElementById('box_page_mta3_back').classList.add('last-page');
+      } else {
+        document.getElementById('page_mta8').classList.add('last-page');
+        document.getElementById('box_page_mta8').classList.add('last-page');
+      }
+
+      if (targetTab) {
+        switchTab(targetTab);
+      }
     }
   </script>
 
