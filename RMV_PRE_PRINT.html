@@ -123,7 +123,7 @@
       white-space: nowrap;
       overflow: hidden;
     }
-    .mta3-text { font-size: 12px; line-height: 1.5; font-family: Arial, sans-serif; font-weight: bold; color: #000; } 
+    .mta3-text { font-size: 12px; line-height: 1.5; font-family: Arial, sans-serif; font-weight: bold; color: #000; }
     .mta8-text-small { font-size: 10px; font-family: Arial, sans-serif; line-height: 1.4; color: #000; }
   </style>
 </head>
@@ -180,15 +180,6 @@
             <label>Province</label>
             <select id="i_provinceLoc" class="form-control" style="cursor: pointer;">
                 <option value="">-- SELECT PROVINCE --</option>
-                <option value="WESTERN">WESTERN</option>
-                <option value="CENTRAL">CENTRAL</option>
-                <option value="SOUTHERN">SOUTHERN</option>
-                <option value="NORTHERN">NORTHERN</option>
-                <option value="EASTERN">EASTERN</option>
-                <option value="NORTH WESTERN">NORTH WESTERN</option>
-                <option value="NORTH CENTRAL">NORTH CENTRAL</option>
-                <option value="UVA">UVA</option>
-                <option value="SABARAGAMUWA">SABARAGAMUWA</option>
             </select>
         </div>
         <div class="form-group" style="width: 33.33%;">
@@ -812,61 +803,77 @@
         }
     };
 
-    window.onload = function() {
-        const provSelect = document.getElementById('i_provinceLoc');
-        provSelect.innerHTML = '<option value="">-- Select Province --</option>';
-        for (let prov in slLocationData) {
-            provSelect.add(new Option(prov, prov));
+    function initCascadingDropdowns() {
+      const provSelect = document.getElementById("i_provinceLoc");
+      const distSelect = document.getElementById("i_district");
+      const divSecSelect = document.getElementById("i_divSec");
+      const postalAreaInput = document.getElementById("i_postalArea");
+      const postalAreaList = document.getElementById("postalarea-list");
+      const postalCodeInput = document.getElementById("i_postalCode");
+
+      provSelect.addEventListener("change", function() {
+        let prov = this.value;
+        distSelect.innerHTML = '<option value="">-- SELECT DISTRICT --</option>';
+        divSecSelect.innerHTML = '<option value="">-- SELECT DIV SEC --</option>';
+        postalAreaInput.value = "";
+        postalAreaList.innerHTML = "";
+        postalCodeInput.value = "";
+
+        if (prov && slLocationData[prov]) {
+          for (let dist in slLocationData[prov]) {
+            let opt = document.createElement("option");
+            opt.value = dist;
+            opt.text = dist;
+            distSelect.appendChild(opt);
+          }
         }
-    };
+      });
 
-    function loadDistricts() {
-      const prov = document.getElementById('i_provinceLoc').value;
-      const distSelect = document.getElementById('i_district');
-      distSelect.innerHTML = '<option value="">-- Select District --</option>';
-      if(prov && slLocationData[prov]) {
-        for (let dist in slLocationData[prov]) {
-          distSelect.add(new Option(dist, dist));
+      distSelect.addEventListener("change", function() {
+        let prov = provSelect.value;
+        let dist = this.value;
+        divSecSelect.innerHTML = '<option value="">-- SELECT DIV SEC --</option>';
+        postalAreaInput.value = "";
+        postalAreaList.innerHTML = "";
+        postalCodeInput.value = "";
+
+        if (prov && dist && slLocationData[prov] && slLocationData[prov][dist]) {
+          let data = slLocationData[prov][dist];
+          if (data.divs) {
+            data.divs.forEach(d => {
+              let opt = document.createElement("option");
+              opt.value = d;
+              opt.text = d;
+              divSecSelect.appendChild(opt);
+            });
+          }
+          if (data.postal) {
+            for (let area in data.postal) {
+              let opt = document.createElement("option");
+              opt.value = area;
+              postalAreaList.appendChild(opt);
+            }
+          }
         }
-      }
-      loadDivSecAndPostal();
+      });
+
+      postalAreaInput.addEventListener("input", function() {
+        let prov = provSelect.value;
+        let dist = distSelect.value;
+        let area = this.value.toUpperCase();
+
+        if (prov && dist && area && slLocationData[prov] && slLocationData[prov][dist] && slLocationData[prov][dist].postal) {
+          let code = slLocationData[prov][dist].postal[area];
+          if (code) {
+            postalCodeInput.value = code;
+          }
+        }
+      });
     }
 
-    function loadDivSecAndPostal() {
-      const prov = document.getElementById('i_provinceLoc').value;
-      const dist = document.getElementById('i_district').value;
-      
-      const divSelect = document.getElementById('i_divSec');
-      const postSelect = document.getElementById('i_postalArea');
-      
-      divSelect.innerHTML = '<option value="">-- Select Div Sec --</option>';
-      postSelect.innerHTML = '<option value="">-- Select Area --</option>';
-      document.getElementById('i_postalCode').value = '';
-
-      document.getElementById('i_collectOffice').value = dist ? dist : "";
-
-      if(prov && dist && slLocationData[prov][dist]) {
-        const data = slLocationData[prov][dist];
-        data.divs.forEach(d => divSelect.add(new Option(d, d)));
-        
-        let postalKeys = Object.keys(data.postal).sort();
-        postalKeys.forEach(area => {
-          postSelect.add(new Option(area, area));
-        });
-      }
-    }
-
-    function setPostalCode() {
-      const prov = document.getElementById('i_provinceLoc').value;
-      const dist = document.getElementById('i_district').value;
-      const area = document.getElementById('i_postalArea').value;
-      
-      if(prov && dist && area && slLocationData[prov][dist].postal[area]) {
-        document.getElementById('i_postalCode').value = slLocationData[prov][dist].postal[area];
-      } else {
-        document.getElementById('i_postalCode').value = '';
-      }
-    }
+    document.addEventListener("DOMContentLoaded", function() {
+      initCascadingDropdowns();
+    });
 
     function switchTab(tabId) {
       document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -875,86 +882,6 @@
       document.getElementById('sec-' + tabId).classList.add('active');
     }
 
-    function applyTextToLines(el1Id, el2Id, el3Id, text, defaultSpacing) {
-      let el1 = document.getElementById(el1Id);
-      let el2 = document.getElementById(el2Id);
-      let el3 = document.getElementById(el3Id);
-      if (!el1 || !el2 || !el3) return;
-
-      if(text.length <= 35) {
-        el1.innerText = text; el2.innerText = ""; el3.innerText = "";
-        el1.style.letterSpacing = defaultSpacing;
-      } else if(text.length <= 70) {
-        el1.innerText = text.substring(0, 35); el2.innerText = text.substring(35, 70); el3.innerText = "";
-        el1.style.letterSpacing = defaultSpacing; el2.style.letterSpacing = defaultSpacing;
-      } else {
-        el1.innerText = text.substring(0, 35); el2.innerText = text.substring(35, 70); el3.innerText = text.substring(70, text.length);
-        el1.style.letterSpacing = defaultSpacing; el2.style.letterSpacing = defaultSpacing;
-      }
-    }
-
-    function applyCustomTextTo4Lines(el1Id, el2Id, el3Id, el4Id, text, limit1, limit2, limit3, defaultSpacing) {
-      let el1 = document.getElementById(el1Id);
-      let el2 = document.getElementById(el2Id);
-      let el3 = document.getElementById(el3Id);
-      let el4 = document.getElementById(el4Id);
-      if (!el1 || !el2 || !el3 || !el4) return;
-
-      let l1 = limit1;
-      let l2 = limit1 + limit2;
-      let l3 = limit1 + limit2 + limit3;
-
-      if(text.length <= l1) {
-        el1.innerText = text; el2.innerText = ""; el3.innerText = ""; el4.innerText = "";
-      } else if(text.length <= l2) {
-        el1.innerText = text.substring(0, l1);
-        el2.innerText = text.substring(l1, text.length);
-        el3.innerText = ""; el4.innerText = "";
-      } else if(text.length <= l3) {
-        el1.innerText = text.substring(0, l1);
-        el2.innerText = text.substring(l1, l2);
-        el3.innerText = text.substring(l2, text.length);
-        el4.innerText = "";
-      } else {
-        el1.innerText = text.substring(0, l1);
-        el2.innerText = text.substring(l1, l2);
-        el3.innerText = text.substring(l2, l3);
-        el4.innerText = text.substring(l3, text.length); 
-      }
-      
-      el1.style.letterSpacing = defaultSpacing;
-      el2.style.letterSpacing = defaultSpacing;
-      el3.style.letterSpacing = defaultSpacing;
-    }
-
-    function applyMta3Text(baseId, text, limit1, limit2) {
-      let mainEl = document.getElementById(baseId);
-      let ovEl = document.getElementById(baseId + "_ov");
-      let ov2El = document.getElementById(baseId + "_ov2");
-      
-      if(!mainEl || !ovEl) return;
-      
-      if(text.length <= limit1) {
-        mainEl.innerText = text;
-        ovEl.innerText = "";
-        if(ov2El) ov2El.innerText = "";
-      } else {
-        mainEl.innerText = text.substring(0, limit1);
-        let remaining = text.substring(limit1, text.length);
-        
-        if(limit2 && remaining.length > limit2) {
-          ovEl.innerText = remaining.substring(0, limit2);
-          if(ov2El) {
-            ov2El.innerText = remaining.substring(limit2, remaining.length);
-          }
-        } else {
-          ovEl.innerText = remaining;
-          if(ov2El) ov2El.innerText = "";
-        }
-      }
-    }
-
-    // BOX OVERLAY HELPERS (Source 2)
     function generateBoxesHtml(text, boxCount) {
       let html = '';
       text = text ? text.toUpperCase() : '';
@@ -965,7 +892,6 @@
       return html;
     }
 
-    // New splitting logic: Splits exactly by given character limits, BUT doesn't break middle of words
     function splitTextByWord(text, lengths) {
       let parts = [];
       let remaining = text ? text.trim() : "";
@@ -975,15 +901,12 @@
               parts.push(remaining);
               remaining = "";
           } else {
-              // Find last space within the limit
               let splitIndex = remaining.lastIndexOf(" ", lengths[i]);
               
-              // If no space found (super long word), try to split at a comma
               if (splitIndex === -1 || splitIndex === 0) {
                   splitIndex = remaining.lastIndexOf(",", lengths[i]);
               }
               
-              // If still no space or comma, force split exactly at limit
               if (splitIndex === -1 || splitIndex === 0) {
                   splitIndex = lengths[i];
               }
@@ -991,51 +914,57 @@
               parts.push(remaining.substring(0, splitIndex).trim());
               remaining = remaining.substring(splitIndex).trim();
               
-              // Clean up if it starts with comma after split
               if(remaining.startsWith(",")) {
                   remaining = remaining.substring(1).trim();
               }
           }
       }
-      parts.push(remaining); // Anything leftover goes to the last spot
+      parts.push(remaining); 
       return parts;
     }
 
     function fill3LinesText(baseId, text, lineLength) {
       document.getElementById(baseId + '_line1').innerHTML = generateBoxesHtml(text.substring(0, lineLength), lineLength);
       document.getElementById(baseId + '_line2').innerHTML = generateBoxesHtml(text.substring(lineLength, lineLength * 2), lineLength);
+      
       let line3Container = document.getElementById(baseId + '_line3_container');
       let line3Box = document.getElementById(baseId + '_line3');
       
       if (text.length > lineLength * 2) {
-        line3Container.style.display = 'flex'; line3Box.innerHTML = text.substring(lineLength * 2);
+        line3Container.style.display = 'flex';
+        line3Box.innerHTML = text.substring(lineLength * 2);
       } else {
-        line3Container.style.display = 'none'; line3Box.innerHTML = '';
+        line3Container.style.display = 'none';
+        line3Box.innerHTML = '';
       }
     }
 
     function fillDynamicBoxLines(baseId, text, line1Count, line2Count, line3Count) {
       document.getElementById(baseId + '_line1').innerHTML = generateBoxesHtml(text.substring(0, line1Count), line1Count);
       document.getElementById(baseId + '_line2').innerHTML = generateBoxesHtml(text.substring(line1Count, line1Count + line2Count), line2Count);
+      
       let totalBoxes = line1Count + line2Count;
+      
       if(line3Count > 0) {
         document.getElementById(baseId + '_line3').innerHTML = generateBoxesHtml(text.substring(totalBoxes, totalBoxes + line3Count), line3Count);
         totalBoxes += line3Count;
       }
+      
       let overflowContainer = document.getElementById(baseId + '_overflow_container');
       let overflowText = document.getElementById(baseId + '_overflow');
       
       if (overflowContainer && overflowText) {
         if (text.length > totalBoxes) {
-          overflowContainer.style.display = 'flex'; overflowText.innerHTML = text.substring(totalBoxes);
+          overflowContainer.style.display = 'flex';
+          overflowText.innerHTML = text.substring(totalBoxes);
         } else {
-          overflowContainer.style.display = 'none'; overflowText.innerHTML = '';
+          overflowContainer.style.display = 'none';
+          overflowText.innerHTML = '';
         }
       }
     }
     
-    // MAIN POPULATION FUNCTION
-    function saveDataAndPreparePrint(targetTab) {
+    function saveDataAndPreparePrint() {
       const dDD = document.getElementById('i_dateDD').value;
       const dMM = document.getElementById('i_dateMM').value;
       const dYYYY = document.getElementById('i_dateYYYY').value;
@@ -1060,80 +989,11 @@
       const financeName = document.getElementById('i_financeName').value;
       const financeAddress = document.getElementById('i_financeAddress').value;
 
-      // ==========================================
-      // POPULATE ORIGINAL PRINT (MODULE 1)
-      // ==========================================
-      document.getElementById('p1_date_dd').innerText = dDD;
-      document.getElementById('p1_date_mm').innerText = dMM;
-      document.getElementById('p1_date_yyyy').innerText = dYYYY;
-      document.getElementById('p1_veh_prov').innerText = vProv;
-      document.getElementById('p1_veh_letters').innerText = vLetters;
-      document.getElementById('p1_veh_nums').innerText = vNums;
-
-      applyTextToLines('p1_oldName', 'p1_oldName2', 'p1_oldName3', oldName, '10px');
-      applyTextToLines('p1_oldAddress', 'p1_oldAddress2', 'p1_oldAddress3', oldAddress, '10px');
-      applyTextToLines('p1_newName', 'p1_newName2', 'p1_newName3', newName, '10px');
-      applyTextToLines('p1_newAddress', 'p1_newAddress2', 'p1_newAddress3', newAddress, '10px');
-      
-      document.getElementById('p1_oldId').innerText = oldId; 
-      document.getElementById('p1_newId').innerText = newId; 
-      document.getElementById('p1_bottom_vehNo').innerText = vProv + (vLetters ? "-" + vLetters : "") + (vNums ? "-" + vNums : "");
-
-      document.getElementById('p2_veh_prov').innerText = vProv;
-      document.getElementById('p2_veh_letters').innerText = vLetters;
-      document.getElementById('p2_veh_nums').innerText = vNums;
-
-      applyTextToLines('p2_oldName', 'p2_oldName2', 'p2_oldName3', oldName, '12px'); 
-      if(oldName.length > 27) {
-        document.getElementById('p2_oldName').innerText = oldName.substring(0, 27);
-        if (oldName.length > 62) {
-            document.getElementById('p2_oldName2').innerText = oldName.substring(27, 62);
-            document.getElementById('p2_oldName3').innerText = oldName.substring(62, oldName.length);
-        } else {
-            document.getElementById('p2_oldName2').innerText = oldName.substring(27, oldName.length);
-            document.getElementById('p2_oldName3').innerText = "";
-        }
-      }
-
-      applyCustomTextTo4Lines('p2_newName', 'p2_newName2', 'p2_newName3', 'p2_newName4', newName, 33, 35, 35, '12px');
-      applyCustomTextTo4Lines('p2_newAddress', 'p2_newAddress2', 'p2_newAddress3', 'p2_newAddress4', newAddress, 31, 35, 35, '12px');
-
-      document.getElementById('p2_newId').innerText = newId; 
-      document.getElementById('p2_postalCode').innerText = postalCode;
-      document.getElementById('p2_mobileNo').innerText = mobileNo;
-      document.getElementById('p2_divSec').innerText = divSec;
-      document.getElementById('p2_district').innerText = district;
-      document.getElementById('p2_provinceLoc').innerText = provinceLoc;
-      document.getElementById('p2_date_d').innerText = dDD;
-      document.getElementById('p2_date_m').innerText = dMM;
-      document.getElementById('p2_date_y').innerText = dYYYY;
-      document.getElementById('p2_collectOffice').innerText = collectOffice;
-
-      if(financeName.trim() !== "") {
-        document.getElementById('page_mta3_front').style.display = "block";
-        document.getElementById('page_mta3_back').style.display = "block";
-        
-        applyMta3Text('p3f_financeAddress1', financeAddress, 98);
-        applyMta3Text('p3f_financeName1', financeName, 100);
-        applyMta3Text('p3f_newAddress1', newAddress, 70);
-        applyMta3Text('p3f_newName1', newName, 25, 50);
-        applyMta3Text('p3f_newAddress2', newAddress, 90);
-        applyMta3Text('p3f_newName2', newName, 105);
-
-        applyMta3Text('p3b_financeAddress1', financeAddress, 55, 27);
-        applyMta3Text('p3b_financeName1', financeName, 23);
-      } else {
-        document.getElementById('page_mta3_front').style.display = "none";
-        document.getElementById('page_mta3_back').style.display = "none";
-      }
-
-
-      // ==========================================
-      // POPULATE BOX OVERLAY PRINT (MODULE 2)
-      // ==========================================
+      // PAGE 1: MTA 6 OVERLAY
       document.getElementById('p1_box_dd').innerHTML = generateBoxesHtml(dDD, 2);
       document.getElementById('p1_box_mm').innerHTML = generateBoxesHtml(dMM, 2);
       document.getElementById('p1_box_yyyy').innerHTML = generateBoxesHtml(dYYYY, 4);
+
       document.getElementById('p1_box_vehProv').innerHTML = generateBoxesHtml(vProv, 2);
       document.getElementById('p1_box_vehLetters').innerHTML = generateBoxesHtml(vLetters, 3);
       document.getElementById('p1_box_vehNums').innerHTML = generateBoxesHtml(vNums, 4);
@@ -1145,8 +1005,13 @@
 
       document.getElementById('p1_box_oldId').innerHTML = generateBoxesHtml(oldId, 12); 
       document.getElementById('p1_box_newId').innerHTML = generateBoxesHtml(newId, 12); 
+
+      let fullVehNo = vProv;
+      if(vLetters) fullVehNo += " " + vLetters;
+      if(vNums) fullVehNo += " " + vNums;
       document.getElementById('p1_consent_vehNo').innerText = fullVehNo.trim();
 
+      // PAGE 2: FULL MTA 8 PAGE
       document.getElementById('pf_box_vehProv').innerHTML = generateBoxesHtml(vProv, 2);
       document.getElementById('pf_box_vehLetters').innerHTML = generateBoxesHtml(vLetters, 3);
       document.getElementById('pf_box_vehNums').innerHTML = generateBoxesHtml(vNums, 4);
@@ -1158,73 +1023,63 @@
       document.getElementById('pf_box_newId').innerHTML = generateBoxesHtml(newId, 12);
       document.getElementById('pf_box_postal').innerHTML = generateBoxesHtml(postalCode, 5);
       document.getElementById('pf_box_mobile').innerHTML = generateBoxesHtml(mobileNo, 10);
+      
       document.getElementById('pf_box_divSec').innerHTML = generateBoxesHtml(divSec, 14);
       document.getElementById('pf_box_district').innerHTML = generateBoxesHtml(district, 14);
       document.getElementById('pf_box_province').innerHTML = generateBoxesHtml(provinceLoc, 15);
+      
       document.getElementById('pf_box_dd').innerHTML = generateBoxesHtml(dDD, 2);
       document.getElementById('pf_box_mm').innerHTML = generateBoxesHtml(dMM, 2);
       document.getElementById('pf_box_yyyy').innerHTML = generateBoxesHtml(dYYYY, 4);
+      
       document.getElementById('pf_box_collect').innerHTML = generateBoxesHtml(collectOffice, 15);
 
-      if(financeName.trim() !== "") {
-        document.getElementById('box_page_mta3_front').style.display = "block";
-        document.getElementById('box_page_mta3_back').style.display = "block";
+      // PAGE 3 & 4: MTA 3
+      
+      // 1. Finance Address & Name
+      let fAddrParts = splitTextByWord(financeAddress, [80]);
+      document.getElementById('p3f_financeAddress1').innerText = fAddrParts[0];
+      document.getElementById('p3f_financeAddress2').innerText = fAddrParts[1];
+      
+      let fNameParts = splitTextByWord(financeName, [80]);
+      document.getElementById('p3f_financeName1').innerText = fNameParts[0];
+      document.getElementById('p3f_financeName2').innerText = fNameParts[1];
+      
+      // 2. Customer ADDRESS (Swapped - ලිපිනය මුලින් එනවා) (18-char limit added here!)
+      let cAddrParts = splitTextByWord(newAddress, [18, 55]);
+      document.getElementById('p3f_newName1').innerText = cAddrParts[0];
+      document.getElementById('p3f_newName2').innerText = cAddrParts[1];
+      document.getElementById('p3f_newName_overflow').innerText = cAddrParts[2];
+      
+      // 3. Customer NAME (Swapped - නම දෙවනුව එනවා)
+      let cNameParts = splitTextByWord(newName, [40, 75]);
+      document.getElementById('p3f_newAddress1').innerText = cNameParts[0];
+      document.getElementById('p3f_newAddress2').innerText = cNameParts[1];
+      document.getElementById('p3f_newAddress_overflow2').innerText = cNameParts[2];
 
-        let fAddrParts = splitTextByWord(financeAddress, [80]);
-        document.getElementById('box_p3f_financeAddress1').innerText = fAddrParts[0];
-        document.getElementById('box_p3f_financeAddress2').innerText = fAddrParts[1];
-        
-        let fNameParts = splitTextByWord(financeName, [80]);
-        document.getElementById('box_p3f_financeName1').innerText = fNameParts[0];
-        document.getElementById('box_p3f_financeName2').innerText = fNameParts[1];
-        
-        // 18-char limit logic applied here for the red box line
-        let cAddrParts = splitTextByWord(newAddress, [18, 55]);
-        document.getElementById('box_p3f_newName1').innerText = cAddrParts[0];
-        document.getElementById('box_p3f_newName2').innerText = cAddrParts[1];
-        document.getElementById('box_p3f_newName_overflow').innerText = cAddrParts[2];
-        
-        let cNameParts = splitTextByWord(newName, [40, 75]);
-        document.getElementById('box_p3f_newAddress1').innerText = cNameParts[0];
-        document.getElementById('box_p3f_newAddress2').innerText = cNameParts[1];
-        document.getElementById('box_p3f_newAddress_overflow2').innerText = cNameParts[2];
+      // Bottom ADDRESS & NAME (Swapped - මෙතනත් ලිපිනය මුලින්, නම දෙවනුව)
+      let botAddrParts = splitTextByWord(newAddress, [70]);
+      document.getElementById('p3f_newName3').innerText = botAddrParts[0];
+      document.getElementById('p3f_newName4').innerText = botAddrParts[1];
 
-        let botAddrParts = splitTextByWord(newAddress, [70]);
-        document.getElementById('box_p3f_newName3').innerText = botAddrParts[0];
-        document.getElementById('box_p3f_newName4').innerText = botAddrParts[1];
+      let botNameParts = splitTextByWord(newName, [90]);
+      document.getElementById('p3f_newAddress3').innerText = botNameParts[0];
+      document.getElementById('p3f_newAddress4').innerText = botNameParts[1];
 
-        let botNameParts = splitTextByWord(newName, [90]);
-        document.getElementById('box_p3f_newAddress3').innerText = botNameParts[0];
-        document.getElementById('box_p3f_newAddress4').innerText = botNameParts[1];
-
-        let bAddrParts = splitTextByWord(financeAddress, [55, 35]);
-        document.getElementById('box_p3b_financeAddress1').innerText = bAddrParts[0];
-        document.getElementById('box_p3b_financeAddress2').innerText = bAddrParts[1];
-        document.getElementById('box_p3b_financeAddress_overflow').innerText = bAddrParts[2];
-        
-        let bNameParts = splitTextByWord(financeName, [32]);
-        document.getElementById('box_p3b_financeName1').innerText = bNameParts[0];
-        document.getElementById('box_p3b_financeName_overflow').innerText = bNameParts[1];
-      } else {
-        document.getElementById('box_page_mta3_front').style.display = "none";
-        document.getElementById('box_page_mta3_back').style.display = "none";
-      }
-
-      // ==========================================
-      // TOGGLE LAST PAGE CLASSES PROPERLY
-      // ==========================================
-      document.querySelectorAll('.a4-page').forEach(el => el.classList.remove('last-page'));
-      if(financeName.trim() !== "") {
-        document.getElementById('page_mta3_back').classList.add('last-page');
-        document.getElementById('box_page_mta3_back').classList.add('last-page');
-      } else {
-        document.getElementById('page_mta8').classList.add('last-page');
-        document.getElementById('box_page_mta8').classList.add('last-page');
-      }
-
-      if (targetTab) {
-        switchTab(targetTab);
-      }
+      // Page 4 (Back Page)
+      
+      // 1. Finance Address (Swapped: Address First)
+      let bAddrParts = splitTextByWord(financeAddress, [55, 35]);
+      document.getElementById('p3b_financeAddress1').innerText = bAddrParts[0];
+      document.getElementById('p3b_financeAddress2').innerText = bAddrParts[1];
+      document.getElementById('p3b_financeAddress_overflow').innerText = bAddrParts[2];
+      
+      // 2. Finance Name (Swapped: Name Second) 
+      let bNameParts = splitTextByWord(financeName, [32]);
+      document.getElementById('p3b_financeName1').innerText = bNameParts[0];
+      document.getElementById('p3b_financeName_overflow').innerText = bNameParts[1];
+      
+      switchTab('print');
     }
   </script>
 
