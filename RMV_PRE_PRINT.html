@@ -43,7 +43,8 @@
     }
 
     /* Source 1 (Original Print) Styles */
-    .p-text { position: absolute; font-size: 15px; font-family: 'Courier New', Courier, monospace; font-weight: bold; color: #000; white-space: nowrap; }
+    /* Source 1 (Original Print) Styles */
+    .p-text { position: absolute; font-size: 15px; font-family: 'Courier New', Courier, monospace; font-weight: bold; color: #000; white-space: nowrap; letter-spacing: 11.5px; }
 
     /* Source 2 (Box Print) Styles */
     .print-absolute-block { position: absolute; background-color: #ffffff; padding: 10px; box-sizing: border-box; }
@@ -488,7 +489,7 @@
           
           <!-- Vehicle No -->
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-            <div class="mta8-text-small" style="font-weight: bold;">I hereby apply to be registered as the new owner of the Vehicle Number</div>
+            <div class="mta8-text-small" style="font-weight: bold;">I hereby  to be registered as the new owner of the Vehicle Number</div>
             <div style="display: flex; gap: 10px;">
               <div id="pf_box_vehProv" class="box-container"></div>
               <div id="pf_box_vehLetters" class="box-container"></div>
@@ -1054,7 +1055,7 @@
     }
 
     // ORIGINAL FORMAT HELPERS
-    function applyMta3TextWordWrap(baseId, text, limits) {
+    function Mta3TextWordWrap(baseId, text, limits) {
       let mainEl = document.getElementById(baseId);
       let ovEl = document.getElementById(baseId + "_ov");
       let ov2El = document.getElementById(baseId + "_ov2");
@@ -1192,17 +1193,17 @@
         document.getElementById('page_mta3_front').style.display = "block";
         document.getElementById('page_mta3_back').style.display = "block";
         
-        applyMta3TextWordWrap('p3f_financeAddress1', financeAddress, [80, 80]);
-        applyMta3TextWordWrap('p3f_financeName1', financeName, [80, 80]);
+        Mta3TextWordWrap('p3f_financeAddress1', financeAddress, [80, 80]);
+        Mta3TextWordWrap('p3f_financeName1', financeName, [80, 80]);
         
         let origNewAddrParts = splitTextByWord(newAddress, [22, 50, 50]);
         document.getElementById('p3f_newName1').innerText = origNewAddrParts[0];
         document.getElementById('p3f_newName1_ov').innerText = origNewAddrParts[1];
         if(document.getElementById('p3f_newName1_ov2')) { document.getElementById('p3f_newName1_ov2').innerText = origNewAddrParts[2] || ""; }
 
-        applyMta3TextWordWrap('p3f_newAddress2', newName, [45, 80]);
-        applyMta3TextWordWrap('p3b_financeAddress1', financeAddress, [55, 45]);
-        applyMta3TextWordWrap('p3b_financeName1', financeName, [40, 50]);
+        Mta3TextWordWrap('p3f_newAddress2', newName, [45, 80]);
+        Mta3TextWordWrap('p3b_financeAddress1', financeAddress, [55, 45]);
+        Mta3TextWordWrap('p3b_financeName1', financeName, [40, 50]);
       } else {
         document.getElementById('page_mta3_front').style.display = "none";
         document.getElementById('page_mta3_back').style.display = "none";
