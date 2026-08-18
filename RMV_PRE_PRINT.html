@@ -152,13 +152,13 @@
       <div style="display:flex; gap:10px;">
         <div class="form-group" style="width: 33.33%;">
             <label>Province</label>
-            <select id="i_provinceLoc" class="form-control" style="cursor: pointer;" onchange="loadDistricts()">
+            <select id="i_provinceLoc" class="form-control" style="cursor: pointer;">
                 <option value="">-- SELECT PROVINCE --</option>
             </select>
         </div>
         <div class="form-group" style="width: 33.33%;">
             <label>District</label>
-            <select id="i_district" class="form-control" style="cursor: pointer;" onchange="loadDivSecAndPostal()">
+            <select id="i_district" class="form-control" style="cursor: pointer;">
                 <option value="">-- SELECT DISTRICT --</option>
             </select>
         </div>
@@ -178,7 +178,6 @@
         </div>
         <div class="form-group" style="width: 33.33%;">
             <label>Postal Code</label>
-            <!-- Removed readonly so user can manually type if missing -->
             <input type="text" id="i_postalCode" class="form-control" placeholder="Code" maxlength="5" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
         </div>
         <div class="form-group" style="width: 33.33%;">
@@ -327,7 +326,7 @@
           </div>
           <div style="display: flex;">
             <div style="width: 30px;"></div>
-            <div class="sub-label" style="flex-grow: 1; margin-bottom: 3px;">පැවරුම්කරුගේ නම/ ஫ாம்றிக்பகாடுப்பල஭ின் பப஬஭்/Name of Transferor</div>
+            <div class="sub-label" style="flex-grow: 1; margin-bottom: 3px;">පැවරුම්කරුගේ නම/ ஫ாம்றிக்பகாடுப்பල஭ින් பப஬஭்/Name of Transferor</div>
           </div>
 
           <div style="display: flex; align-items: center; justify-content: flex-end; margin-bottom: 3px;">
@@ -345,7 +344,7 @@
           </div>
           <div style="display: flex;">
             <div style="width: 30px;"></div>
-            <div class="sub-label" style="flex-grow: 1; margin-bottom: -3px;">පැවරුම්කරුගේ ලිපිනය /஫ாம்றிக்பகாடுப்பල஭ின் முகல஭ி / Address of Transferor</div>
+            <div class="sub-label" style="flex-grow: 1; margin-bottom: -3px;">පැවරුම්කරුගේ ලිපිනය /஫ாம்றிக்பகாடுப்பල஭ින් முகල஭ි / Address of Transferor</div>
           </div>
 
           <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 5px; margin-bottom: 4px;">
@@ -372,7 +371,7 @@
           </div>
           <div style="display: flex;">
             <div style="width: 30px;"></div>
-            <div class="sub-label" style="flex-grow: 1; margin-bottom: 3px;">පැවරුම්භියාගේ නම/ ஫ாம்றிப்பபறுபல஭ின் பப஬஭/ ் Name of Transferee</div>
+            <div class="sub-label" style="flex-grow: 1; margin-bottom: 3px;">පැවරුම්භියාගේ නම/ ஫ாம்றிப்பපறுபல஭ින් பப஬஭/ ் Name of Transferee</div>
           </div>
 
           <div style="display: flex; align-items: center; justify-content: flex-end; margin-bottom: 3px;">
@@ -390,7 +389,7 @@
           </div>
           <div style="display: flex;">
             <div style="width: 30px;"></div>
-            <div class="sub-label" style="flex-grow: 1; margin-bottom: 0px;">පැවරුම්භියාගේ ලිපිනය/ ஫ாம்றிப்பபறுபல஭ின் முகல஭ி / Address of Transferee</div>
+            <div class="sub-label" style="flex-grow: 1; margin-bottom: 0px;">පැවරුම්භියාගේ ලිපිනය/ ஫ாம்றிப்பපறுபல஭ින් முகල஭ි / Address of Transferee</div>
           </div>
         </div>
 
@@ -606,7 +605,7 @@
             <!-- Province Title & Boxes (Aligned in one row) -->
             <div style="display: flex; align-items: flex-end; margin-bottom: 8px;">
               <div class="mta8-text-small" style="font-weight: bold; white-space: nowrap; margin-right: 15px;">
-                පළාත/மாகாணம்/Province
+                පළාත/மாகාணம்/Province
               </div>
               <div id="pf_box_province" class="box-container"></div>
             </div>
@@ -667,20 +666,21 @@
                 <div id="box_p3f_financeAddress2" style="position: absolute; top: 16px; left: 25px; width: 100%; font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: 12px; color: #000; text-transform: uppercase;"></div>
             </div>
             
-            <div style="display: flex; align-items: flex-end; margin-bottom: 12px; width: 100%; position: relative;">
+            <div style="display: flex; align-items: flex-end; margin-bottom: 15px; width: 100%; position: relative;">
                 <span style="margin-right: 10px; white-space: nowrap;">of <sup>2</sup></span>
                 <span id="box_p3f_financeName1" class="dotted-line" style="flex-grow: 1;"></span>
                 <div id="box_p3f_financeName2" style="position: absolute; top: 16px; left: 25px; width: 100%; font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: 12px; color: #000; text-transform: uppercase;"></div>
             </div>
 
-            <div style="margin-bottom: 12px; position: relative; line-height: 1.8;">
-                <span style="margin-right: 5px;">hereby give notice that I have let the motor vehicle in respect of which the attached application for registration is made to <sup>3</sup></span>
-                <span id="box_p3f_newName1" class="dotted-line" style="width: 150px; text-align: left;"></span>
+            <!-- Dotted Line starts immediately on the right side of 'made to 3' -->
+            <div style="display: flex; align-items: flex-end; margin-bottom: 12px; width: 100%; position: relative;">
+                <span style="white-space: nowrap; margin-right: 8px;">hereby give notice that I have let the motor vehicle in respect of which the attached application for registration is made to <sup>3</sup></span>
+                <span id="box_p3f_newName1" class="dotted-line" style="flex-grow: 1;"></span>
             </div>
             
             <div style="display: flex; align-items: flex-end; margin-bottom: 12px; width: 100%; position: relative;">
-                <span id="box_p3f_newName2" class="dotted-line" style="width: 50%;"></span>
-                <div id="box_p3f_newName_overflow" style="position: absolute; top: 16px; left: 5px; width: 50%; font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: 12px; color: #000; text-transform: uppercase;"></div>
+                <span id="box_p3f_newName2" class="dotted-line" style="width: 48%;"></span>
+                <div id="box_p3f_newName_overflow" style="position: absolute; top: 16px; left: 5px; width: 48%; font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: 12px; color: #000; text-transform: uppercase;"></div>
                 
                 <span style="margin: 0 10px; white-space: nowrap;">of <sup>4</sup></span>
                 <span id="box_p3f_newAddress1" class="dotted-line" style="flex-grow: 1;"></span>
@@ -746,29 +746,27 @@
         <div class="print-absolute-block" style="top: 168px; left: 20px; right: 28px;">
           <div class="mta3-text" style="font-family: 'Times New Roman', Times, serif; font-size: 12px; font-weight: normal; line-height: 1.5;">
             
-            <!-- Line 1: "...let to me by 1" + Finance Address Part 1 -->
+            <!-- Line 1: "...let to me by 1" + Finance Address Part 1 (Limited to ~25 chars so it never overflows) -->
             <div style="display: flex; align-items: flex-end; margin-bottom: 15px; width: 100%; position: relative;">
-              <span style="margin-right: 10px; white-space: nowrap;">I do hereby acknowledge that the motor vehicle has been let to me by <sup>1</sup></span>
+              <span style="margin-right: 8px; white-space: nowrap;">I do hereby acknowledge that the motor vehicle has been let to me by <sup>1</sup></span>
               <span id="box_p3b_financeAddress1" class="dotted-line" style="flex-grow: 1;"></span>
-              <!-- Overflow for Address Part 1 -->
-              <div id="box_p3b_financeAddress_overflow1" style="position: absolute; top: 16px; left: 320px; width: 100%; font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: 12px; color: #000; text-transform: uppercase;"></div>
             </div>
 
             <!-- Line 2: Finance Address Part 2 + "of 2" + Finance Name + "under a hire..." -->
             <div style="display: flex; align-items: flex-end; margin-bottom: 15px; width: 100%; position: relative;">
-              <span id="box_p3b_financeAddress2" class="dotted-line" style="width: 45%;"></span>
+              <span id="box_p3b_financeAddress2" class="dotted-line" style="width: 44%;"></span>
               
               <!-- Left Column Overflow for Address -->
-              <div id="box_p3b_financeAddress_overflow" style="position: absolute; top: 18px; left: 5px; width: 45%; font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: 12px; color: #000; text-transform: uppercase; line-height: 1.6; white-space: normal;"></div>
+              <div id="box_p3b_financeAddress_overflow" style="position: absolute; top: 18px; left: 5px; width: 44%; font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: 12px; color: #000; text-transform: uppercase; line-height: 1.6; white-space: normal;"></div>
               
-              <span style="margin: 0 10px; white-space: nowrap;">of <sup>2</sup></span>
+              <span style="margin: 0 8px; white-space: nowrap;">of <sup>2</sup></span>
               
               <span id="box_p3b_financeName1" class="dotted-line" style="flex-grow: 1;"></span>
               
               <!-- Right Column Overflow for Name -->
-              <div id="box_p3b_financeName_overflow" style="position: absolute; top: 18px; left: calc(45% + 40px); right: 0; font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: 12px; color: #000; text-transform: uppercase; line-height: 1.6; white-space: normal;"></div>
+              <div id="box_p3b_financeName_overflow" style="position: absolute; top: 18px; left: calc(44% + 35px); right: 0; font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: 12px; color: #000; text-transform: uppercase; line-height: 1.6; white-space: normal;"></div>
               
-              <span style="margin-left: 10px; white-space: nowrap;">under a hire-purchase agreement.</span>
+              <span style="margin-left: 8px; white-space: nowrap;">under a hire-purchase agreement.</span>
             </div>
 
           </div>
@@ -848,7 +846,7 @@
         "EASTERN": {
             "BATTICALOA": {
                 divs: ["KORALAI PATTU NORTH", "KORALAI PATTU CENTRAL", "KORALAI PATTU WEST", "KORALAI PATTU", "KORALAI PATTU SOUTH", "ERAVUR PATTU", "MANMUNAI NORTH", "MANMUNAI WEST", "KATTANKUDY", "MANMUNAI PATTU", "MANMUNAI SOUTH WEST", "PORATIVU PATTU", "MANMUNAI SOUTH & ERUVIL PATTU", "ERAVUR TOWN"],
-                postal: {"BATTICALOA":"30000", "KANNANKUDAH":"30016", "NAVATKADU":"30018", "PILLAIYARADI":"30022", "THANNAMUNAI":"30024", "ARAIPATTAI":"30150", "PUTHUKUDIYIRUPPU":"30158", "KIRANKULAM":"30159", "KOKKADICHOLAI":"30160", "AMPILANTHURAI":"30162", "KURUKKALMADAM":"30192", "CHEDDIPALAYAM":"30194", "THETTATIVU":"30196", "KALUWANCHIKUDI":"30200", "VELLAVELY":"30204", "BAKIELLA":"30206", "MANDUR":"30220", "PERIYAPORATIVU":"30230", "THIRUPALUGAMAM":"30234", "THIKKODAI":"30236", "NAVAGIRINAGAR":"30238", "KODDAIKALLAR":"30249", "KALLAR":"30250", "THURAINEELAVANAI":"30254", "ERAVUR":"30300", "CHENKALADI":"30350", "PANKUDAVELY":"30352", "KARADIYANARU":"30354", "PERIYAPULLUMALAI":"30358", "AYITHIYAMALAI":"30362", "UNNICHCHAI":"30364", "KALUWANKEMY":"30372", "VANTHARUMOOLAI":"30376", "MURAKOTTANCHANAI":"30392", "KIRAN":"30394", "VALAICHENAI":"30400", "KALKUDAH":"30410", "ODDAMAVADI":"30420", "VAKANERI":"30424", "MIRAVODAI":"30426", "PUNANAI":"30428", "MANKEMI":"30442", "PANICHANKEMI":"30444", "VAKARAI":"30450", "KATHIRAVELI":"30456"}
+                postal: {"BATTICALOA":"30000", "KANNANKUDAH":"30016", "NAVATKADU":"30018", "PILLAIYARADI":"30022", "THANNAMUNAI":"30024", "ARAIPATTAI":"30150", "PUTHUKKUDIYIRUPPU":"30158", "KIRANKULAM":"30159", "KOKKADICHOLAI":"30160", "AMPILANTHURAI":"30162", "KURUKKALMADAM":"30192", "CHEDDIPALAYAM":"30194", "THETTATIVU":"30196", "KALUWANCHIKUDI":"30200", "VELLAVELY":"30204", "BAKIELLA":"30206", "MANDUR":"30220", "PERIYAPORATIVU":"30230", "THIRUPALUGAMAM":"30234", "THIKKODAI":"30236", "NAVAGIRINAGAR":"30238", "KODDAIKALLAR":"30249", "KALLAR":"30250", "THURAINEELAVANAI":"30254", "ERAVUR":"30300", "CHENKALADI":"30350", "PANKUDAVELY":"30352", "KARADIYANARU":"30354", "PERIYAPULLUMALAI":"30358", "AYITHIYAMALAI":"30362", "UNNICHCHAI":"30364", "KALUWANKEMY":"30372", "VANTHARUMOOLAI":"30376", "MURAKOTTANCHANAI":"30392", "KIRAN":"30394", "VALAICHENAI":"30400", "KALKUDAH":"30410", "ODDAMAVADI":"30420", "VAKANERI":"30424", "MIRAVODAI":"30426", "PUNANAI":"30428", "MANKEMI":"30442", "PANICHANKEMI":"30444", "VAKARAI":"30450", "KATHIRAVELI":"30456"}
             },
             "AMPARA": {
                 divs: ["DEHIATTAKANDIYA", "PADIYATHALAWA", "MAHAOYA", "UHANA", "AMPARA", "NAVITHANVELI", "SAMMANTHURAI", "KALMUNAI", "SAINTHAMARUTHU", "KARAITIVU", "NINTAVUR", "ADDALAICHENAI", "IRAKKAMAM", "AKKARAIPATTU", "ALAYADIVEMBU", "DAMANA", "TIRUKKOVIL", "POTTUVIL", "LAHUGALA"],
@@ -862,7 +860,7 @@
         "NORTH WESTERN": {
             "KURUNEGALA": {
                 divs: ["GIRIBAWA", "GALGAMUWA", "EHETUWEWA", "AMBANPOLA", "KOTAWEHERA", "RASNAYAKAPURA", "NIKAWERATIYA", "MAHO", "POLPITIGAMA", "IBBAGAMUWA", "GANEWATTA", "WARIYAPOLA", "KOBEIGANE", "BINGIRIYA", "PANDUWASNUWARA WEST", "PANDUWASNUWARA EAST", "BAMUNAKOTUWA", "MASPOTHA", "KURUNEGALA", "MALLAWAPITIYA", "MAWATHAGAMA", "RIDEEGAMA", "WEERABUGEDARA", "KULIYAPITIYA EAST", "KULIYAPITIYA WEST", "UDUBADDAWA", "PANNALA", "NARAMMALA", "ALAWWA", "POLGAHAWELA"],
-                postal: {"KURUNEGALA":"60000", "KUDAGALGAMUWA":"60003", "MINHETTIYA":"60004", "DORATIYAWA":"60013", "INDULGODAKANDA":"60016", "DEMATALUWA":"60024", "ITHANAWATTA":"60025", "BOYAGANE":"60027", "KOHILAGEDARA":"60028", "KOSGOLLA":"60029", "HINDAGOLLA":"60034", "AMBAKOTE":"60036", "MORATHIHA":"60038", "RIDIGAMA":"60040", "DELWITE":"60044", "IRIYAGOLLA":"60045", "ALAWATUWALA":"60047", "PANAGAMUWA":"60052", "PIHIMBUWA":"60053", "KANADENIYAWALA":"60054", "PILESSA":"60058", "MAWATHAGAMA":"60060", "KAHAPATHWALA":"60062", "INGURUWATTA":"60064", "MEETANWALA":"60066", "PUSWELITENNA":"60072", "ANHANDIYA":"60074", "BULUWALA":"60076", "WEUDA":"60080", "UHUMIYA":"60094", "KALUGAMUWA":"60096", "NARAMMALA":"60100", "KARAGAHAGEDARA":"60106", "BOGAMULLA":"60107", "LONAHETTIYA":"60108", "PAHAMUNE":"60112", "METIYAGANE":"60121", "MURUTHENGE":"60122", "DAMBADENIYA":"60130", "IHALA KATUGAMPALA":"60135", "GIRIULLA":"60140", "NARANGODA":"60152", "ELIBICHCHIYA":"60156", "PANNALA":"60160", "LABBALA":"60162", "GONAWILA":"60170", "DARALUWA":"60174", "SANDALANKAWA":"60176", "HORAMBAWA":"60181", "ALAHITIYAWA":"60182", "KEKUNAGOLLA":"60183", "KIRIMETIYAWA":"60184", "NAKKAWATTA":"60186", "KITHALAWA":"60188", "WEWAGAMA":"60195", "WALAKUMBURUMULLA":"60198", "KULIYAPITIYA":"60200", "YAKWILA":"60202", "WADUMUNNEGEDARA":"60204", "WELPALLA":"60206", "THALAHITIMULLA":"60208", "MADAKUMBURUMULLA":"60209", "IHALA GOMUGOMUWA":"60211", "KIRINDAWA":"60212", "ANUKKANE":"60214", "MUNAMALDENIYA":"60218", "MAGULAGAMA":"60221", "NAGOLLAGODA":"60226", "THARANA UDAWELA":"60227", "DEEGALLA":"60228", "ILUKHENA":"60232", "PADIWELA":"60236", "IHALA KADIGAMUWA":"60238", "WELIPENNAGAHAMULLA":"60240", "UDUBADDAWA":"60250", "DUMMALASURIYA":"60260", "WATUWATTA":"60262", "ETUNGAHAKOTUWA":"60266", "ALAWWA":"60280", "WENNORUWA":"60284", "MAHARACHCHIMULLA":"60286", "KEPPITIWALANA":"60288", "BUJJOMUWA":"60291", "NAWATALWATTA":"60292", "POLGAHAWELA":"60300", "METIKUMBURA":"60304", "TALAWATTEGEDARA":"60306", "ARAGODA":"60308", "PANALIYA":"60312", "YATIGALOLUWA":"60314", "WADAKADA":"60318", "POTHUHERA":"60330", "MASPOTHA":"60344", "BAMUNUKOTUWA":"60347", "PANADARAGAMA":"60348", "KATUPOTA":"60350", "MORAGANE":"60354", "KOSDENIYA":"60356", "WARIYAPOLA":"60400", "WELLAGALA":"60402", "MALAGANE":"60404", "MINUWANGETE":"60406", "MIRIHANAGAMA":"60408", "KOBEIGANE":"60410", "HENGAMUWA":"60414", "ALAHENGAMA":"60416", "KANATTEWEWA":"60422", "BANDARA KOSWATTA":"60424", "TUTTIRIPITIGAMA":"60426", "HETTIPOLA":"60430", "MANDAPOLA":"60434", "SUNANDAPURA":"60436", "BORALUWEWA":"60437", "KURATIHENA":"60438", "PIHIMBIYA RATMALE":"60439", "HALMILLAWEWA":"60441", "BINGIRIYA":"60450", "TISOGAMA":"60453", "WEERAPOKUNA":"60454", "WELLARAWA":"60456", "HIRUWALPOLA":"60458", "PADENIYA":"60461", "AWULEGAMA":"60462", "WELAWA JUNCTON":"60464", "WANNIGAMA":"60465", "NIKAWERATIYA":"60470", "DIVULLEGODA":"60472", "HULOGEDARA":"60474", "THIMBIRIYAWA":"60476", "HULUGALLA":"60477", "SIRISETAGAMA":"60478", "MAHAGIRILLA":"60479", "NABADEWA":"60482", "KOTAWEHERA":"60483", "MEEWELLAWA":"60484", "DIGANNEWA":"60485", "HILOGAMA":"60486", "WANNIRASNAYAKAPURA":"60490", "KADIGAWA":"60492", "MONNEKULAMA":"60495", "TORAYAYA":"60499", "LBBAGAMUWA":"60500", "KIRINDIGALLA":"60502", "KUMBUKWEWA":"60506", "KUMBUKGETE":"60508", "MAELIYA":"60512", "MAKULPOTHA":"60514", "MAHAMUKALANYAYA":"60516", "PERIYAKADNELUWA":"60518", "GOKARALLA":"60522", "DODANGASLANDA":"60530", "MADURAGODA":"60532", "MELSIRIPURA":"60540", "DIDDENIYA":"60544", "HIRIYALA LENAWA":"60546", "KIMBULWANAOYA":"60548", "NELLIYA":"60549", "MADAHAPOLA":"60552", "PANSIYAGAMA":"60554", "PANLIYADDA":"60558", "WELLAWA":"60570", "THALWITA":"60572", "MAKULWEWA":"60578", "NIKADALUPOTHA":"60580", "HUNUPOLA":"60582", "THAMBAGALLA":"60584", "NAGOLLAGAMA":"60590", "MAHO":"60600", "KARAMBE":"60602", "BALALLA":"60604", "RIDIBENDIELLA":"60606", "MEDIVAWA":"60612", "POLPITIGAMA":"60620", "ULPOTHA PALLEKELE":"60622", "THALAKOLAWEWA":"60624", "KONWEWA":"60630", "MORAGOLLAGAMA":"60640", "SIYAMBALANGAMUWA":"60646", "AMBANPOLA":"60650", "GALGAMUWA":"60700", "PALUKADAWALA":"60704", "ATARAGALLA":"60706", "GALLEWA":"60712", "MAKULEWA":"60714", "EHETUWEWA":"60716", "EMBOGAMA":"60718", "WANNIKUDAWEWA":"60721", "WANNIILHALAGAMA":"60722", "MAHANANNERIYA":"60724", "MAHAGALKADAWALA":"60731", "USGALA SIYABMALANGAMUWA":"60732", "TAMBUTTA":"60734", "PAHALAGIRIBAWA":"60735", "SALIYA ASOKAPURA":"60736", "SOLEPURA":"60737", "SOLEWEWA":"60738", "WARAWEWA":"60739", "MEEGALAWA":"60750", "GIRATHALANA":"60752", "KUDAKATNORUWA":"60754"}
+                postal: {"KURUNEGALA":"60000", "KUDAGALGAMUWA":"60003", "MINHETTIYA":"60004", "DORATIYAWA":"60013", "INDULGODAKANDA":"60016", "DEMATALUWA":"60024", "ITHANAWATTA":"60025", "BOYAGANE":"60027", "KOHILAGEDARA":"60028", "KOSGOLLA":"60029", "HINDAGOLLA":"60034", "AMBAKOTE":"60036", "MORATHIHA":"60038", "RIDIGAMA":"60040", "DELWITE":"60044", "IRIYAGOLLA":"60045", "ALAWATUWALA":"60047", "PANAGAMUWA":"60052", "PIHIMBUWA":"60053", "KANADENIYAWALA":"60054", "PILESSA":"60058", "MAWATHAGAMA":"60060", "KAHAPATHWALA":"60062", "INGURUWATTA":"60064", "MEETANWALA":"60066", "PUSWELITENNA":"60072", "ANHANDIYA":"60074", "BULUWALA":"60076", "WEUDA":"60080", "UHUMIYA":"60094", "KALUGAMUWA":"60096", "NARAMMALA":"60100", "KARAGAHAGEDARA":"60106", "BOGAMULLA":"60107", "LONAHETTIYA":"60108", "PAHAMUNE":"60112", "METIYAGANE":"60121", "MURUTHENGE":"60122", "DAMBADENIYA":"60130", "IHALA KATUGAMPALA":"60135", "GIRIULLA":"60140", "NARANGODA":"60152", "ELIBICHCHIYA":"60156", "PANNALA":"60160", "LABBALA":"60162", "GONAWILA":"60170", "DARALUWA":"60174", "SANDALANKAWA":"60176", "HORAMBAWA":"60181", "ALAHITIYAWA":"60182", "KEKUNAGOLLA":"60183", "KIRIMETIYAWA":"60184", "NAKKAWATTA":"60186", "KITHALAWA":"60188", "WEWAGAMA":"60195", "WALAKUMBURUMULLA":"60198", "KULIYAPITIYA":"60200", "YAKWILA":"60202", "WADUMUNNEGEDARA":"60204", "WELPALLA":"60206", "THALAHITIMULLA":"60208", "MADAKUMBURUMULLA":"60209", "IHALA GOMUGOMUWA":"60211", "KIRINDAWA":"60212", "ANUKKANE":"60214", "MUNAMALDENIYA":"60218", "MAGULAGAMA":"60221", "NAGOLLAGODA":"60226", "THARANA UDAWELA":"60227", "DEEGALLA":"60228", "ILUKHENA":"60232", "PADIWELA":"60236", "IHALA KADIGAMUWA":"60238", "WELIPENNAGAHAMULLA":"60240", "UDUBADDAWA":"60250", "DUMMALASURIYA":"60260", "WATUWATTA":"60262", "ETUNGAHAKOTUWA":"60266", "ALAWWA":"60280", "WENNORUWA":"60284", "MAHARACHCHIMULLA":"60286", "KEPPITIWALANA":"60288", "BUJJOMUWA":"60291", "NAWATALWATTA":"60292", "POLGAHAWELA":"60300", "METIKUMBURA":"60304", "TALAWATTEGEDARA":"60306", "ARAGODA":"60308", "PANALIYA":"60312", "YATIGALOLUWA":"60314", "WADAKADA":"60318", "POTHUHERA":"60330", "MASPOTHA":"60344", "BAMUNUKOTUWA":"60347", "PANADARAGAMA":"60348", "KATUPOTA":"60350", "MORAGANE":"60354", "KOSDENIYA":"60356", "WARIYAPOLA":"60400", "WELLAGALA":"60402", "MALAGANE":"60404", "MINUWANGETE":"60406", "MIRIHANAGAMA":"60408", "KOBEIGANE":"60410", "HENGAMUWA":"60414", "ALAHENGAMA":"60416", "KANATTEWEWA":"60422", "BANDARA KOSWATTA":"60424", "TUTTIRIPITIGAMA":"60426", "HETTIPOLA":"60430", "MANDAPOLA":"60434", "SUNANDAPURA":"60436", "BORALUWEWA":"60437", "KURATIHENA":"60438", "PIHIMBIYAGOLEWA":"60439", "HALMILLAWEWA":"60441", "BINGIRIYA":"60450", "TISOGAMA":"60453", "WEERAPOKUNA":"60454", "WELLARAWA":"60456", "HIRUWALPOLA":"60458", "PADENIYA":"60461", "AWULEGAMA":"60462", "WELAWA JUNCTON":"60464", "WANNIGAMA":"60465", "NIKAWERATIYA":"60470", "DIVULLEGODA":"60472", "HULOGEDARA":"60474", "THIMBIRIYAWA":"60476", "HULUGALLA":"60477", "SIRISETAGAMA":"60478", "MAHAGIRILLA":"60479", "NABADEWA":"60482", "KOTAWEHERA":"60483", "MEEWELLAWA":"60484", "DIGANNEWA":"60485", "HILOGAMA":"60486", "WANNIRASNAYAKAPURA":"60490", "KADIGAWA":"60492", "MONNEKULAMA":"60495", "TORAYAYA":"60499", "LBBAGAMUWA":"60500", "KIRINDIGALLA":"60502", "KUMBUKWEWA":"60506", "KUMBUKGETE":"60508", "MAELIYA":"60512", "MAKULPOTHA":"60514", "MAHAMUKALANYAYA":"60516", "PERIYAKADNELUWA":"60518", "GOKARALLA":"60522", "DODANGASLANDA":"60530", "MADURAGODA":"60532", "MELSIRIPURA":"60540", "DIDDENIYA":"60544", "HIRIYALA LENAWA":"60546", "KIMBULWANAOYA":"60548", "NELLIYA":"60549", "MADAHAPOLA":"60552", "PANSIYAGAMA":"60554", "PANLIYADDA":"60558", "WELLAWA":"60570", "THALWITA":"60572", "MAKULWEWA":"60578", "NIKADALUPOTHA":"60580", "HUNUPOLA":"60582", "THAMBAGALLA":"60584", "NAGOLLAGAMA":"60590", "MAHO":"60600", "KARAMBE":"60602", "BALALLA":"60604", "RIDIBENDIELLA":"60606", "MEDIVAWA":"60612", "POLPITIGAMA":"60620", "ULPOTHA PALLEKELE":"60622", "THALAKOLAWEWA":"60624", "KONWEWA":"60630", "MORAGOLLAGAMA":"60640", "SIYAMBALANGAMUWA":"60646", "AMBANPOLA":"60650", "GALGAMUWA":"60700", "PALUKADAWALA":"60704", "ATARAGALLA":"60706", "GALLEWA":"60712", "MAKULEWA":"60714", "EHETUWEWA":"60716", "EMBOGAMA":"60718", "WANNIKUDAWEWA":"60721", "WANNIILHALAGAMA":"60722", "MAHANANNERIYA":"60724", "MAHAGALKADAWALA":"60731", "USGALA SIYABMALANGAMUWA":"60732", "TAMBUTTA":"60734", "PAHALAGIRIBAWA":"60735", "SALIYA ASOKAPURA":"60736", "SOLEPURA":"60737", "SOLEWEWA":"60738", "WARAWEWA":"60739", "MEEGALAWA":"60750", "GIRATHALANA":"60752", "KUDAKATNORUWA":"60754"}
             },
             "PUTTALAM": {
                 divs: ["KALPITIYA", "VANATHAVILLUWA", "KARUWALAGASWEWA", "NAWAGATTEGAMA", "PUTTALAM", "MUNDEL", "MAHAKUMBUKKADAWALA", "ANAMADUWA", "PALLAMA", "ARACHCHIKATTUWA", "CHILAW", "MADAMPE", "MAHAWEWA", "NATTANDIYA", "WENNAPPUWA", "DANKOTUWA"],
@@ -901,7 +899,19 @@
         }
     };
 
-    function initCascadingDropdowns() {
+    // Initialize Dropdowns on load
+    function initDropdowns() {
+        const provSelect = document.getElementById("i_provinceLoc");
+        provSelect.innerHTML = '<option value="">-- SELECT PROVINCE --</option>';
+        for (let prov in slLocationData) {
+            let opt = document.createElement("option");
+            opt.value = prov;
+            opt.text = prov;
+            provSelect.appendChild(opt);
+        }
+    }
+
+    function loadDistricts() {
       const provSelect = document.getElementById("i_provinceLoc");
       const distSelect = document.getElementById("i_district");
       const divSecSelect = document.getElementById("i_divSec");
@@ -909,68 +919,80 @@
       const postalAreaList = document.getElementById("postalarea-list");
       const postalCodeInput = document.getElementById("i_postalCode");
 
-      provSelect.addEventListener("change", function() {
-        let prov = this.value;
-        distSelect.innerHTML = '<option value="">-- SELECT DISTRICT --</option>';
-        divSecSelect.innerHTML = '<option value="">-- SELECT DIV SEC --</option>';
-        postalAreaInput.value = "";
-        postalAreaList.innerHTML = "";
-        postalCodeInput.value = "";
+      let prov = provSelect.value;
+      distSelect.innerHTML = '<option value="">-- SELECT DISTRICT --</option>';
+      divSecSelect.innerHTML = '<option value="">-- SELECT DIV SEC --</option>';
+      postalAreaInput.value = "";
+      postalAreaList.innerHTML = "";
+      postalCodeInput.value = "";
 
-        if (prov && slLocationData[prov]) {
-          for (let dist in slLocationData[prov]) {
+      if (prov && slLocationData[prov]) {
+        for (let dist in slLocationData[prov]) {
+          let opt = document.createElement("option");
+          opt.value = dist;
+          opt.text = dist;
+          distSelect.appendChild(opt);
+        }
+      }
+    }
+
+    function loadDivSecAndPostal() {
+      const provSelect = document.getElementById("i_provinceLoc");
+      const distSelect = document.getElementById("i_district");
+      const divSecSelect = document.getElementById("i_divSec");
+      const postalAreaInput = document.getElementById("i_postalArea");
+      const postalAreaList = document.getElementById("postalarea-list");
+      const postalCodeInput = document.getElementById("i_postalCode");
+      const collectOfficeInput = document.getElementById("i_collectOffice");
+
+      let prov = provSelect.value;
+      let dist = distSelect.value;
+      
+      divSecSelect.innerHTML = '<option value="">-- SELECT DIV SEC --</option>';
+      postalAreaInput.value = "";
+      postalAreaList.innerHTML = "";
+      postalCodeInput.value = "";
+      
+      if(dist) {
+          collectOfficeInput.value = dist;
+      }
+
+      if (prov && dist && slLocationData[prov] && slLocationData[prov][dist]) {
+        let data = slLocationData[prov][dist];
+        if (data.divs) {
+          data.divs.forEach(d => {
             let opt = document.createElement("option");
-            opt.value = dist;
-            opt.text = dist;
-            distSelect.appendChild(opt);
+            opt.value = d;
+            opt.text = d;
+            divSecSelect.appendChild(opt);
+          });
+        }
+        if (data.postal) {
+          for (let area in data.postal) {
+            let opt = document.createElement("option");
+            opt.value = area;
+            postalAreaList.appendChild(opt);
           }
         }
-      });
+      }
+    }
 
-      distSelect.addEventListener("change", function() {
-        let prov = provSelect.value;
-        let dist = this.value;
-        divSecSelect.innerHTML = '<option value="">-- SELECT DIV SEC --</option>';
-        postalAreaInput.value = "";
-        postalAreaList.innerHTML = "";
-        postalCodeInput.value = "";
+    document.addEventListener("DOMContentLoaded", function() {
+      initDropdowns();
 
-        if (prov && dist && slLocationData[prov] && slLocationData[prov][dist]) {
-          let data = slLocationData[prov][dist];
-          if (data.divs) {
-            data.divs.forEach(d => {
-              let opt = document.createElement("option");
-              opt.value = d;
-              opt.text = d;
-              divSecSelect.appendChild(opt);
-            });
-          }
-          if (data.postal) {
-            for (let area in data.postal) {
-              let opt = document.createElement("option");
-              opt.value = area;
-              postalAreaList.appendChild(opt);
-            }
-          }
-        }
-      });
-
-      postalAreaInput.addEventListener("input", function() {
-        let prov = provSelect.value;
-        let dist = distSelect.value;
+      // Postal Area auto postal code mapper
+      document.getElementById("i_postalArea").addEventListener("input", function() {
+        let prov = document.getElementById("i_provinceLoc").value;
+        let dist = document.getElementById("i_district").value;
         let area = this.value.toUpperCase();
 
         if (prov && dist && area && slLocationData[prov] && slLocationData[prov][dist] && slLocationData[prov][dist].postal) {
           let code = slLocationData[prov][dist].postal[area];
           if (code) {
-            postalCodeInput.value = code;
+            document.getElementById("i_postalCode").value = code;
           }
         }
       });
-    }
-
-    document.addEventListener("DOMContentLoaded", function() {
-      initCascadingDropdowns();
     });
 
     function switchTab(tabId) {
@@ -1018,7 +1040,8 @@
         el1.innerText = text.substring(0, l1); el2.innerText = text.substring(l1, l2);
         el3.innerText = text.substring(l2, l3); el4.innerText = text.substring(l3, text.length); 
       }
-      el1.style.letterSpacing = defaultSpacing; el2.style.letterSpacing = defaultSpacing; el3.style.letterSpacing = defaultSpacing;
+      el1.style.letterSpacing = defaultSpacing; el2.style.letterSpacing = defaultSpacing;
+      el3.style.letterSpacing = defaultSpacing;
     }
 
     function applyMta3Text(baseId, text, limit1, limit2) {
@@ -1052,7 +1075,7 @@
       return html;
     }
 
-    // Word Wrap Function (Without breaking words)
+    // Professional Word Wrap (Never cuts words in the middle)
     function splitTextByWord(text, lengths) {
       let parts = [];
       let remaining = text ? text.trim() : "";
@@ -1065,13 +1088,13 @@
               // Find last space within the limit
               let splitIndex = remaining.lastIndexOf(" ", lengths[i]);
               
-              // If no space found, try to split at a comma
+              // If no space, check for comma
               if (splitIndex === -1 || splitIndex === 0) {
                   let commaIndex = remaining.lastIndexOf(",", lengths[i]);
-                  if(commaIndex > 0) splitIndex = commaIndex + 1; // Include comma in first line
+                  if(commaIndex > 0) splitIndex = commaIndex + 1;
               }
               
-              // If still no space or comma, force split exactly at limit
+              // If still no split point (super long word), force cut at limit
               if (splitIndex === -1 || splitIndex === 0) {
                   splitIndex = lengths[i];
               }
@@ -1079,13 +1102,12 @@
               parts.push(remaining.substring(0, splitIndex).trim());
               remaining = remaining.substring(splitIndex).trim();
               
-              // Clean up if it starts with comma after split
               if(remaining.startsWith(",")) {
                   remaining = remaining.substring(1).trim();
               }
           }
       }
-      parts.push(remaining); // Anything leftover goes to the last spot
+      parts.push(remaining); 
       return parts;
     }
 
@@ -1207,12 +1229,9 @@
         
         applyMta3Text('p3f_financeAddress1', financeAddress, 98);
         applyMta3Text('p3f_financeName1', financeName, 100);
-        
-        // This handles Original Format Name/Address limits
         applyMta3Text('p3f_newAddress1', newAddress, 70);
         
-        // Using word split for Original Format as well
-        let origNewNameParts = splitTextByWord(newName, [20, 50, 50]);
+        let origNewNameParts = splitTextByWord(newName, [18, 50, 50]);
         document.getElementById('p3f_newName1').innerText = origNewNameParts[0];
         document.getElementById('p3f_newName1_ov').innerText = origNewNameParts[1];
         if(document.getElementById('p3f_newName1_ov2')) { document.getElementById('p3f_newName1_ov2').innerText = origNewNameParts[2] || ""; }
@@ -1255,7 +1274,6 @@
       fillDynamicBoxLines('pf_box_newName', newName, 34, 37, 37);      
       fillDynamicBoxLines('pf_box_newAddress', newAddress, 31, 37, 37);
 
-      // Add postal code directly from input value
       document.getElementById('pf_box_newId').innerHTML = generateBoxesHtml(newId, 12);
       document.getElementById('pf_box_postal').innerHTML = generateBoxesHtml(postalCode, 5);
       document.getElementById('pf_box_mobile').innerHTML = generateBoxesHtml(mobileNo, 10);
@@ -1279,13 +1297,14 @@
         document.getElementById('box_p3f_financeName1').innerText = fNameParts[0];
         document.getElementById('box_p3f_financeName2').innerText = fNameParts[1];
         
-        // 20-char limit logic applied here for the red box line, keeping dotted line right aligned
-        let cAddrParts = splitTextByWord(newAddress, [20, 55]);
+        // Exact word splitting for Customer Address (Address first)
+        let cAddrParts = splitTextByWord(newAddress, [20, 50]);
         document.getElementById('box_p3f_newName1').innerText = cAddrParts[0];
         document.getElementById('box_p3f_newName2').innerText = cAddrParts[1];
         document.getElementById('box_p3f_newName_overflow').innerText = cAddrParts[2];
         
-        let cNameParts = splitTextByWord(newName, [40, 75]);
+        // Exact word splitting for Customer Name (Name second)
+        let cNameParts = splitTextByWord(newName, [38, 70]);
         document.getElementById('box_p3f_newAddress1').innerText = cNameParts[0];
         document.getElementById('box_p3f_newAddress2').innerText = cNameParts[1];
         document.getElementById('box_p3f_newAddress_overflow2').innerText = cNameParts[2];
@@ -1298,13 +1317,13 @@
         document.getElementById('box_p3f_newAddress3').innerText = botNameParts[0];
         document.getElementById('box_p3f_newAddress4').innerText = botNameParts[1];
 
-        // Limits set to [25, 45] to fit next to "I do hereby acknowledge..." without overflowing
+        // Page 4 Back Overlay Word wrap (Limited to 25 for first line to prevent overflow)
         let bAddrParts = splitTextByWord(financeAddress, [25, 45]);
         document.getElementById('box_p3b_financeAddress1').innerText = bAddrParts[0];
         document.getElementById('box_p3b_financeAddress2').innerText = bAddrParts[1];
         document.getElementById('box_p3b_financeAddress_overflow').innerText = bAddrParts[2];
         
-        let bNameParts = splitTextByWord(financeName, [32]);
+        let bNameParts = splitTextByWord(financeName, [30]);
         document.getElementById('box_p3b_financeName1').innerText = bNameParts[0];
         document.getElementById('box_p3b_financeName_overflow').innerText = bNameParts[1];
       } else {
