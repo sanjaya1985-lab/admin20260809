@@ -115,7 +115,7 @@
       text-transform: uppercase;
       font-family: 'Courier New', Courier, monospace;
       font-weight: bold;
-      font-size: 12px; /* MTA 3 Font size updated to 12 */
+      font-size: 12px; 
       color: #000;
       text-align: left;
       padding: 0 5px;
@@ -123,13 +123,12 @@
       white-space: nowrap;
       overflow: hidden;
     }
-    .mta3-text { font-size: 12px; line-height: 1.5; font-family: Arial, sans-serif; font-weight: bold; color: #000; } /* MTA 3 Font size updated to 12 */
+    .mta3-text { font-size: 12px; line-height: 1.5; font-family: Arial, sans-serif; font-weight: bold; color: #000; } 
     .mta8-text-small { font-size: 10px; font-family: Arial, sans-serif; line-height: 1.4; color: #000; }
   </style>
 </head>
 <body>
 
-  <!-- UI Wrapper -->
   <div class="sticky-wrapper no-print">
     <div class="header">
       <h2><i class="fas fa-file-invoice"></i> RMV PRE-PRINT (Full MTA 8 + Overlays)</h2>
@@ -140,12 +139,10 @@
     </div>
   </div>
 
-  <!-- ADD DATA SECTION -->
   <div id="sec-add" class="content-section active no-print">
     <div class="form-box">
       <h3 style="color: #c62828; margin-top: 0; border-bottom: 1px solid #eee; padding-bottom: 10px;">Type Transfer Details Here</h3>
       
-      <!-- Date -->
       <div class="form-group">
         <label>Transfer Date</label>
         <div style="display:flex; gap:10px;">
@@ -155,7 +152,6 @@
         </div>
       </div>
 
-      <!-- Vehicle Number -->
       <div class="form-group">
         <label>Vehicle Number</label>
         <div style="display:flex; gap:10px;">
@@ -167,22 +163,18 @@
         </div>
       </div>
       
-      <!-- Transferor -->
       <h4 style="margin-top: 20px; margin-bottom: 10px; color: #555;">Transferor (Previous Owner)</h4>
       <div class="form-group"><label>Name</label><input type="text" id="i_oldName" class="form-control" oninput="this.value = this.value.toUpperCase()"></div>
       <div class="form-group"><label>Address</label><input type="text" id="i_oldAddress" class="form-control" oninput="this.value = this.value.toUpperCase()"></div>
       <div class="form-group"><label>Transferor ID Number</label><input type="text" id="i_oldId" class="form-control" maxlength="12" oninput="this.value = this.value.toUpperCase()"></div>
       
-      <!-- Transferee -->
       <h4 style="margin-top: 20px; margin-bottom: 10px; color: #555;">Transferee (New Owner)</h4>
       <div class="form-group"><label>Name</label><input type="text" id="i_newName" class="form-control" oninput="this.value = this.value.toUpperCase()"></div>
       <div class="form-group"><label>Address</label><input type="text" id="i_newAddress" class="form-control" oninput="this.value = this.value.toUpperCase()"></div>
       <div class="form-group"><label>Transferee ID Number</label><input type="text" id="i_newId" class="form-control" maxlength="12" oninput="this.value = this.value.toUpperCase()"></div>
 
-      <!-- MTA 8 Specific Details -->
       <h4 style="margin-top: 20px; margin-bottom: 10px; color: #007bff;">MTA 8 Specific Details</h4>
       
-      <!-- Row 1: Province | District | Divisional Secretariat -->
       <div style="display:flex; gap:10px;">
         <div class="form-group" style="width: 33.33%;">
             <label>Province</label>
@@ -213,7 +205,6 @@
         </div>
       </div>
 
-      <!-- Row 2: Postal Area | Postal Code | Mobile Number -->
       <div style="display:flex; gap:10px;">
         <div class="form-group" style="width: 33.33%;">
             <label>Postal Area</label>
@@ -230,13 +221,11 @@
         </div>
       </div>
 
-      <!-- Row 3: Collect Office -->
       <div class="form-group" style="width: 100%;">
           <label>Collect Office (Number Plate)</label>
           <input type="text" id="i_collectOffice" class="form-control" oninput="this.value = this.value.toUpperCase()">
       </div>
 
-      <!-- Finance -->
       <h4 style="margin-top: 20px; margin-bottom: 10px; color: #555;">Hire-Purchase (Finance)</h4>
       <div style="display:flex; gap:10px;">
         <div class="form-group" style="width: 50%;"><label>Finance Company Name</label><input type="text" id="i_financeName" class="form-control" oninput="this.value = this.value.toUpperCase()"></div>
@@ -247,13 +236,11 @@
     </div>
   </div>
 
-  <!-- PRINT SECTION -->
   <div id="sec-print" class="content-section" style="padding: 20px 0;">
     <button class="btn btn-print no-print" onclick="window.print()"><i class="fas fa-print"></i> Print Forms</button>
     
     <div class="a4-preview-container">
       
-      <!-- PAGE 1: MTA 6 OVERLAY -->
       <div class="a4-page">
         <div class="print-absolute-block" style="top: 76mm; left: 40px; right: 20px;">
           
@@ -372,10 +359,8 @@
         </div>
       </div>
 
-      <!-- PAGE 2: FULL MTA 8 PAGE -->
       <div class="a4-page mta8-page" style="padding: 8mm 8mm; font-family: Arial, sans-serif; position: relative;">
         
-        <!-- Top Row (Header) -->
         <div style="display: flex; justify-content: space-between; width: 100%;">
            <div style="display: flex;">
               <div style="font-size: 10px; font-weight: bold; line-height: 1.6; white-space: nowrap; color: #000;">
@@ -406,7 +391,6 @@
            </div>
         </div>
 
-        <!-- Center Section & Photo -->
         <div style="position: relative; margin-top: 14px; font-family: Arial, sans-serif; color: #000; min-height: 160px;">
            <div style="text-align: center; line-height: 1.4; padding-right: 4.5cm;">
               <div style="font-size: 10px; font-weight: bold;">13 (1) වැනි වගන්තිය</div>
@@ -440,10 +424,8 @@
            To: THE COMMISSIONER GENERAL OF MOTOR TRAFFIC
         </div>
 
-        <!-- Dynamic Form Fields Container -->
         <div style="margin-top: 5px;">
           
-          <!-- Vehicle No -->
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
             <div class="mta8-text-small" style="font-weight: bold;">I hereby apply to be registered as the new owner of the Vehicle Number</div>
             <div style="display: flex; gap: 10px;">
@@ -453,7 +435,6 @@
             </div>
           </div>
 
-          <!-- Old Name (Previously registered) -->
           <div style="display: flex; align-items: flex-end; margin-bottom: 3px; width: 100%;">
             <div class="mta8-text-small" style="font-weight: bold; white-space: nowrap;">Previously registered</div>
             <div id="pf_box_oldName_line1" class="box-container" style="flex-grow: 1;"></div>
@@ -461,7 +442,6 @@
           <div style="display: flex; margin-bottom: 0px; width: 100%;">
             <div id="pf_box_oldName_line2" class="box-container" style="width: 100%;"></div>
           </div>
-          <!-- වැඩිපුර අකුරු වැටෙන පේළිය -->
           <div id="pf_box_oldName_overflow_container" style="display: none; align-items: center; margin-top: 2px; margin-bottom: 0px;">
             <div style="flex-grow: 1; display: flex;">
               <div id="pf_box_oldName_overflow" class="text-line-3" style="font-size: 9px; padding-left: 5px;"></div>
@@ -471,7 +451,6 @@
             පැවරුම්කරුගේ නම/ மாற்றிக் கொடுப்பவரின் பெயர் /Name of Transferor
           </div>
 
-          <!-- New Name (to) -->
           <div style="display: flex; align-items: flex-end; margin-bottom: 3px; width: 100%;">
             <div class="mta8-text-small" style="font-weight: bold; white-space: nowrap;">to</div>
             <div id="pf_box_newName_line1" class="box-container" style="flex-grow: 1;"></div>
@@ -482,7 +461,6 @@
           <div style="display: flex; margin-bottom: 0px; width: 100%;">
             <div id="pf_box_newName_line3" class="box-container" style="width: 100%;"></div>
           </div>
-          <!-- වැඩිපුර අකුරු වැටෙන පේළිය -->
           <div id="pf_box_newName_overflow_container" style="display: none; align-items: center; margin-top: 2px; margin-bottom: 0px;">
             <div style="flex-grow: 1; display: flex;">
               <div id="pf_box_newName_overflow" class="text-line-3" style="font-size: 9px; padding-left: 5px;"></div>
@@ -492,7 +470,6 @@
             පැවරුම්ලාභියාගේ නම/ மாற்றிப் பெறுபவரின் பெயர்/ Name of Transferee
           </div>
 
-          <!-- New Address (residing at) -->
           <div style="display: flex; align-items: flex-end; margin-bottom: 3px; width: 100%;">
             <div class="mta8-text-small" style="font-weight: bold; white-space: nowrap;">residing at</div>
             <div id="pf_box_newAddress_line1" class="box-container" style="flex-grow: 1;"></div>
@@ -503,7 +480,6 @@
           <div style="display: flex; margin-bottom: 0px; width: 100%;">
             <div id="pf_box_newAddress_line3" class="box-container" style="width: 100%;"></div>
           </div>
-          <!-- වැඩිපුර අකුරු වැටෙන පේළිය -->
           <div id="pf_box_newAddress_overflow_container" style="display: none; align-items: center; margin-top: 2px; margin-bottom: 0px;">
             <div style="flex-grow: 1; display: flex;">
               <div id="pf_box_newAddress_overflow" class="text-line-3" style="font-size: 9px; padding-left: 5px;"></div>
@@ -513,7 +489,6 @@
             පැවරුම්ලාභියාගේ ලිපිනය/ மாற்றிப் பெறுபவரின் முகவரி / Address of Transferee
           </div>
 
-          <!-- Transferee ID -->
           <div style="display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 10px;">
             <div class="mta8-text-small" style="font-weight: bold; line-height: 1.4;">
               <div>පැවරුම්ලාභියාගේ හැඳුනුම්පත් අංකය /மாற்றிப் பெறுபவரின் பெயர்அடையாள අட்டை இலக்கம்/Identity</div>
@@ -522,7 +497,6 @@
             <div id="pf_box_newId" class="box-container"></div>
           </div>
 
-          <!-- Postal Code & Mobile -->
           <div style="display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 25px;">
             <div style="display: flex; align-items: flex-end; gap: 10px;">
               <div class="mta8-text-small" style="font-weight: bold; margin-bottom: 2px;">තැපැල් අංකය/தபால் இல/Postal Code</div>
@@ -537,18 +511,15 @@
             </div>
           </div>
 
-          <!-- (i) Licensing Authority Section Matching 2nd Image -->
           <div class="mta8-text-small" style="font-weight: bold; margin-bottom: 8px; font-size: 9px;">
             (i) බලපත්‍ර අධිකාරිය/அனுமதிப்பத்திர அதிகார சபை/Licensing Authority
           </div>
           
           <div style="padding-left: 10px; margin-bottom: 1px;">
-            <!-- Div Secretariat Full Horizontal Title -->
             <div class="mta8-text-small" style="font-weight: bold; white-space: nowrap; margin-bottom: 4px;">
               ප්‍රාදේශීය ලේකම් කොට්ඨාශය /பிரதேசசெயலகம்/Divisional Secretariat/
             </div>
             
-            <!-- DivSec Boxes on Left + District Label & Boxes on Right -->
             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
               <div id="pf_box_divSec" class="box-container"></div>
               
@@ -558,7 +529,6 @@
               </div>
             </div>
             
-            <!-- Province Title & Boxes (Aligned in one row) -->
             <div style="display: flex; align-items: flex-end; margin-bottom: 8px;">
               <div class="mta8-text-small" style="font-weight: bold; white-space: nowrap; margin-right: 15px;">
                 පළාත/மாகாணம்/Province
@@ -567,7 +537,6 @@
             </div>
           </div>            
           
-          <!-- Date -->
           <div style="display: flex; align-items: flex-start; margin-bottom: 1px;">
             <div class="mta8-text-small" style="font-weight: bold; width: 350px; font-size: 9px; margin-top: 4px;">
               (ii) <span style="font-size: 9px;">පැවරුම් දිනය/ உரிமை மாறும் திகதி/ Date of transfer:</span>
@@ -579,7 +548,6 @@
             </div>
           </div>
 
-          <!-- Receive number plates -->
           <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 5px;">
             <div class="mta8-text-small" style="font-weight: bold; line-height: 1.8;">
               <div style="font-size: 12px;">(iii) <span style="font-size: 8px;">අංක තහඩුව ලබාගන්නා දිස්ත්‍රික් කාර්යාලය:</span></div>
@@ -589,7 +557,6 @@
             <div id="pf_box_collect" class="box-container"></div>
           </div>
 
-          <!-- Attachments -->
           <div style="margin-bottom: 10px;">
             <div class="mta8-text-small" style="font-weight: bold; line-height: 1.8;">
               <div style="font-size: 12px;">(iv) <span style="font-size: 9px;">පහත සඳහන් ලියකියවිලි මේ සමඟ ඉදිරිපත් කරමි.</span></div>
@@ -610,12 +577,10 @@
         </div>
       </div>
 
-      <!-- PAGE 3: MTA 3 Front OVERLAY -->
       <div class="a4-page">
         <div class="print-absolute-block" style="top: 560px; left: 40px; right: 40px;">
           <div class="mta3-text" style="font-family: 'Times New Roman', Times, serif; font-size: 12px; font-weight: normal; line-height: 1.5;">
             
-            <!-- English Section 1 -->
             <div style="display: flex; align-items: flex-end; margin-bottom: 15px; width: 100%; position: relative;">
                 <span style="margin-right: 10px; white-space: nowrap;">I <sup>1</sup></span>
                 <span id="p3f_financeAddress1" class="dotted-line" style="flex-grow: 1;"></span>
@@ -648,7 +613,6 @@
                 <span style="margin-left: 10px; white-space: nowrap;">under the hire-purchase agreement.</span>
             </div>
 
-            <!-- Sinhala Section -->
             <div style="display: flex; align-items: flex-end; margin-bottom: 2px; margin-top: 5px;">
                 <span class="dotted-line" style="flex-grow: 1;"></span>
                 <span style="margin-left: 10px; font-family: Arial, sans-serif; font-size: 12px;"><sup>3</sup> පදිංචි</span>
@@ -661,7 +625,6 @@
                 වාහනය කුලියට ගත් බවට පහත අත්සන් කර ඇත.
             </div>
 
-            <!-- Tamil Section -->
             <div style="display: flex; align-items: flex-end; margin-bottom: 2px;">
                 <span class="dotted-line" style="flex-grow: 1;"></span>
                 <span style="margin-left: 10px; font-family: Arial, sans-serif; font-size: 12px;">சேர்ந்த</span>
@@ -675,7 +638,6 @@
                 வாகனம் தனக்கு வாடகைக்கு விடப்பட்டுள்ளது என்பதை ஒப்புக்கொண்டு கீழே கையொப்பமிட்டுள்ளார்
             </div>
 
-            <!-- English Section 2 -->
             <div style="display: flex; align-items: flex-end; margin-bottom: 16px; position: relative;">
                 <span style="margin-right: 10px; white-space: nowrap;">The aforesaid <sup>3</sup></span>
                 <span id="p3f_newName3" class="dotted-line" style="flex-grow: 1;"></span>
@@ -696,32 +658,25 @@
         </div>
       </div>      
       
-      <!-- PAGE 4: MTA 3 Back OVERLAY -->
       <div class="a4-page last-page">
         <div class="print-absolute-block" style="top: 168px; left: 20px; right: 28px;">
           <div class="mta3-text" style="font-family: 'Times New Roman', Times, serif; font-size: 12px; font-weight: normal; line-height: 1.5;">
             
-            <!-- Line 1: "...let to me by 1" + Finance Address Part 1 -->
             <div style="display: flex; align-items: flex-end; margin-bottom: 15px; width: 100%; position: relative;">
               <span style="margin-right: 10px; white-space: nowrap;">I do hereby acknowledge that the motor vehicle has been let to me by <sup>1</sup></span>
               <span id="p3b_financeAddress1" class="dotted-line" style="flex-grow: 1;"></span>
-              <!-- Overflow for Address Part 1 -->
               <div id="p3b_financeAddress_overflow1" style="position: absolute; top: 16px; left: 320px; width: 100%; font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: 12px; color: #000; text-transform: uppercase;"></div>
             </div>
 
-            <!-- Line 2: Finance Address Part 2 + "of 2" + Finance Name + "under a hire..." -->
             <div style="display: flex; align-items: flex-end; margin-bottom: 15px; width: 100%; position: relative;">
               <span id="p3b_financeAddress2" class="dotted-line" style="width: 38%;"></span>
               
-              <!-- Left Column Overflow for Address -->
               <div id="p3b_financeAddress_overflow" style="position: absolute; top: 18px; left: 5px; width: 38%; font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: 12px; color: #000; text-transform: uppercase; line-height: 1.6; white-space: normal;"></div>
               
               <span style="margin: 0 10px; white-space: nowrap;">of <sup>2</sup></span>
               
               <span id="p3b_financeName1" class="dotted-line" style="flex-grow: 1;"></span>
               
-              <!-- Right Column Overflow for Name -->
-              <!-- Starts exactly after Address Part 2 (38%) + "of 2" margin spacing (~40px) -->
               <div id="p3b_financeName_overflow" style="position: absolute; top: 18px; left: calc(38% + 40px); right: 0; font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: 12px; color: #000; text-transform: uppercase; line-height: 1.6; white-space: normal;"></div>
               
               <span style="margin-left: 10px; white-space: nowrap;">under a hire-purchase agreement.</span>
@@ -857,77 +812,61 @@
         }
     };
 
-    function initCascadingDropdowns() {
-      const provSelect = document.getElementById("i_provinceLoc");
-      const distSelect = document.getElementById("i_district");
-      const divSecSelect = document.getElementById("i_divSec");
-      const postalAreaInput = document.getElementById("i_postalArea");
-      const postalAreaList = document.getElementById("postalarea-list");
-      const postalCodeInput = document.getElementById("i_postalCode");
-
-      provSelect.addEventListener("change", function() {
-        let prov = this.value;
-        distSelect.innerHTML = '<option value="">-- SELECT DISTRICT --</option>';
-        divSecSelect.innerHTML = '<option value="">-- SELECT DIV SEC --</option>';
-        postalAreaInput.value = "";
-        postalAreaList.innerHTML = "";
-        postalCodeInput.value = "";
-
-        if (prov && slLocationData[prov]) {
-          for (let dist in slLocationData[prov]) {
-            let opt = document.createElement("option");
-            opt.value = dist;
-            opt.text = dist;
-            distSelect.appendChild(opt);
-          }
+    window.onload = function() {
+        const provSelect = document.getElementById('i_provinceLoc');
+        provSelect.innerHTML = '<option value="">-- Select Province --</option>';
+        for (let prov in slLocationData) {
+            provSelect.add(new Option(prov, prov));
         }
-      });
+    };
 
-      distSelect.addEventListener("change", function() {
-        let prov = provSelect.value;
-        let dist = this.value;
-        divSecSelect.innerHTML = '<option value="">-- SELECT DIV SEC --</option>';
-        postalAreaInput.value = "";
-        postalAreaList.innerHTML = "";
-        postalCodeInput.value = "";
-
-        if (prov && dist && slLocationData[prov] && slLocationData[prov][dist]) {
-          let data = slLocationData[prov][dist];
-          if (data.divs) {
-            data.divs.forEach(d => {
-              let opt = document.createElement("option");
-              opt.value = d;
-              opt.text = d;
-              divSecSelect.appendChild(opt);
-            });
-          }
-          if (data.postal) {
-            for (let area in data.postal) {
-              let opt = document.createElement("option");
-              opt.value = area;
-              postalAreaList.appendChild(opt);
-            }
-          }
+    function loadDistricts() {
+      const prov = document.getElementById('i_provinceLoc').value;
+      const distSelect = document.getElementById('i_district');
+      distSelect.innerHTML = '<option value="">-- Select District --</option>';
+      if(prov && slLocationData[prov]) {
+        for (let dist in slLocationData[prov]) {
+          distSelect.add(new Option(dist, dist));
         }
-      });
-
-      postalAreaInput.addEventListener("input", function() {
-        let prov = provSelect.value;
-        let dist = distSelect.value;
-        let area = this.value.toUpperCase();
-
-        if (prov && dist && area && slLocationData[prov] && slLocationData[prov][dist] && slLocationData[prov][dist].postal) {
-          let code = slLocationData[prov][dist].postal[area];
-          if (code) {
-            postalCodeInput.value = code;
-          }
-        }
-      });
+      }
+      loadDivSecAndPostal();
     }
 
-    document.addEventListener("DOMContentLoaded", function() {
-      initCascadingDropdowns();
-    });
+    function loadDivSecAndPostal() {
+      const prov = document.getElementById('i_provinceLoc').value;
+      const dist = document.getElementById('i_district').value;
+      
+      const divSelect = document.getElementById('i_divSec');
+      const postSelect = document.getElementById('i_postalArea');
+      
+      divSelect.innerHTML = '<option value="">-- Select Div Sec --</option>';
+      postSelect.innerHTML = '<option value="">-- Select Area --</option>';
+      document.getElementById('i_postalCode').value = '';
+
+      document.getElementById('i_collectOffice').value = dist ? dist : "";
+
+      if(prov && dist && slLocationData[prov][dist]) {
+        const data = slLocationData[prov][dist];
+        data.divs.forEach(d => divSelect.add(new Option(d, d)));
+        
+        let postalKeys = Object.keys(data.postal).sort();
+        postalKeys.forEach(area => {
+          postSelect.add(new Option(area, area));
+        });
+      }
+    }
+
+    function setPostalCode() {
+      const prov = document.getElementById('i_provinceLoc').value;
+      const dist = document.getElementById('i_district').value;
+      const area = document.getElementById('i_postalArea').value;
+      
+      if(prov && dist && area && slLocationData[prov][dist].postal[area]) {
+        document.getElementById('i_postalCode').value = slLocationData[prov][dist].postal[area];
+      } else {
+        document.getElementById('i_postalCode').value = '';
+      }
+    }
 
     function switchTab(tabId) {
       document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -936,6 +875,86 @@
       document.getElementById('sec-' + tabId).classList.add('active');
     }
 
+    function applyTextToLines(el1Id, el2Id, el3Id, text, defaultSpacing) {
+      let el1 = document.getElementById(el1Id);
+      let el2 = document.getElementById(el2Id);
+      let el3 = document.getElementById(el3Id);
+      if (!el1 || !el2 || !el3) return;
+
+      if(text.length <= 35) {
+        el1.innerText = text; el2.innerText = ""; el3.innerText = "";
+        el1.style.letterSpacing = defaultSpacing;
+      } else if(text.length <= 70) {
+        el1.innerText = text.substring(0, 35); el2.innerText = text.substring(35, 70); el3.innerText = "";
+        el1.style.letterSpacing = defaultSpacing; el2.style.letterSpacing = defaultSpacing;
+      } else {
+        el1.innerText = text.substring(0, 35); el2.innerText = text.substring(35, 70); el3.innerText = text.substring(70, text.length);
+        el1.style.letterSpacing = defaultSpacing; el2.style.letterSpacing = defaultSpacing;
+      }
+    }
+
+    function applyCustomTextTo4Lines(el1Id, el2Id, el3Id, el4Id, text, limit1, limit2, limit3, defaultSpacing) {
+      let el1 = document.getElementById(el1Id);
+      let el2 = document.getElementById(el2Id);
+      let el3 = document.getElementById(el3Id);
+      let el4 = document.getElementById(el4Id);
+      if (!el1 || !el2 || !el3 || !el4) return;
+
+      let l1 = limit1;
+      let l2 = limit1 + limit2;
+      let l3 = limit1 + limit2 + limit3;
+
+      if(text.length <= l1) {
+        el1.innerText = text; el2.innerText = ""; el3.innerText = ""; el4.innerText = "";
+      } else if(text.length <= l2) {
+        el1.innerText = text.substring(0, l1);
+        el2.innerText = text.substring(l1, text.length);
+        el3.innerText = ""; el4.innerText = "";
+      } else if(text.length <= l3) {
+        el1.innerText = text.substring(0, l1);
+        el2.innerText = text.substring(l1, l2);
+        el3.innerText = text.substring(l2, text.length);
+        el4.innerText = "";
+      } else {
+        el1.innerText = text.substring(0, l1);
+        el2.innerText = text.substring(l1, l2);
+        el3.innerText = text.substring(l2, l3);
+        el4.innerText = text.substring(l3, text.length); 
+      }
+      
+      el1.style.letterSpacing = defaultSpacing;
+      el2.style.letterSpacing = defaultSpacing;
+      el3.style.letterSpacing = defaultSpacing;
+    }
+
+    function applyMta3Text(baseId, text, limit1, limit2) {
+      let mainEl = document.getElementById(baseId);
+      let ovEl = document.getElementById(baseId + "_ov");
+      let ov2El = document.getElementById(baseId + "_ov2");
+      
+      if(!mainEl || !ovEl) return;
+      
+      if(text.length <= limit1) {
+        mainEl.innerText = text;
+        ovEl.innerText = "";
+        if(ov2El) ov2El.innerText = "";
+      } else {
+        mainEl.innerText = text.substring(0, limit1);
+        let remaining = text.substring(limit1, text.length);
+        
+        if(limit2 && remaining.length > limit2) {
+          ovEl.innerText = remaining.substring(0, limit2);
+          if(ov2El) {
+            ov2El.innerText = remaining.substring(limit2, remaining.length);
+          }
+        } else {
+          ovEl.innerText = remaining;
+          if(ov2El) ov2El.innerText = "";
+        }
+      }
+    }
+
+    // BOX OVERLAY HELPERS (Source 2)
     function generateBoxesHtml(text, boxCount) {
       let html = '';
       text = text ? text.toUpperCase() : '';
@@ -946,63 +965,77 @@
       return html;
     }
 
-    function splitText(text, lengths) {
+    // New splitting logic: Splits exactly by given character limits, BUT doesn't break middle of words
+    function splitTextByWord(text, lengths) {
       let parts = [];
-      let currentIndex = 0;
+      let remaining = text ? text.trim() : "";
+      
       for (let i = 0; i < lengths.length; i++) {
-          if (currentIndex >= text.length) {
-              parts.push("");
+          if (remaining.length <= lengths[i]) {
+              parts.push(remaining);
+              remaining = "";
           } else {
-              parts.push(text.substring(currentIndex, currentIndex + lengths[i]));
-              currentIndex += lengths[i];
+              // Find last space within the limit
+              let splitIndex = remaining.lastIndexOf(" ", lengths[i]);
+              
+              // If no space found (super long word), try to split at a comma
+              if (splitIndex === -1 || splitIndex === 0) {
+                  splitIndex = remaining.lastIndexOf(",", lengths[i]);
+              }
+              
+              // If still no space or comma, force split exactly at limit
+              if (splitIndex === -1 || splitIndex === 0) {
+                  splitIndex = lengths[i];
+              }
+              
+              parts.push(remaining.substring(0, splitIndex).trim());
+              remaining = remaining.substring(splitIndex).trim();
+              
+              // Clean up if it starts with comma after split
+              if(remaining.startsWith(",")) {
+                  remaining = remaining.substring(1).trim();
+              }
           }
       }
-      parts.push(text.substring(currentIndex)); 
+      parts.push(remaining); // Anything leftover goes to the last spot
       return parts;
     }
 
     function fill3LinesText(baseId, text, lineLength) {
       document.getElementById(baseId + '_line1').innerHTML = generateBoxesHtml(text.substring(0, lineLength), lineLength);
       document.getElementById(baseId + '_line2').innerHTML = generateBoxesHtml(text.substring(lineLength, lineLength * 2), lineLength);
-      
       let line3Container = document.getElementById(baseId + '_line3_container');
       let line3Box = document.getElementById(baseId + '_line3');
       
       if (text.length > lineLength * 2) {
-        line3Container.style.display = 'flex';
-        line3Box.innerHTML = text.substring(lineLength * 2);
+        line3Container.style.display = 'flex'; line3Box.innerHTML = text.substring(lineLength * 2);
       } else {
-        line3Container.style.display = 'none';
-        line3Box.innerHTML = '';
+        line3Container.style.display = 'none'; line3Box.innerHTML = '';
       }
     }
 
     function fillDynamicBoxLines(baseId, text, line1Count, line2Count, line3Count) {
       document.getElementById(baseId + '_line1').innerHTML = generateBoxesHtml(text.substring(0, line1Count), line1Count);
       document.getElementById(baseId + '_line2').innerHTML = generateBoxesHtml(text.substring(line1Count, line1Count + line2Count), line2Count);
-      
       let totalBoxes = line1Count + line2Count;
-      
       if(line3Count > 0) {
         document.getElementById(baseId + '_line3').innerHTML = generateBoxesHtml(text.substring(totalBoxes, totalBoxes + line3Count), line3Count);
         totalBoxes += line3Count;
       }
-      
       let overflowContainer = document.getElementById(baseId + '_overflow_container');
       let overflowText = document.getElementById(baseId + '_overflow');
       
       if (overflowContainer && overflowText) {
         if (text.length > totalBoxes) {
-          overflowContainer.style.display = 'flex';
-          overflowText.innerHTML = text.substring(totalBoxes);
+          overflowContainer.style.display = 'flex'; overflowText.innerHTML = text.substring(totalBoxes);
         } else {
-          overflowContainer.style.display = 'none';
-          overflowText.innerHTML = '';
+          overflowContainer.style.display = 'none'; overflowText.innerHTML = '';
         }
       }
     }
     
-    function saveDataAndPreparePrint() {
+    // MAIN POPULATION FUNCTION
+    function saveDataAndPreparePrint(targetTab) {
       const dDD = document.getElementById('i_dateDD').value;
       const dMM = document.getElementById('i_dateMM').value;
       const dYYYY = document.getElementById('i_dateYYYY').value;
@@ -1027,11 +1060,80 @@
       const financeName = document.getElementById('i_financeName').value;
       const financeAddress = document.getElementById('i_financeAddress').value;
 
-      // PAGE 1: MTA 6 OVERLAY
+      // ==========================================
+      // POPULATE ORIGINAL PRINT (MODULE 1)
+      // ==========================================
+      document.getElementById('p1_date_dd').innerText = dDD;
+      document.getElementById('p1_date_mm').innerText = dMM;
+      document.getElementById('p1_date_yyyy').innerText = dYYYY;
+      document.getElementById('p1_veh_prov').innerText = vProv;
+      document.getElementById('p1_veh_letters').innerText = vLetters;
+      document.getElementById('p1_veh_nums').innerText = vNums;
+
+      applyTextToLines('p1_oldName', 'p1_oldName2', 'p1_oldName3', oldName, '10px');
+      applyTextToLines('p1_oldAddress', 'p1_oldAddress2', 'p1_oldAddress3', oldAddress, '10px');
+      applyTextToLines('p1_newName', 'p1_newName2', 'p1_newName3', newName, '10px');
+      applyTextToLines('p1_newAddress', 'p1_newAddress2', 'p1_newAddress3', newAddress, '10px');
+      
+      document.getElementById('p1_oldId').innerText = oldId; 
+      document.getElementById('p1_newId').innerText = newId; 
+      document.getElementById('p1_bottom_vehNo').innerText = vProv + (vLetters ? "-" + vLetters : "") + (vNums ? "-" + vNums : "");
+
+      document.getElementById('p2_veh_prov').innerText = vProv;
+      document.getElementById('p2_veh_letters').innerText = vLetters;
+      document.getElementById('p2_veh_nums').innerText = vNums;
+
+      applyTextToLines('p2_oldName', 'p2_oldName2', 'p2_oldName3', oldName, '12px'); 
+      if(oldName.length > 27) {
+        document.getElementById('p2_oldName').innerText = oldName.substring(0, 27);
+        if (oldName.length > 62) {
+            document.getElementById('p2_oldName2').innerText = oldName.substring(27, 62);
+            document.getElementById('p2_oldName3').innerText = oldName.substring(62, oldName.length);
+        } else {
+            document.getElementById('p2_oldName2').innerText = oldName.substring(27, oldName.length);
+            document.getElementById('p2_oldName3').innerText = "";
+        }
+      }
+
+      applyCustomTextTo4Lines('p2_newName', 'p2_newName2', 'p2_newName3', 'p2_newName4', newName, 33, 35, 35, '12px');
+      applyCustomTextTo4Lines('p2_newAddress', 'p2_newAddress2', 'p2_newAddress3', 'p2_newAddress4', newAddress, 31, 35, 35, '12px');
+
+      document.getElementById('p2_newId').innerText = newId; 
+      document.getElementById('p2_postalCode').innerText = postalCode;
+      document.getElementById('p2_mobileNo').innerText = mobileNo;
+      document.getElementById('p2_divSec').innerText = divSec;
+      document.getElementById('p2_district').innerText = district;
+      document.getElementById('p2_provinceLoc').innerText = provinceLoc;
+      document.getElementById('p2_date_d').innerText = dDD;
+      document.getElementById('p2_date_m').innerText = dMM;
+      document.getElementById('p2_date_y').innerText = dYYYY;
+      document.getElementById('p2_collectOffice').innerText = collectOffice;
+
+      if(financeName.trim() !== "") {
+        document.getElementById('page_mta3_front').style.display = "block";
+        document.getElementById('page_mta3_back').style.display = "block";
+        
+        applyMta3Text('p3f_financeAddress1', financeAddress, 98);
+        applyMta3Text('p3f_financeName1', financeName, 100);
+        applyMta3Text('p3f_newAddress1', newAddress, 70);
+        applyMta3Text('p3f_newName1', newName, 25, 50);
+        applyMta3Text('p3f_newAddress2', newAddress, 90);
+        applyMta3Text('p3f_newName2', newName, 105);
+
+        applyMta3Text('p3b_financeAddress1', financeAddress, 55, 27);
+        applyMta3Text('p3b_financeName1', financeName, 23);
+      } else {
+        document.getElementById('page_mta3_front').style.display = "none";
+        document.getElementById('page_mta3_back').style.display = "none";
+      }
+
+
+      // ==========================================
+      // POPULATE BOX OVERLAY PRINT (MODULE 2)
+      // ==========================================
       document.getElementById('p1_box_dd').innerHTML = generateBoxesHtml(dDD, 2);
       document.getElementById('p1_box_mm').innerHTML = generateBoxesHtml(dMM, 2);
       document.getElementById('p1_box_yyyy').innerHTML = generateBoxesHtml(dYYYY, 4);
-
       document.getElementById('p1_box_vehProv').innerHTML = generateBoxesHtml(vProv, 2);
       document.getElementById('p1_box_vehLetters').innerHTML = generateBoxesHtml(vLetters, 3);
       document.getElementById('p1_box_vehNums').innerHTML = generateBoxesHtml(vNums, 4);
@@ -1043,13 +1145,8 @@
 
       document.getElementById('p1_box_oldId').innerHTML = generateBoxesHtml(oldId, 12); 
       document.getElementById('p1_box_newId').innerHTML = generateBoxesHtml(newId, 12); 
-
-      let fullVehNo = vProv;
-      if(vLetters) fullVehNo += " " + vLetters;
-      if(vNums) fullVehNo += " " + vNums;
       document.getElementById('p1_consent_vehNo').innerText = fullVehNo.trim();
 
-      // PAGE 2: FULL MTA 8 PAGE
       document.getElementById('pf_box_vehProv').innerHTML = generateBoxesHtml(vProv, 2);
       document.getElementById('pf_box_vehLetters').innerHTML = generateBoxesHtml(vLetters, 3);
       document.getElementById('pf_box_vehNums').innerHTML = generateBoxesHtml(vNums, 4);
@@ -1061,61 +1158,73 @@
       document.getElementById('pf_box_newId').innerHTML = generateBoxesHtml(newId, 12);
       document.getElementById('pf_box_postal').innerHTML = generateBoxesHtml(postalCode, 5);
       document.getElementById('pf_box_mobile').innerHTML = generateBoxesHtml(mobileNo, 10);
-      
       document.getElementById('pf_box_divSec').innerHTML = generateBoxesHtml(divSec, 14);
       document.getElementById('pf_box_district').innerHTML = generateBoxesHtml(district, 14);
       document.getElementById('pf_box_province').innerHTML = generateBoxesHtml(provinceLoc, 15);
-      
       document.getElementById('pf_box_dd').innerHTML = generateBoxesHtml(dDD, 2);
       document.getElementById('pf_box_mm').innerHTML = generateBoxesHtml(dMM, 2);
       document.getElementById('pf_box_yyyy').innerHTML = generateBoxesHtml(dYYYY, 4);
-      
       document.getElementById('pf_box_collect').innerHTML = generateBoxesHtml(collectOffice, 15);
 
-      // PAGE 3 & 4: MTA 3
-      
-      // 1. Finance Address & Name
-      let fAddrParts = splitText(financeAddress, [80]);
-      document.getElementById('p3f_financeAddress1').innerText = fAddrParts[0];
-      document.getElementById('p3f_financeAddress2').innerText = fAddrParts[1];
-      
-      let fNameParts = splitText(financeName, [80]);
-      document.getElementById('p3f_financeName1').innerText = fNameParts[0];
-      document.getElementById('p3f_financeName2').innerText = fNameParts[1];
-      
-      // 2. Customer ADDRESS (Swapped - ලිපිනය මුලින් එනවා)
-      let cAddrParts = splitText(newAddress, [22, 55]);
-      document.getElementById('p3f_newName1').innerText = cAddrParts[0];
-      document.getElementById('p3f_newName2').innerText = cAddrParts[1];
-      document.getElementById('p3f_newName_overflow').innerText = cAddrParts[2];
-      
-      // 3. Customer NAME (Swapped - නම දෙවනුව එනවා)
-      let cNameParts = splitText(newName, [40, 75]);
-      document.getElementById('p3f_newAddress1').innerText = cNameParts[0];
-      document.getElementById('p3f_newAddress2').innerText = cNameParts[1];
-      document.getElementById('p3f_newAddress_overflow2').innerText = cNameParts[2];
+      if(financeName.trim() !== "") {
+        document.getElementById('box_page_mta3_front').style.display = "block";
+        document.getElementById('box_page_mta3_back').style.display = "block";
 
-      // Bottom ADDRESS & NAME (Swapped - මෙතනත් ලිපිනය මුලින්, නම දෙවනුව)
-      let botAddrParts = splitText(newAddress, [70]);
-      document.getElementById('p3f_newName3').innerText = botAddrParts[0];
-      document.getElementById('p3f_newName4').innerText = botAddrParts[1];
+        let fAddrParts = splitTextByWord(financeAddress, [80]);
+        document.getElementById('box_p3f_financeAddress1').innerText = fAddrParts[0];
+        document.getElementById('box_p3f_financeAddress2').innerText = fAddrParts[1];
+        
+        let fNameParts = splitTextByWord(financeName, [80]);
+        document.getElementById('box_p3f_financeName1').innerText = fNameParts[0];
+        document.getElementById('box_p3f_financeName2').innerText = fNameParts[1];
+        
+        // 18-char limit logic applied here for the red box line
+        let cAddrParts = splitTextByWord(newAddress, [18, 55]);
+        document.getElementById('box_p3f_newName1').innerText = cAddrParts[0];
+        document.getElementById('box_p3f_newName2').innerText = cAddrParts[1];
+        document.getElementById('box_p3f_newName_overflow').innerText = cAddrParts[2];
+        
+        let cNameParts = splitTextByWord(newName, [40, 75]);
+        document.getElementById('box_p3f_newAddress1').innerText = cNameParts[0];
+        document.getElementById('box_p3f_newAddress2').innerText = cNameParts[1];
+        document.getElementById('box_p3f_newAddress_overflow2').innerText = cNameParts[2];
 
-      let botNameParts = splitText(newName, [90]);
-      document.getElementById('p3f_newAddress3').innerText = botNameParts[0];
-      document.getElementById('p3f_newAddress4').innerText = botNameParts[1];
+        let botAddrParts = splitTextByWord(newAddress, [70]);
+        document.getElementById('box_p3f_newName3').innerText = botAddrParts[0];
+        document.getElementById('box_p3f_newName4').innerText = botAddrParts[1];
 
-      // Page 4 (Back Page)
-      
-      // 1. Finance Address (Swapped: Address First)
-      document.getElementById('p3b_financeAddress1').innerText = financeAddress.substring(0, 55);
-      document.getElementById('p3b_financeAddress2').innerText = financeAddress.substring(55, 90);
-      document.getElementById('p3b_financeAddress_overflow').innerText = financeAddress.substring(90);
-      
-      // 2. Finance Name (Swapped: Name Second) - Alignment fixed to start exactly at red line
-      document.getElementById('p3b_financeName1').innerText = financeName.substring(0, 32);
-      document.getElementById('p3b_financeName_overflow').innerText = financeName.substring(32);
-      
-      switchTab('print');
+        let botNameParts = splitTextByWord(newName, [90]);
+        document.getElementById('box_p3f_newAddress3').innerText = botNameParts[0];
+        document.getElementById('box_p3f_newAddress4').innerText = botNameParts[1];
+
+        let bAddrParts = splitTextByWord(financeAddress, [55, 35]);
+        document.getElementById('box_p3b_financeAddress1').innerText = bAddrParts[0];
+        document.getElementById('box_p3b_financeAddress2').innerText = bAddrParts[1];
+        document.getElementById('box_p3b_financeAddress_overflow').innerText = bAddrParts[2];
+        
+        let bNameParts = splitTextByWord(financeName, [32]);
+        document.getElementById('box_p3b_financeName1').innerText = bNameParts[0];
+        document.getElementById('box_p3b_financeName_overflow').innerText = bNameParts[1];
+      } else {
+        document.getElementById('box_page_mta3_front').style.display = "none";
+        document.getElementById('box_page_mta3_back').style.display = "none";
+      }
+
+      // ==========================================
+      // TOGGLE LAST PAGE CLASSES PROPERLY
+      // ==========================================
+      document.querySelectorAll('.a4-page').forEach(el => el.classList.remove('last-page'));
+      if(financeName.trim() !== "") {
+        document.getElementById('page_mta3_back').classList.add('last-page');
+        document.getElementById('box_page_mta3_back').classList.add('last-page');
+      } else {
+        document.getElementById('page_mta8').classList.add('last-page');
+        document.getElementById('box_page_mta8').classList.add('last-page');
+      }
+
+      if (targetTab) {
+        switchTab(targetTab);
+      }
     }
   </script>
 
