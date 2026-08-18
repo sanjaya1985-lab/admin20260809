@@ -61,7 +61,7 @@
     .sub-label { font-size: 9px; color: #333; text-align: center; margin-top: 2px; margin-bottom: 5px; font-family: Arial, sans-serif; }
     
     .dotted-line {
-      border-bottom: 2px dotted #000; display: inline-block; min-width: 150px; text-transform: uppercase;
+      border-bottom: 2px dotted #000; display: inline-block; text-transform: uppercase;
       font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: 12px; color: #000; text-align: left; padding: 0 5px; line-height: 1.2; white-space: nowrap; overflow: hidden;
     }
     .mta3-text { font-size: 12px; line-height: 1.5; font-family: Arial, sans-serif; font-weight: bold; color: #000; } 
@@ -178,7 +178,8 @@
         </div>
         <div class="form-group" style="width: 33.33%;">
             <label>Postal Code</label>
-            <input type="text" id="i_postalCode" class="form-control" placeholder="Code" maxlength="5" style="background-color: #f8f9fa;" readonly>
+            <!-- Removed readonly so user can manually type if missing -->
+            <input type="text" id="i_postalCode" class="form-control" placeholder="Code" maxlength="5" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
         </div>
         <div class="form-group" style="width: 33.33%;">
             <label>Mobile Number</label>
@@ -583,7 +584,7 @@
 
           <!-- (i) Licensing Authority Section Matching 2nd Image -->
           <div class="mta8-text-small" style="font-weight: bold; margin-bottom: 8px; font-size: 9px;">
-            (i) බලපත්‍ර අධිකාරිය/அனுமதிப்பத்திர அதிகார සபை/Licensing Authority
+            (i) බලපත්‍ර අධිකාරිය/அனுமதிப்பத்திர அதிகார சபை/Licensing Authority
           </div>
           
           <div style="padding-left: 10px; margin-bottom: 1px;">
@@ -672,14 +673,14 @@
                 <div id="box_p3f_financeName2" style="position: absolute; top: 16px; left: 25px; width: 100%; font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: 12px; color: #000; text-transform: uppercase;"></div>
             </div>
 
-            <div style="display: flex; align-items: flex-end; margin-bottom: 12px; width: 100%; position: relative;">
-                <span style="margin-right: 10px; white-space: nowrap;">hereby give notice that I have let the motor vehicle in respect of which the attached application for registration is made to <sup>3</sup></span>
-                <span id="box_p3f_newName1" class="dotted-line" style="flex-grow: 1;"></span>
+            <div style="margin-bottom: 12px; position: relative; line-height: 1.8;">
+                <span style="margin-right: 5px;">hereby give notice that I have let the motor vehicle in respect of which the attached application for registration is made to <sup>3</sup></span>
+                <span id="box_p3f_newName1" class="dotted-line" style="width: 150px; text-align: left;"></span>
             </div>
             
             <div style="display: flex; align-items: flex-end; margin-bottom: 12px; width: 100%; position: relative;">
-                <span id="box_p3f_newName2" class="dotted-line" style="width: 55%;"></span>
-                <div id="box_p3f_newName_overflow" style="position: absolute; top: 16px; left: 5px; width: 60%; font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: 12px; color: #000; text-transform: uppercase;"></div>
+                <span id="box_p3f_newName2" class="dotted-line" style="width: 50%;"></span>
+                <div id="box_p3f_newName_overflow" style="position: absolute; top: 16px; left: 5px; width: 50%; font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: 12px; color: #000; text-transform: uppercase;"></div>
                 
                 <span style="margin: 0 10px; white-space: nowrap;">of <sup>4</sup></span>
                 <span id="box_p3f_newAddress1" class="dotted-line" style="flex-grow: 1;"></span>
@@ -755,18 +756,17 @@
 
             <!-- Line 2: Finance Address Part 2 + "of 2" + Finance Name + "under a hire..." -->
             <div style="display: flex; align-items: flex-end; margin-bottom: 15px; width: 100%; position: relative;">
-              <span id="box_p3b_financeAddress2" class="dotted-line" style="width: 38%;"></span>
+              <span id="box_p3b_financeAddress2" class="dotted-line" style="width: 45%;"></span>
               
               <!-- Left Column Overflow for Address -->
-              <div id="box_p3b_financeAddress_overflow" style="position: absolute; top: 18px; left: 5px; width: 38%; font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: 12px; color: #000; text-transform: uppercase; line-height: 1.6; white-space: normal;"></div>
+              <div id="box_p3b_financeAddress_overflow" style="position: absolute; top: 18px; left: 5px; width: 45%; font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: 12px; color: #000; text-transform: uppercase; line-height: 1.6; white-space: normal;"></div>
               
               <span style="margin: 0 10px; white-space: nowrap;">of <sup>2</sup></span>
               
               <span id="box_p3b_financeName1" class="dotted-line" style="flex-grow: 1;"></span>
               
               <!-- Right Column Overflow for Name -->
-              <!-- Starts exactly after Address Part 2 (38%) + "of 2" margin spacing (~40px) -->
-              <div id="box_p3b_financeName_overflow" style="position: absolute; top: 18px; left: calc(38% + 40px); right: 0; font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: 12px; color: #000; text-transform: uppercase; line-height: 1.6; white-space: normal;"></div>
+              <div id="box_p3b_financeName_overflow" style="position: absolute; top: 18px; left: calc(45% + 40px); right: 0; font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: 12px; color: #000; text-transform: uppercase; line-height: 1.6; white-space: normal;"></div>
               
               <span style="margin-left: 10px; white-space: nowrap;">under a hire-purchase agreement.</span>
             </div>
@@ -901,61 +901,77 @@
         }
     };
 
-    window.onload = function() {
-        const provSelect = document.getElementById('i_provinceLoc');
-        provSelect.innerHTML = '<option value="">-- Select Province --</option>';
-        for (let prov in slLocationData) {
-            provSelect.add(new Option(prov, prov));
+    function initCascadingDropdowns() {
+      const provSelect = document.getElementById("i_provinceLoc");
+      const distSelect = document.getElementById("i_district");
+      const divSecSelect = document.getElementById("i_divSec");
+      const postalAreaInput = document.getElementById("i_postalArea");
+      const postalAreaList = document.getElementById("postalarea-list");
+      const postalCodeInput = document.getElementById("i_postalCode");
+
+      provSelect.addEventListener("change", function() {
+        let prov = this.value;
+        distSelect.innerHTML = '<option value="">-- SELECT DISTRICT --</option>';
+        divSecSelect.innerHTML = '<option value="">-- SELECT DIV SEC --</option>';
+        postalAreaInput.value = "";
+        postalAreaList.innerHTML = "";
+        postalCodeInput.value = "";
+
+        if (prov && slLocationData[prov]) {
+          for (let dist in slLocationData[prov]) {
+            let opt = document.createElement("option");
+            opt.value = dist;
+            opt.text = dist;
+            distSelect.appendChild(opt);
+          }
         }
-    };
+      });
 
-    function loadDistricts() {
-      const prov = document.getElementById('i_provinceLoc').value;
-      const distSelect = document.getElementById('i_district');
-      distSelect.innerHTML = '<option value="">-- Select District --</option>';
-      if(prov && slLocationData[prov]) {
-        for (let dist in slLocationData[prov]) {
-          distSelect.add(new Option(dist, dist));
+      distSelect.addEventListener("change", function() {
+        let prov = provSelect.value;
+        let dist = this.value;
+        divSecSelect.innerHTML = '<option value="">-- SELECT DIV SEC --</option>';
+        postalAreaInput.value = "";
+        postalAreaList.innerHTML = "";
+        postalCodeInput.value = "";
+
+        if (prov && dist && slLocationData[prov] && slLocationData[prov][dist]) {
+          let data = slLocationData[prov][dist];
+          if (data.divs) {
+            data.divs.forEach(d => {
+              let opt = document.createElement("option");
+              opt.value = d;
+              opt.text = d;
+              divSecSelect.appendChild(opt);
+            });
+          }
+          if (data.postal) {
+            for (let area in data.postal) {
+              let opt = document.createElement("option");
+              opt.value = area;
+              postalAreaList.appendChild(opt);
+            }
+          }
         }
-      }
-      loadDivSecAndPostal();
+      });
+
+      postalAreaInput.addEventListener("input", function() {
+        let prov = provSelect.value;
+        let dist = distSelect.value;
+        let area = this.value.toUpperCase();
+
+        if (prov && dist && area && slLocationData[prov] && slLocationData[prov][dist] && slLocationData[prov][dist].postal) {
+          let code = slLocationData[prov][dist].postal[area];
+          if (code) {
+            postalCodeInput.value = code;
+          }
+        }
+      });
     }
 
-    function loadDivSecAndPostal() {
-      const prov = document.getElementById('i_provinceLoc').value;
-      const dist = document.getElementById('i_district').value;
-      
-      const divSelect = document.getElementById('i_divSec');
-      const postSelect = document.getElementById('i_postalArea');
-      
-      divSelect.innerHTML = '<option value="">-- Select Div Sec --</option>';
-      postSelect.innerHTML = '<option value="">-- Select Area --</option>';
-      document.getElementById('i_postalCode').value = '';
-
-      document.getElementById('i_collectOffice').value = dist ? dist : "";
-
-      if(prov && dist && slLocationData[prov][dist]) {
-        const data = slLocationData[prov][dist];
-        data.divs.forEach(d => divSelect.add(new Option(d, d)));
-        
-        let postalKeys = Object.keys(data.postal).sort();
-        postalKeys.forEach(area => {
-          postSelect.add(new Option(area, area));
-        });
-      }
-    }
-
-    function setPostalCode() {
-      const prov = document.getElementById('i_provinceLoc').value;
-      const dist = document.getElementById('i_district').value;
-      const area = document.getElementById('i_postalArea').value;
-      
-      if(prov && dist && area && slLocationData[prov][dist].postal[area]) {
-        document.getElementById('i_postalCode').value = slLocationData[prov][dist].postal[area];
-      } else {
-        document.getElementById('i_postalCode').value = '';
-      }
-    }
+    document.addEventListener("DOMContentLoaded", function() {
+      initCascadingDropdowns();
+    });
 
     function switchTab(tabId) {
       document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -1036,6 +1052,7 @@
       return html;
     }
 
+    // Word Wrap Function (Without breaking words)
     function splitTextByWord(text, lengths) {
       let parts = [];
       let remaining = text ? text.trim() : "";
@@ -1050,7 +1067,8 @@
               
               // If no space found, try to split at a comma
               if (splitIndex === -1 || splitIndex === 0) {
-                  splitIndex = remaining.lastIndexOf(",", lengths[i]);
+                  let commaIndex = remaining.lastIndexOf(",", lengths[i]);
+                  if(commaIndex > 0) splitIndex = commaIndex + 1; // Include comma in first line
               }
               
               // If still no space or comma, force split exactly at limit
@@ -1192,7 +1210,9 @@
         
         // This handles Original Format Name/Address limits
         applyMta3Text('p3f_newAddress1', newAddress, 70);
-        let origNewNameParts = splitTextByWord(newName, [18, 50, 50]);
+        
+        // Using word split for Original Format as well
+        let origNewNameParts = splitTextByWord(newName, [20, 50, 50]);
         document.getElementById('p3f_newName1').innerText = origNewNameParts[0];
         document.getElementById('p3f_newName1_ov').innerText = origNewNameParts[1];
         if(document.getElementById('p3f_newName1_ov2')) { document.getElementById('p3f_newName1_ov2').innerText = origNewNameParts[2] || ""; }
@@ -1235,6 +1255,7 @@
       fillDynamicBoxLines('pf_box_newName', newName, 34, 37, 37);      
       fillDynamicBoxLines('pf_box_newAddress', newAddress, 31, 37, 37);
 
+      // Add postal code directly from input value
       document.getElementById('pf_box_newId').innerHTML = generateBoxesHtml(newId, 12);
       document.getElementById('pf_box_postal').innerHTML = generateBoxesHtml(postalCode, 5);
       document.getElementById('pf_box_mobile').innerHTML = generateBoxesHtml(mobileNo, 10);
@@ -1258,8 +1279,8 @@
         document.getElementById('box_p3f_financeName1').innerText = fNameParts[0];
         document.getElementById('box_p3f_financeName2').innerText = fNameParts[1];
         
-        // 18-char limit logic applied here for the red box line, keeping dotted line right aligned
-        let cAddrParts = splitTextByWord(newAddress, [18, 55]);
+        // 20-char limit logic applied here for the red box line, keeping dotted line right aligned
+        let cAddrParts = splitTextByWord(newAddress, [20, 55]);
         document.getElementById('box_p3f_newName1').innerText = cAddrParts[0];
         document.getElementById('box_p3f_newName2').innerText = cAddrParts[1];
         document.getElementById('box_p3f_newName_overflow').innerText = cAddrParts[2];
@@ -1277,7 +1298,8 @@
         document.getElementById('box_p3f_newAddress3').innerText = botNameParts[0];
         document.getElementById('box_p3f_newAddress4').innerText = botNameParts[1];
 
-        let bAddrParts = splitTextByWord(financeAddress, [55, 35]);
+        // Limits set to [25, 45] to fit next to "I do hereby acknowledge..." without overflowing
+        let bAddrParts = splitTextByWord(financeAddress, [25, 45]);
         document.getElementById('box_p3b_financeAddress1').innerText = bAddrParts[0];
         document.getElementById('box_p3b_financeAddress2').innerText = bAddrParts[1];
         document.getElementById('box_p3b_financeAddress_overflow').innerText = bAddrParts[2];
