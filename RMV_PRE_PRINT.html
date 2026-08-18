@@ -42,9 +42,8 @@
       box-sizing: border-box; position: relative; background-size: 100% 100%; background-repeat: no-repeat; page-break-after: always; 
     }
 
-    /* Source 1 (Original Print) Styles */
-    /* Source 1 (Original Print) Styles */
-    .p-text { position: absolute; font-size: 16px; font-family: 'Courier New', Courier, monospace; font-weight: bold; color: #000; white-space: nowrap; letter-spacing: 9.5px; }
+    /* Source 1 (Original Print) Styles - Letter spacing removed from CSS to avoid breaking MTA 3 */
+    .p-text { position: absolute; font-size: 15px; font-family: 'Courier New', Courier, monospace; font-weight: bold; color: #000; white-space: nowrap; }
 
     /* Source 2 (Box Print) Styles */
     .print-absolute-block { position: absolute; background-color: #ffffff; padding: 10px; box-sizing: border-box; }
@@ -53,13 +52,8 @@
     .char-box {
       width: 16px; height: 22px; border: 1px solid #000; display: flex; align-items: center; justify-content: center;
       font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: 13px; text-transform: uppercase; color: #000;
-      box-sizing: border-box; /* අකුරු කොටුවෙන් එළියට පනින එක නවත්තන්න */
     }
-    .mta8-page .char-box { 
-      width: 14.5px; height: 20px; font-size: 11px; flex-shrink: 0; 
-      padding-left: 1px; /* අකුර හරියටම මැද්දට ගන්න */
-      line-height: 1;
-    }
+    .mta8-page .char-box { width: 14.5px; height: 20px; font-size: 12px; flex-shrink: 0; }
     .mta8-page .box-container { gap: 3.5px; justify-content: flex-end; }
     
     .text-line-3 { font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: 10px; letter-spacing: 0.5px; text-transform: uppercase; color: #000; width: 100%; text-align: left; padding-left: 2px; word-break: break-word; }
@@ -494,7 +488,7 @@
           
           <!-- Vehicle No -->
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-            <div class="mta8-text-small" style="font-weight: bold;">I hereby  to be registered as the new owner of the Vehicle Number</div>
+            <div class="mta8-text-small" style="font-weight: bold;">I hereby apply to be registered as the new owner of the Vehicle Number</div>
             <div style="display: flex; gap: 10px;">
               <div id="pf_box_vehProv" class="box-container"></div>
               <div id="pf_box_vehLetters" class="box-container"></div>
@@ -588,7 +582,7 @@
 
           <!-- (i) Licensing Authority Section Matching 2nd Image -->
           <div class="mta8-text-small" style="font-weight: bold; margin-bottom: 8px; font-size: 9px;">
-            (i) බලපත්‍ර අධිකාරිය/அனுமதிப்பத்திர அதிகார සபை/Licensing Authority
+            (i) බලපත්‍ර අධිකාරිය/அனுமதிப்பத்திர அதிகார சபை/Licensing Authority
           </div>
           
           <div style="padding-left: 10px; margin-bottom: 1px;">
@@ -1059,7 +1053,50 @@
       return parts;
     }
 
-    // ORIGINAL FORMAT HELPERS
+    // ORIGINAL FORMAT HELPERS - Letter Spacing explicitly set to normal for MTA 3
+    function applyTextToLines(el1Id, el2Id, el3Id, text, defaultSpacing) {
+      let el1 = document.getElementById(el1Id);
+      let el2 = document.getElementById(el2Id);
+      let el3 = document.getElementById(el3Id);
+      if (!el1 || !el2 || !el3) return;
+
+      if(text.length <= 35) {
+        el1.innerText = text; el2.innerText = ""; el3.innerText = "";
+      } else if(text.length <= 70) {
+        el1.innerText = text.substring(0, 35); el2.innerText = text.substring(35, 70); el3.innerText = "";
+      } else {
+        el1.innerText = text.substring(0, 35); el2.innerText = text.substring(35, 70); el3.innerText = text.substring(70, text.length);
+      }
+      el1.style.letterSpacing = defaultSpacing; 
+      el2.style.letterSpacing = defaultSpacing; 
+      el3.style.letterSpacing = defaultSpacing;
+    }
+
+    function applyCustomTextTo4Lines(el1Id, el2Id, el3Id, el4Id, text, limit1, limit2, limit3, defaultSpacing) {
+      let el1 = document.getElementById(el1Id); let el2 = document.getElementById(el2Id);
+      let el3 = document.getElementById(el3Id); let el4 = document.getElementById(el4Id);
+      if (!el1 || !el2 || !el3 || !el4) return;
+
+      let l1 = limit1; let l2 = limit1 + limit2; let l3 = limit1 + limit2 + limit3;
+
+      if(text.length <= l1) {
+        el1.innerText = text; el2.innerText = ""; el3.innerText = ""; el4.innerText = "";
+      } else if(text.length <= l2) {
+        el1.innerText = text.substring(0, l1); el2.innerText = text.substring(l1, text.length);
+        el3.innerText = ""; el4.innerText = "";
+      } else if(text.length <= l3) {
+        el1.innerText = text.substring(0, l1); el2.innerText = text.substring(l1, l2);
+        el3.innerText = text.substring(l2, text.length); el4.innerText = "";
+      } else {
+        el1.innerText = text.substring(0, l1); el2.innerText = text.substring(l1, l2);
+        el3.innerText = text.substring(l2, l3); el4.innerText = text.substring(l3, text.length); 
+      }
+      el1.style.letterSpacing = defaultSpacing; 
+      el2.style.letterSpacing = defaultSpacing;
+      el3.style.letterSpacing = defaultSpacing;
+      el4.style.letterSpacing = defaultSpacing;
+    }
+
     function Mta3TextWordWrap(baseId, text, limits) {
       let mainEl = document.getElementById(baseId);
       let ovEl = document.getElementById(baseId + "_ov");
@@ -1070,6 +1107,11 @@
       mainEl.innerText = parts[0] || "";
       ovEl.innerText = parts[1] || "";
       if(ov2El) ov2El.innerText = parts[2] || "";
+      
+      // Ensure normal letter spacing for MTA 3
+      mainEl.style.letterSpacing = "normal";
+      ovEl.style.letterSpacing = "normal";
+      if(ov2El) ov2El.style.letterSpacing = "normal";
     }
 
     function fill3LinesText(baseId, text, lineLength) {
@@ -1145,21 +1187,10 @@
       document.getElementById('p1_veh_letters').innerText = vLetters;
       document.getElementById('p1_veh_nums').innerText = vNums;
 
-      document.getElementById('p1_oldName').innerText = oldName.substring(0, 35);
-      document.getElementById('p1_oldName2').innerText = oldName.substring(35, 70);
-      document.getElementById('p1_oldName3').innerText = oldName.substring(70);
-
-      document.getElementById('p1_oldAddress').innerText = oldAddress.substring(0, 35);
-      document.getElementById('p1_oldAddress2').innerText = oldAddress.substring(35, 70);
-      document.getElementById('p1_oldAddress3').innerText = oldAddress.substring(70);
-
-      document.getElementById('p1_newName').innerText = newName.substring(0, 35);
-      document.getElementById('p1_newName2').innerText = newName.substring(35, 70);
-      document.getElementById('p1_newName3').innerText = newName.substring(70);
-
-      document.getElementById('p1_newAddress').innerText = newAddress.substring(0, 35);
-      document.getElementById('p1_newAddress2').innerText = newAddress.substring(35, 70);
-      document.getElementById('p1_newAddress3').innerText = newAddress.substring(70);
+      applyTextToLines('p1_oldName', 'p1_oldName2', 'p1_oldName3', oldName, '11.5px');
+      applyTextToLines('p1_oldAddress', 'p1_oldAddress2', 'p1_oldAddress3', oldAddress, '11.5px');
+      applyTextToLines('p1_newName', 'p1_newName2', 'p1_newName3', newName, '11.5px');
+      applyTextToLines('p1_newAddress', 'p1_newAddress2', 'p1_newAddress3', newAddress, '11.5px');
       
       document.getElementById('p1_oldId').innerText = oldId; 
       document.getElementById('p1_newId').innerText = newId; 
@@ -1169,19 +1200,16 @@
       document.getElementById('p2_veh_letters').innerText = vLetters;
       document.getElementById('p2_veh_nums').innerText = vNums;
 
-      document.getElementById('p2_oldName').innerText = oldName.substring(0, 27);
-      document.getElementById('p2_oldName2').innerText = oldName.length > 27 ? oldName.substring(27, 62) : "";
-      document.getElementById('p2_oldName3').innerText = oldName.length > 62 ? oldName.substring(62) : "";
+      let p2n1 = document.getElementById('p2_oldName');
+      let p2n2 = document.getElementById('p2_oldName2');
+      let p2n3 = document.getElementById('p2_oldName3');
+      p2n1.innerText = oldName.substring(0, 27);
+      p2n2.innerText = oldName.length > 27 ? oldName.substring(27, 62) : "";
+      p2n3.innerText = oldName.length > 62 ? oldName.substring(62) : "";
+      p2n1.style.letterSpacing = '12px'; p2n2.style.letterSpacing = '12px'; p2n3.style.letterSpacing = '12px';
 
-      document.getElementById('p2_newName').innerText = newName.substring(0, 33);
-      document.getElementById('p2_newName2').innerText = newName.substring(33, 68);
-      document.getElementById('p2_newName3').innerText = newName.substring(68, 103);
-      document.getElementById('p2_newName4').innerText = newName.substring(103);
-
-      document.getElementById('p2_newAddress').innerText = newAddress.substring(0, 31);
-      document.getElementById('p2_newAddress2').innerText = newAddress.substring(31, 66);
-      document.getElementById('p2_newAddress3').innerText = newAddress.substring(66, 101);
-      document.getElementById('p2_newAddress4').innerText = newAddress.substring(101);
+      applyCustomTextTo4Lines('p2_newName', 'p2_newName2', 'p2_newName3', 'p2_newName4', newName, 33, 35, 35, '12px');
+      applyCustomTextTo4Lines('p2_newAddress', 'p2_newAddress2', 'p2_newAddress3', 'p2_newAddress4', newAddress, 31, 35, 35, '12px');
 
       document.getElementById('p2_newId').innerText = newId; 
       document.getElementById('p2_postalCode').innerText = postalCode;
@@ -1206,6 +1234,11 @@
         document.getElementById('p3f_newName1_ov').innerText = origNewAddrParts[1];
         if(document.getElementById('p3f_newName1_ov2')) { document.getElementById('p3f_newName1_ov2').innerText = origNewAddrParts[2] || ""; }
 
+        // Explicitly clear spacing for the un-wrapped spans
+        document.getElementById('p3f_newName1').style.letterSpacing = "normal";
+        document.getElementById('p3f_newName1_ov').style.letterSpacing = "normal";
+        if(document.getElementById('p3f_newName1_ov2')) document.getElementById('p3f_newName1_ov2').style.letterSpacing = "normal";
+
         Mta3TextWordWrap('p3f_newAddress2', newName, [45, 80]);
         Mta3TextWordWrap('p3b_financeAddress1', financeAddress, [55, 45]);
         Mta3TextWordWrap('p3b_financeName1', financeName, [40, 50]);
@@ -1213,7 +1246,6 @@
         document.getElementById('page_mta3_front').style.display = "none";
         document.getElementById('page_mta3_back').style.display = "none";
       }
-
 
       // ==========================================
       // POPULATE BOX OVERLAY PRINT (MODULE 2)
