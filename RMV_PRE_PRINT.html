@@ -115,7 +115,7 @@
       text-transform: uppercase;
       font-family: 'Courier New', Courier, monospace;
       font-weight: bold;
-      font-size: 12px; 
+      font-size: 12px; /* MTA 3 Font size updated to 12 */
       color: #000;
       text-align: left;
       padding: 0 5px;
@@ -123,12 +123,13 @@
       white-space: nowrap;
       overflow: hidden;
     }
-    .mta3-text { font-size: 12px; line-height: 1.5; font-family: Arial, sans-serif; font-weight: bold; color: #000; }
+    .mta3-text { font-size: 12px; line-height: 1.5; font-family: Arial, sans-serif; font-weight: bold; color: #000; } /* MTA 3 Font size updated to 12 */
     .mta8-text-small { font-size: 10px; font-family: Arial, sans-serif; line-height: 1.4; color: #000; }
   </style>
 </head>
 <body>
 
+  <!-- UI Wrapper -->
   <div class="sticky-wrapper no-print">
     <div class="header">
       <h2><i class="fas fa-file-invoice"></i> RMV PRE-PRINT (Full MTA 8 + Overlays)</h2>
@@ -139,10 +140,12 @@
     </div>
   </div>
 
+  <!-- ADD DATA SECTION -->
   <div id="sec-add" class="content-section active no-print">
     <div class="form-box">
       <h3 style="color: #c62828; margin-top: 0; border-bottom: 1px solid #eee; padding-bottom: 10px;">Type Transfer Details Here</h3>
       
+      <!-- Date -->
       <div class="form-group">
         <label>Transfer Date</label>
         <div style="display:flex; gap:10px;">
@@ -152,6 +155,7 @@
         </div>
       </div>
 
+      <!-- Vehicle Number -->
       <div class="form-group">
         <label>Vehicle Number</label>
         <div style="display:flex; gap:10px;">
@@ -163,23 +167,36 @@
         </div>
       </div>
       
+      <!-- Transferor -->
       <h4 style="margin-top: 20px; margin-bottom: 10px; color: #555;">Transferor (Previous Owner)</h4>
       <div class="form-group"><label>Name</label><input type="text" id="i_oldName" class="form-control" oninput="this.value = this.value.toUpperCase()"></div>
       <div class="form-group"><label>Address</label><input type="text" id="i_oldAddress" class="form-control" oninput="this.value = this.value.toUpperCase()"></div>
       <div class="form-group"><label>Transferor ID Number</label><input type="text" id="i_oldId" class="form-control" maxlength="12" oninput="this.value = this.value.toUpperCase()"></div>
       
+      <!-- Transferee -->
       <h4 style="margin-top: 20px; margin-bottom: 10px; color: #555;">Transferee (New Owner)</h4>
       <div class="form-group"><label>Name</label><input type="text" id="i_newName" class="form-control" oninput="this.value = this.value.toUpperCase()"></div>
       <div class="form-group"><label>Address</label><input type="text" id="i_newAddress" class="form-control" oninput="this.value = this.value.toUpperCase()"></div>
       <div class="form-group"><label>Transferee ID Number</label><input type="text" id="i_newId" class="form-control" maxlength="12" oninput="this.value = this.value.toUpperCase()"></div>
 
+      <!-- MTA 8 Specific Details -->
       <h4 style="margin-top: 20px; margin-bottom: 10px; color: #007bff;">MTA 8 Specific Details</h4>
       
+      <!-- Row 1: Province | District | Divisional Secretariat -->
       <div style="display:flex; gap:10px;">
         <div class="form-group" style="width: 33.33%;">
             <label>Province</label>
             <select id="i_provinceLoc" class="form-control" style="cursor: pointer;">
                 <option value="">-- SELECT PROVINCE --</option>
+                <option value="WESTERN">WESTERN</option>
+                <option value="CENTRAL">CENTRAL</option>
+                <option value="SOUTHERN">SOUTHERN</option>
+                <option value="NORTHERN">NORTHERN</option>
+                <option value="EASTERN">EASTERN</option>
+                <option value="NORTH WESTERN">NORTH WESTERN</option>
+                <option value="NORTH CENTRAL">NORTH CENTRAL</option>
+                <option value="UVA">UVA</option>
+                <option value="SABARAGAMUWA">SABARAGAMUWA</option>
             </select>
         </div>
         <div class="form-group" style="width: 33.33%;">
@@ -196,6 +213,7 @@
         </div>
       </div>
 
+      <!-- Row 2: Postal Area | Postal Code | Mobile Number -->
       <div style="display:flex; gap:10px;">
         <div class="form-group" style="width: 33.33%;">
             <label>Postal Area</label>
@@ -212,11 +230,13 @@
         </div>
       </div>
 
+      <!-- Row 3: Collect Office -->
       <div class="form-group" style="width: 100%;">
           <label>Collect Office (Number Plate)</label>
           <input type="text" id="i_collectOffice" class="form-control" oninput="this.value = this.value.toUpperCase()">
       </div>
 
+      <!-- Finance -->
       <h4 style="margin-top: 20px; margin-bottom: 10px; color: #555;">Hire-Purchase (Finance)</h4>
       <div style="display:flex; gap:10px;">
         <div class="form-group" style="width: 50%;"><label>Finance Company Name</label><input type="text" id="i_financeName" class="form-control" oninput="this.value = this.value.toUpperCase()"></div>
@@ -227,11 +247,13 @@
     </div>
   </div>
 
+  <!-- PRINT SECTION -->
   <div id="sec-print" class="content-section" style="padding: 20px 0;">
     <button class="btn btn-print no-print" onclick="window.print()"><i class="fas fa-print"></i> Print Forms</button>
     
     <div class="a4-preview-container">
       
+      <!-- PAGE 1: MTA 6 OVERLAY -->
       <div class="a4-page">
         <div class="print-absolute-block" style="top: 76mm; left: 40px; right: 20px;">
           
@@ -350,8 +372,10 @@
         </div>
       </div>
 
+      <!-- PAGE 2: FULL MTA 8 PAGE -->
       <div class="a4-page mta8-page" style="padding: 8mm 8mm; font-family: Arial, sans-serif; position: relative;">
         
+        <!-- Top Row (Header) -->
         <div style="display: flex; justify-content: space-between; width: 100%;">
            <div style="display: flex;">
               <div style="font-size: 10px; font-weight: bold; line-height: 1.6; white-space: nowrap; color: #000;">
@@ -382,6 +406,7 @@
            </div>
         </div>
 
+        <!-- Center Section & Photo -->
         <div style="position: relative; margin-top: 14px; font-family: Arial, sans-serif; color: #000; min-height: 160px;">
            <div style="text-align: center; line-height: 1.4; padding-right: 4.5cm;">
               <div style="font-size: 10px; font-weight: bold;">13 (1) වැනි වගන්තිය</div>
@@ -415,8 +440,10 @@
            To: THE COMMISSIONER GENERAL OF MOTOR TRAFFIC
         </div>
 
+        <!-- Dynamic Form Fields Container -->
         <div style="margin-top: 5px;">
           
+          <!-- Vehicle No -->
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
             <div class="mta8-text-small" style="font-weight: bold;">I hereby apply to be registered as the new owner of the Vehicle Number</div>
             <div style="display: flex; gap: 10px;">
@@ -426,6 +453,7 @@
             </div>
           </div>
 
+          <!-- Old Name (Previously registered) -->
           <div style="display: flex; align-items: flex-end; margin-bottom: 3px; width: 100%;">
             <div class="mta8-text-small" style="font-weight: bold; white-space: nowrap;">Previously registered</div>
             <div id="pf_box_oldName_line1" class="box-container" style="flex-grow: 1;"></div>
@@ -433,6 +461,7 @@
           <div style="display: flex; margin-bottom: 0px; width: 100%;">
             <div id="pf_box_oldName_line2" class="box-container" style="width: 100%;"></div>
           </div>
+          <!-- වැඩිපුර අකුරු වැටෙන පේළිය -->
           <div id="pf_box_oldName_overflow_container" style="display: none; align-items: center; margin-top: 2px; margin-bottom: 0px;">
             <div style="flex-grow: 1; display: flex;">
               <div id="pf_box_oldName_overflow" class="text-line-3" style="font-size: 9px; padding-left: 5px;"></div>
@@ -442,6 +471,7 @@
             පැවරුම්කරුගේ නම/ மாற்றிக் கொடுப்பவரின் பெயர் /Name of Transferor
           </div>
 
+          <!-- New Name (to) -->
           <div style="display: flex; align-items: flex-end; margin-bottom: 3px; width: 100%;">
             <div class="mta8-text-small" style="font-weight: bold; white-space: nowrap;">to</div>
             <div id="pf_box_newName_line1" class="box-container" style="flex-grow: 1;"></div>
@@ -452,6 +482,7 @@
           <div style="display: flex; margin-bottom: 0px; width: 100%;">
             <div id="pf_box_newName_line3" class="box-container" style="width: 100%;"></div>
           </div>
+          <!-- වැඩිපුර අකුරු වැටෙන පේළිය -->
           <div id="pf_box_newName_overflow_container" style="display: none; align-items: center; margin-top: 2px; margin-bottom: 0px;">
             <div style="flex-grow: 1; display: flex;">
               <div id="pf_box_newName_overflow" class="text-line-3" style="font-size: 9px; padding-left: 5px;"></div>
@@ -461,6 +492,7 @@
             පැවරුම්ලාභියාගේ නම/ மாற்றிப் பெறுபவரின் பெயர்/ Name of Transferee
           </div>
 
+          <!-- New Address (residing at) -->
           <div style="display: flex; align-items: flex-end; margin-bottom: 3px; width: 100%;">
             <div class="mta8-text-small" style="font-weight: bold; white-space: nowrap;">residing at</div>
             <div id="pf_box_newAddress_line1" class="box-container" style="flex-grow: 1;"></div>
@@ -471,6 +503,7 @@
           <div style="display: flex; margin-bottom: 0px; width: 100%;">
             <div id="pf_box_newAddress_line3" class="box-container" style="width: 100%;"></div>
           </div>
+          <!-- වැඩිපුර අකුරු වැටෙන පේළිය -->
           <div id="pf_box_newAddress_overflow_container" style="display: none; align-items: center; margin-top: 2px; margin-bottom: 0px;">
             <div style="flex-grow: 1; display: flex;">
               <div id="pf_box_newAddress_overflow" class="text-line-3" style="font-size: 9px; padding-left: 5px;"></div>
@@ -480,6 +513,7 @@
             පැවරුම්ලාභියාගේ ලිපිනය/ மாற்றிப் பெறுபவரின் முகவரி / Address of Transferee
           </div>
 
+          <!-- Transferee ID -->
           <div style="display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 10px;">
             <div class="mta8-text-small" style="font-weight: bold; line-height: 1.4;">
               <div>පැවරුම්ලාභියාගේ හැඳුනුම්පත් අංකය /மாற்றிப் பெறுபவரின் பெயர்அடையாள අட்டை இலக்கம்/Identity</div>
@@ -488,6 +522,7 @@
             <div id="pf_box_newId" class="box-container"></div>
           </div>
 
+          <!-- Postal Code & Mobile -->
           <div style="display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 25px;">
             <div style="display: flex; align-items: flex-end; gap: 10px;">
               <div class="mta8-text-small" style="font-weight: bold; margin-bottom: 2px;">තැපැල් අංකය/தபால் இல/Postal Code</div>
@@ -502,15 +537,18 @@
             </div>
           </div>
 
+          <!-- (i) Licensing Authority Section Matching 2nd Image -->
           <div class="mta8-text-small" style="font-weight: bold; margin-bottom: 8px; font-size: 9px;">
             (i) බලපත්‍ර අධිකාරිය/அனுமதிப்பத்திர அதிகார சபை/Licensing Authority
           </div>
           
           <div style="padding-left: 10px; margin-bottom: 1px;">
+            <!-- Div Secretariat Full Horizontal Title -->
             <div class="mta8-text-small" style="font-weight: bold; white-space: nowrap; margin-bottom: 4px;">
               ප්‍රාදේශීය ලේකම් කොට්ඨාශය /பிரதேசசெயலகம்/Divisional Secretariat/
             </div>
             
+            <!-- DivSec Boxes on Left + District Label & Boxes on Right -->
             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
               <div id="pf_box_divSec" class="box-container"></div>
               
@@ -520,6 +558,7 @@
               </div>
             </div>
             
+            <!-- Province Title & Boxes (Aligned in one row) -->
             <div style="display: flex; align-items: flex-end; margin-bottom: 8px;">
               <div class="mta8-text-small" style="font-weight: bold; white-space: nowrap; margin-right: 15px;">
                 පළාත/மாகாணம்/Province
@@ -528,6 +567,7 @@
             </div>
           </div>            
           
+          <!-- Date -->
           <div style="display: flex; align-items: flex-start; margin-bottom: 1px;">
             <div class="mta8-text-small" style="font-weight: bold; width: 350px; font-size: 9px; margin-top: 4px;">
               (ii) <span style="font-size: 9px;">පැවරුම් දිනය/ உரிமை மாறும் திகதி/ Date of transfer:</span>
@@ -539,6 +579,7 @@
             </div>
           </div>
 
+          <!-- Receive number plates -->
           <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 5px;">
             <div class="mta8-text-small" style="font-weight: bold; line-height: 1.8;">
               <div style="font-size: 12px;">(iii) <span style="font-size: 8px;">අංක තහඩුව ලබාගන්නා දිස්ත්‍රික් කාර්යාලය:</span></div>
@@ -548,6 +589,7 @@
             <div id="pf_box_collect" class="box-container"></div>
           </div>
 
+          <!-- Attachments -->
           <div style="margin-bottom: 10px;">
             <div class="mta8-text-small" style="font-weight: bold; line-height: 1.8;">
               <div style="font-size: 12px;">(iv) <span style="font-size: 9px;">පහත සඳහන් ලියකියවිලි මේ සමඟ ඉදිරිපත් කරමි.</span></div>
@@ -568,10 +610,12 @@
         </div>
       </div>
 
+      <!-- PAGE 3: MTA 3 Front OVERLAY -->
       <div class="a4-page">
         <div class="print-absolute-block" style="top: 560px; left: 40px; right: 40px;">
           <div class="mta3-text" style="font-family: 'Times New Roman', Times, serif; font-size: 12px; font-weight: normal; line-height: 1.5;">
             
+            <!-- English Section 1 -->
             <div style="display: flex; align-items: flex-end; margin-bottom: 15px; width: 100%; position: relative;">
                 <span style="margin-right: 10px; white-space: nowrap;">I <sup>1</sup></span>
                 <span id="p3f_financeAddress1" class="dotted-line" style="flex-grow: 1;"></span>
@@ -586,7 +630,7 @@
 
             <div style="margin-bottom: 12px; position: relative;">
                 hereby give notice that I have let the motor vehicle in respect of which the attached application for registration is made to <sup>3</sup> 
-                <span id="p3f_newName1" class="dotted-line" style="width: 150px; text-align: left;"></span>
+                <span id="p3f_newName1" class="dotted-line" style="width: 170px; text-align: left;"></span>
             </div>
             
             <div style="display: flex; align-items: flex-end; margin-bottom: 12px; width: 100%; position: relative;">
@@ -604,6 +648,7 @@
                 <span style="margin-left: 10px; white-space: nowrap;">under the hire-purchase agreement.</span>
             </div>
 
+            <!-- Sinhala Section -->
             <div style="display: flex; align-items: flex-end; margin-bottom: 2px; margin-top: 5px;">
                 <span class="dotted-line" style="flex-grow: 1;"></span>
                 <span style="margin-left: 10px; font-family: Arial, sans-serif; font-size: 12px;"><sup>3</sup> පදිංචි</span>
@@ -616,6 +661,7 @@
                 වාහනය කුලියට ගත් බවට පහත අත්සන් කර ඇත.
             </div>
 
+            <!-- Tamil Section -->
             <div style="display: flex; align-items: flex-end; margin-bottom: 2px;">
                 <span class="dotted-line" style="flex-grow: 1;"></span>
                 <span style="margin-left: 10px; font-family: Arial, sans-serif; font-size: 12px;">சேர்ந்த</span>
@@ -629,6 +675,7 @@
                 வாகனம் தனக்கு வாடகைக்கு விடப்பட்டுள்ளது என்பதை ஒப்புக்கொண்டு கீழே கையொப்பமிட்டுள்ளார்
             </div>
 
+            <!-- English Section 2 -->
             <div style="display: flex; align-items: flex-end; margin-bottom: 16px; position: relative;">
                 <span style="margin-right: 10px; white-space: nowrap;">The aforesaid <sup>3</sup></span>
                 <span id="p3f_newName3" class="dotted-line" style="flex-grow: 1;"></span>
@@ -649,25 +696,32 @@
         </div>
       </div>      
       
+      <!-- PAGE 4: MTA 3 Back OVERLAY -->
       <div class="a4-page last-page">
         <div class="print-absolute-block" style="top: 168px; left: 20px; right: 28px;">
           <div class="mta3-text" style="font-family: 'Times New Roman', Times, serif; font-size: 12px; font-weight: normal; line-height: 1.5;">
             
+            <!-- Line 1: "...let to me by 1" + Finance Address Part 1 -->
             <div style="display: flex; align-items: flex-end; margin-bottom: 15px; width: 100%; position: relative;">
               <span style="margin-right: 10px; white-space: nowrap;">I do hereby acknowledge that the motor vehicle has been let to me by <sup>1</sup></span>
               <span id="p3b_financeAddress1" class="dotted-line" style="flex-grow: 1;"></span>
+              <!-- Overflow for Address Part 1 -->
               <div id="p3b_financeAddress_overflow1" style="position: absolute; top: 16px; left: 320px; width: 100%; font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: 12px; color: #000; text-transform: uppercase;"></div>
             </div>
 
+            <!-- Line 2: Finance Address Part 2 + "of 2" + Finance Name + "under a hire..." -->
             <div style="display: flex; align-items: flex-end; margin-bottom: 15px; width: 100%; position: relative;">
               <span id="p3b_financeAddress2" class="dotted-line" style="width: 38%;"></span>
               
+              <!-- Left Column Overflow for Address -->
               <div id="p3b_financeAddress_overflow" style="position: absolute; top: 18px; left: 5px; width: 38%; font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: 12px; color: #000; text-transform: uppercase; line-height: 1.6; white-space: normal;"></div>
               
               <span style="margin: 0 10px; white-space: nowrap;">of <sup>2</sup></span>
               
               <span id="p3b_financeName1" class="dotted-line" style="flex-grow: 1;"></span>
               
+              <!-- Right Column Overflow for Name -->
+              <!-- Starts exactly after Address Part 2 (38%) + "of 2" margin spacing (~40px) -->
               <div id="p3b_financeName_overflow" style="position: absolute; top: 18px; left: calc(38% + 40px); right: 0; font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: 12px; color: #000; text-transform: uppercase; line-height: 1.6; white-space: normal;"></div>
               
               <span style="margin-left: 10px; white-space: nowrap;">under a hire-purchase agreement.</span>
@@ -892,34 +946,18 @@
       return html;
     }
 
-    function splitTextByWord(text, lengths) {
+    function splitText(text, lengths) {
       let parts = [];
-      let remaining = text ? text.trim() : "";
-      
+      let currentIndex = 0;
       for (let i = 0; i < lengths.length; i++) {
-          if (remaining.length <= lengths[i]) {
-              parts.push(remaining);
-              remaining = "";
+          if (currentIndex >= text.length) {
+              parts.push("");
           } else {
-              let splitIndex = remaining.lastIndexOf(" ", lengths[i]);
-              
-              if (splitIndex === -1 || splitIndex === 0) {
-                  splitIndex = remaining.lastIndexOf(",", lengths[i]);
-              }
-              
-              if (splitIndex === -1 || splitIndex === 0) {
-                  splitIndex = lengths[i];
-              }
-              
-              parts.push(remaining.substring(0, splitIndex).trim());
-              remaining = remaining.substring(splitIndex).trim();
-              
-              if(remaining.startsWith(",")) {
-                  remaining = remaining.substring(1).trim();
-              }
+              parts.push(text.substring(currentIndex, currentIndex + lengths[i]));
+              currentIndex += lengths[i];
           }
       }
-      parts.push(remaining); 
+      parts.push(text.substring(currentIndex)); 
       return parts;
     }
 
@@ -1037,47 +1075,45 @@
       // PAGE 3 & 4: MTA 3
       
       // 1. Finance Address & Name
-      let fAddrParts = splitTextByWord(financeAddress, [80]);
+      let fAddrParts = splitText(financeAddress, [80]);
       document.getElementById('p3f_financeAddress1').innerText = fAddrParts[0];
       document.getElementById('p3f_financeAddress2').innerText = fAddrParts[1];
       
-      let fNameParts = splitTextByWord(financeName, [80]);
+      let fNameParts = splitText(financeName, [80]);
       document.getElementById('p3f_financeName1').innerText = fNameParts[0];
       document.getElementById('p3f_financeName2').innerText = fNameParts[1];
       
-      // 2. Customer ADDRESS (Swapped - ලිපිනය මුලින් එනවා) (18-char limit added here!)
-      let cAddrParts = splitTextByWord(newAddress, [18, 55]);
+      // 2. Customer ADDRESS (Swapped - ලිපිනය මුලින් එනවා)
+      let cAddrParts = splitText(newAddress, [22, 55]);
       document.getElementById('p3f_newName1').innerText = cAddrParts[0];
       document.getElementById('p3f_newName2').innerText = cAddrParts[1];
       document.getElementById('p3f_newName_overflow').innerText = cAddrParts[2];
       
       // 3. Customer NAME (Swapped - නම දෙවනුව එනවා)
-      let cNameParts = splitTextByWord(newName, [40, 75]);
+      let cNameParts = splitText(newName, [40, 75]);
       document.getElementById('p3f_newAddress1').innerText = cNameParts[0];
       document.getElementById('p3f_newAddress2').innerText = cNameParts[1];
       document.getElementById('p3f_newAddress_overflow2').innerText = cNameParts[2];
 
       // Bottom ADDRESS & NAME (Swapped - මෙතනත් ලිපිනය මුලින්, නම දෙවනුව)
-      let botAddrParts = splitTextByWord(newAddress, [70]);
+      let botAddrParts = splitText(newAddress, [70]);
       document.getElementById('p3f_newName3').innerText = botAddrParts[0];
       document.getElementById('p3f_newName4').innerText = botAddrParts[1];
 
-      let botNameParts = splitTextByWord(newName, [90]);
+      let botNameParts = splitText(newName, [90]);
       document.getElementById('p3f_newAddress3').innerText = botNameParts[0];
       document.getElementById('p3f_newAddress4').innerText = botNameParts[1];
 
       // Page 4 (Back Page)
       
       // 1. Finance Address (Swapped: Address First)
-      let bAddrParts = splitTextByWord(financeAddress, [55, 35]);
-      document.getElementById('p3b_financeAddress1').innerText = bAddrParts[0];
-      document.getElementById('p3b_financeAddress2').innerText = bAddrParts[1];
-      document.getElementById('p3b_financeAddress_overflow').innerText = bAddrParts[2];
+      document.getElementById('p3b_financeAddress1').innerText = financeAddress.substring(0, 55);
+      document.getElementById('p3b_financeAddress2').innerText = financeAddress.substring(55, 90);
+      document.getElementById('p3b_financeAddress_overflow').innerText = financeAddress.substring(90);
       
-      // 2. Finance Name (Swapped: Name Second) 
-      let bNameParts = splitTextByWord(financeName, [32]);
-      document.getElementById('p3b_financeName1').innerText = bNameParts[0];
-      document.getElementById('p3b_financeName_overflow').innerText = bNameParts[1];
+      // 2. Finance Name (Swapped: Name Second) - Alignment fixed to start exactly at red line
+      document.getElementById('p3b_financeName1').innerText = financeName.substring(0, 32);
+      document.getElementById('p3b_financeName_overflow').innerText = financeName.substring(32);
       
       switchTab('print');
     }
