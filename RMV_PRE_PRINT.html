@@ -53,8 +53,13 @@
     .char-box {
       width: 16px; height: 22px; border: 1px solid #000; display: flex; align-items: center; justify-content: center;
       font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: 13px; text-transform: uppercase; color: #000;
+      box-sizing: border-box; /* අකුරු කොටුවෙන් එළියට පනින එක නවත්තන්න */
     }
-    .mta8-page .char-box { width: 14.5px; height: 20px; font-size: 12px; flex-shrink: 0; }
+    .mta8-page .char-box { 
+      width: 14.5px; height: 20px; font-size: 11px; flex-shrink: 0; 
+      padding-left: 1px; /* අකුර හරියටම මැද්දට ගන්න */
+      line-height: 1;
+    }
     .mta8-page .box-container { gap: 3.5px; justify-content: flex-end; }
     
     .text-line-3 { font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: 10px; letter-spacing: 0.5px; text-transform: uppercase; color: #000; width: 100%; text-align: left; padding-left: 2px; word-break: break-word; }
