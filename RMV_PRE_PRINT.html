@@ -1341,13 +1341,30 @@
       }
 
       document.querySelectorAll('.a4-page').forEach(el => el.classList.remove('last-page'));
-      if(financeName.trim() !== "") {
-        document.getElementById('page_mta3_back').classList.add('last-page');
-        document.getElementById('box_page_mta3_back').classList.add('last-page');
-      } else {
-        document.getElementById('page_mta8').classList.add('last-page');
-        document.getElementById('box_page_mta8').classList.add('last-page');
-      }
+      if (financeName.trim() !== "") {
+
+    const mta3Front = document.getElementById('page_mta3_front');
+    const mta3Back = document.getElementById('page_mta3_back');
+
+    if (mta3Front) mta3Front.style.display = "block";
+    if (mta3Back) mta3Back.style.display = "block";
+
+    if (document.getElementById('p3f_financeAddress1')) {
+        Mta3TextWordWrap('p3f_financeAddress1', financeAddress, [80, 80]);
+    }
+
+    if (document.getElementById('p3f_financeName1')) {
+        Mta3TextWordWrap('p3f_financeName1', financeName, [80, 80]);
+    }
+
+} else {
+
+    const mta3Front = document.getElementById('page_mta3_front');
+    const mta3Back = document.getElementById('page_mta3_back');
+
+    if (mta3Front) mta3Front.style.display = "none";
+    if (mta3Back) mta3Back.style.display = "none";
+}
 
       if (targetTab) {
         switchTab(targetTab);
