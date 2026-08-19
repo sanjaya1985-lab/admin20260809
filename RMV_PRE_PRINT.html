@@ -42,8 +42,8 @@
       box-sizing: border-box; position: relative; background-size: 100% 100%; background-repeat: no-repeat; page-break-after: always; 
     }
 
-    /* Source 1 (Original Print) Styles - Added 11.5px letter-spacing for alignment */
-    .p-text { position: absolute; font-size: 15px; font-family: 'Courier New', Courier, monospace; font-weight: bold; color: #000; white-space: nowrap; letter-spacing: 11.5px; }
+    /* Source 1 (Original Print) Styles */
+    .p-text { position: absolute; font-size: 15px; font-family: 'Courier New', Courier, monospace; font-weight: bold; color: #000; white-space: nowrap; }
 
     /* Source 2 (Box Print) Styles */
     .print-absolute-block { position: absolute; background-color: #ffffff; padding: 10px; box-sizing: border-box; }
@@ -52,11 +52,11 @@
     .char-box {
       width: 16px; height: 22px; border: 1px solid #000; display: flex; align-items: center; justify-content: center;
       font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: 13px; text-transform: uppercase; color: #000;
-      box-sizing: border-box; /* Prevent box overflow */
+      box-sizing: border-box; 
     }
     .mta8-page .char-box { 
       width: 14.5px; height: 20px; font-size: 11px; flex-shrink: 0; 
-      padding-left: 1px; /* Align letter strictly to center */
+      padding-left: 1px; 
       line-height: 1;
     }
     .mta8-page .box-container { gap: 3.5px; justify-content: flex-end; }
@@ -223,16 +223,16 @@
         <span class="p-text" id="p1_date_yyyy" style="top: 326px; left: 659px;"></span>
         <span class="p-text" id="p1_oldName" style="top: 350px; left: 69px;"></span>
         <span class="p-text" id="p1_oldName2" style="top: 374px; left: 69px;"></span>
-        <span class="p-text" id="p1_oldName3" style="top: 393px; left: 69px; font-size: 11px;"></span>
+        <span class="p-text" id="p1_oldName3" style="top: 393px; left: 69px; font-size: 10px;"></span>
         <span class="p-text" id="p1_oldAddress" style="top: 405px; left: 69px;"></span>
         <span class="p-text" id="p1_oldAddress2" style="top: 429px; left: 69px;"></span>
-        <span class="p-text" id="p1_oldAddress3" style="top: 449px; left: 69px; font-size: 11px;"></span>
+        <span class="p-text" id="p1_oldAddress3" style="top: 449px; left: 69px; font-size: 10px;"></span>
         <span class="p-text" id="p1_veh_prov" style="top: 466px; left: 508px;"></span>
         <span class="p-text" id="p1_veh_letters" style="top: 466px; left: 566px;"></span>
         <span class="p-text" id="p1_veh_nums" style="top: 466px; left: 640px;"></span>
         <span class="p-text" id="p1_newName" style="top: 490px; left: 68px;"></span>
         <span class="p-text" id="p1_newName2" style="top: 515px; left: 70px;"></span>
-        <span class="p-text" id="p1_newName3" style="top: 533px; left: 70px; font-size: 11px;"></span>
+        <span class="p-text" id="p1_newName3" style="top: 533px; left: 70px; font-size: 10px;"></span>
         <span class="p-text" id="p1_newAddress" style="top: 548px; left: 68px;"></span>
         <span class="p-text" id="p1_newAddress2" style="top: 571px; left: 69px;"></span>
         <span class="p-text" id="p1_newAddress3" style="top: 589px; left: 69px; font-size: 11px;"></span>
@@ -248,13 +248,13 @@
         <span class="p-text" id="p2_veh_nums" style="top: 401px; left: 697px;"></span>
         <span class="p-text" id="p2_oldName" style="top: 442px; left: 213px;"></span>
         <span class="p-text" id="p2_oldName2" style="top: 473px; left: 43px;"></span>
-        <span class="p-text" id="p2_oldName3" style="top: 495px; left: 41px; font-size: 11px;"></span>
+        <span class="p-text" id="p2_oldName3" style="top: 495px; left: 38px; font-size: 10px;"></span>
         <span class="p-text" id="p2_newName" style="top: 511px; left: 87px;"></span>
         <span class="p-text" id="p2_newName2" style="top: 540px; left: 41px;"></span>
-        <span class="p-text" id="p2_newName3" style="top: 570px; left: 42px; font-size: 15px;"></span>
-        <span class="p-text" id="p2_newName4" style="top: 590px; left: 42px; font-size: 11px;"></span>
+        <span class="p-text" id="p2_newName3" style="top: 570px; left: 42px; font-size: 16px;"></span>
+        <span class="p-text" id="p2_newName4" style="top: 590px; left: 42px; font-size: 10px;"></span>
         <span class="p-text" id="p2_newAddress" style="top: 608px; left: 130px;"></span>
-        <span class="p-text" id="p2_newAddress2" style="top: 636px; left: 43px;"></span>
+        <span class="p-text" id="p2_newAddress2" style="top: 636px; left: 40px;"></span>
         <span class="p-text" id="p2_newAddress3" style="top: 667px; left: 43px; font-size: 15px;"></span>
         <span class="p-text" id="p2_newAddress4" style="top: 687px; left: 43px; font-size: 11px;"></span>
         <span class="p-text" id="p2_newId" style="top: 716px; left: 549px;"></span>
@@ -587,7 +587,7 @@
 
           <!-- (i) Licensing Authority Section Matching 2nd Image -->
           <div class="mta8-text-small" style="font-weight: bold; margin-bottom: 8px; font-size: 9px;">
-            (i) බලපත්‍ර අධිකාරිය/அனுமதிப்பத்திர அதிகார සபை/Licensing Authority
+            (i) බලපත්‍ර අධිකාරිය/அனுமதிப்பத்திர அதிகார சபை/Licensing Authority
           </div>
           
           <div style="padding-left: 10px; margin-bottom: 1px;">
@@ -862,6 +862,46 @@
                 divs: ["PADAVI SRI PURA", "KUCHCHAWELI", "GOMARANKADAWALA", "MORAWEWA", "TOWN & GRAVETS", "THAMBALAGAMUWA", "KANTALE", "KINNIYA", "MUTHUR", "SERUVILA", "VERUGAL"],
                 postal: {"TRINCOMALEE":"31000", "SAMPALTIVU":"31006", "NILAVELI":"31010", "KUMBURUPIDDY":"31012", "KUCHCHAVELI":"31014", "TIRIYAYI":"31016", "GOMARANKADAWALA":"31026", "BUCKMIGAMA":"31028", "KANNIYA":"31032", "PANKULAM":"31034", "MAHADIVULWEWA":"31036", "ROTTAWEWA":"31038", "TAMPALAKAMAM":"31046", "CHINABAY":"31050", "VELLAMANAL":"31053", "KINNIYA":"31100", "MAHARUGIRAMAM":"31106", "KURINCHAKERNY":"31112", "MUTUR":"31200", "KADDAIPARICHCHAN":"31212", "SAMPUR":"31216", "KILIVEDDY":"31220", "SOMAPURA":"31222", "MALLIKATIVU":"31224", "DEHIWATTE":"31226", "NEELAPOLA":"31228", "SERUNUWARA":"31232", "LANKAPATUNA":"31234", "ECHCHILAMPATTAI":"31236", "MAWADICHENAI":"31238", "TOPPUR":"31250", "SERUWILA":"31260", "KANTALAI":"31300", "AGBOPURA":"31304", "KANTALAISUGARFACTORY":"31306", "WANELA":"31308", "MOLLIPOTHANA":"31312", "SIRAJNAGAR":"31314", "GALMETIYAWA":"31318"}
             }
+        },
+        "NORTH WESTERN": {
+            "KURUNEGALA": {
+                divs: ["GIRIBAWA", "GALGAMUWA", "EHETUWEWA", "AMBANPOLA", "KOTAWEHERA", "RASNAYAKAPURA", "NIKAWERATIYA", "MAHO", "POLPITIGAMA", "IBBAGAMUWA", "GANEWATTA", "WARIYAPOLA", "KOBEIGANE", "BINGIRIYA", "PANDUWASNUWARA WEST", "PANDUWASNUWARA EAST", "BAMUNAKOTUWA", "MASPOTHA", "KURUNEGALA", "MALLAWAPITIYA", "MAWATHAGAMA", "RIDEEGAMA", "WEERABUGEDARA", "KULIYAPITIYA EAST", "KULIYAPITIYA WEST", "UDUBADDAWA", "PANNALA", "NARAMMALA", "ALAWWA", "POLGAHAWELA"],
+                postal: {"KURUNEGALA":"60000", "KUDAGALGAMUWA":"60003", "MINHETTIYA":"60004", "DORATIYAWA":"60013", "INDULGODAKANDA":"60016", "DEMATALUWA":"60024", "ITHANAWATTA":"60025", "BOYAGANE":"60027", "KOHILAGEDARA":"60028", "KOSGOLLA":"60029", "HINDAGOLLA":"60034", "AMBAKOTE":"60036", "MORATHIHA":"60038", "RIDIGAMA":"60040", "DELWITE":"60044", "IRIYAGOLLA":"60045", "ALAWATUWALA":"60047", "PANAGAMUWA":"60052", "PIHIMBUWA":"60053", "KANADENIYAWALA":"60054", "PILESSA":"60058", "MAWATHAGAMA":"60060", "KAHAPATHWALA":"60062", "INGURUWATTA":"60064", "MEETANWALA":"60066", "PUSWELITENNA":"60072", "ANHANDIYA":"60074", "BULUWALA":"60076", "WEUDA":"60080", "UHUMIYA":"60094", "KALUGAMUWA":"60096", "NARAMMALA":"60100", "KARAGAHAGEDARA":"60106", "BOGAMULLA":"60107", "LONAHETTIYA":"60108", "PAHAMUNE":"60112", "METIYAGANE":"60121", "MURUTHENGE":"60122", "DAMBADENIYA":"60130", "IHALA KATUGAMPALA":"60135", "GIRIULLA":"60140", "NARANGODA":"60152", "ELIBICHCHIYA":"60156", "PANNALA":"60160", "LABBALA":"60162", "GONAWILA":"60170", "DARALUWA":"60174", "SANDALANKAWA":"60176", "HORAMBAWA":"60181", "ALAHITIYAWA":"60182", "KEKUNAGOLLA":"60183", "KIRIMETIYAWA":"60184", "NAKKAWATTA":"60186", "KITHALAWA":"60188", "WEWAGAMA":"60195", "WALAKUMBURUMULLA":"60198", "KULIYAPITIYA":"60200", "YAKWILA":"60202", "WADUMUNNEGEDARA":"60204", "WELPALLA":"60206", "THALAHITIMULLA":"60208", "MADAKUMBURUMULLA":"60209", "IHALA GOMUGOMUWA":"60211", "KIRINDAWA":"60212", "ANUKKANE":"60214", "MUNAMALDENIYA":"60218", "MAGULAGAMA":"60221", "NAGOLLAGODA":"60226", "THARANA UDAWELA":"60227", "DEEGALLA":"60228", "ILUKHENA":"60232", "PADIWELA":"60236", "IHALA KADIGAMUWA":"60238", "WELIPENNAGAHAMULLA":"60240", "UDUBADDAWA":"60250", "DUMMALASURIYA":"60260", "WATUWATTA":"60262", "ETUNGAHAKOTUWA":"60266", "ALAWWA":"60280", "WENNORUWA":"60284", "MAHARACHCHIMULLA":"60286", "KEPPITIWALANA":"60288", "BUJJOMUWA":"60291", "NAWATALWATTA":"60292", "POLGAHAWELA":"60300", "METIKUMBURA":"60304", "TALAWATTEGEDARA":"60306", "ARAGODA":"60308", "PANALIYA":"60312", "YATIGALOLUWA":"60314", "WADAKADA":"60318", "POTHUHERA":"60330", "MASPOTHA":"60344", "BAMUNUKOTUWA":"60347", "PANADARAGAMA":"60348", "KATUPOTA":"60350", "MORAGANE":"60354", "KOSDENIYA":"60356", "WARIYAPOLA":"60400", "WELLAGALA":"60402", "MALAGANE":"60404", "MINUWANGETE":"60406", "MIRIHANAGAMA":"60408", "KOBEIGANE":"60410", "HENGAMUWA":"60414", "ALAHENGAMA":"60416", "KANATTEWEWA":"60422", "BANDARA KOSWATTA":"60424", "TUTTIRIPITIGAMA":"60426", "HETTIPOLA":"60430", "MANDAPOLA":"60434", "SUNANDAPURA":"60436", "BORALUWEWA":"60437", "KURATIHENA":"60438", "PIHIMBIYA RATMALE":"60439", "HALMILLAWEWA":"60441", "BINGIRIYA":"60450", "TISOGAMA":"60453", "WEERAPOKUNA":"60454", "WELLARAWA":"60456", "HIRUWALPOLA":"60458", "PADENIYA":"60461", "AWULEGAMA":"60462", "WELAWA JUNCTON":"60464", "WANNIGAMA":"60465", "NIKAWERATIYA":"60470", "DIVULLEGODA":"60472", "HULOGEDARA":"60474", "THIMBIRIYAWA":"60476", "HULUGALLA":"60477", "SIRISETAGAMA":"60478", "MAHAGIRILLA":"60479", "NABADEWA":"60482", "KOTAWEHERA":"60483", "MEEWELLAWA":"60484", "DIGANNEWA":"60485", "HILOGAMA":"60486", "WANNIRASNAYAKAPURA":"60490", "KADIGAWA":"60492", "MONNEKULAMA":"60495", "TORAYAYA":"60499", "LBBAGAMUWA":"60500", "KIRINDIGALLA":"60502", "KUMBUKWEWA":"60506", "KUMBUKGETE":"60508", "MAELIYA":"60512", "MAKULPOTHA":"60514", "MAHAMUKALANYAYA":"60516", "PERIYAKADNELUWA":"60518", "GOKARALLA":"60522", "DODANGASLANDA":"60530", "MADURAGODA":"60532", "MELSIRIPURA":"60540", "DIDDENIYA":"60544", "HIRIYALA LENAWA":"60546", "KIMBULWANAOYA":"60548", "NELLIYA":"60549", "MADAHAPOLA":"60552", "PANSIYAGAMA":"60554", "PANLIYADDA":"60558", "WELLAWA":"60570", "THALWITA":"60572", "MAKULWEWA":"60578", "NIKADALUPOTHA":"60580", "HUNUPOLA":"60582", "THAMBAGALLA":"60584", "NAGOLLAGAMA":"60590", "MAHO":"60600", "KARAMBE":"60602", "BALALLA":"60604", "RIDIBENDIELLA":"60606", "MEDIVAWA":"60612", "POLPITIGAMA":"60620", "ULPOTHA PALLEKELE":"60622", "THALAKOLAWEWA":"60624", "KONWEWA":"60630", "MORAGOLLAGAMA":"60640", "SIYAMBALANGAMUWA":"60646", "AMBANPOLA":"60650", "GALGAMUWA":"60700", "PALUKADAWALA":"60704", "ATARAGALLA":"60706", "GALLEWA":"60712", "MAKULEWA":"60714", "EHETUWEWA":"60716", "EMBOGAMA":"60718", "WANNIKUDAWEWA":"60721", "WANNIILHALAGAMA":"60722", "MAHANANNERIYA":"60724", "MAHAGALKADAWALA":"60731", "USGALA SIYABMALANGAMUWA":"60732", "TAMBUTTA":"60734", "PAHALAGIRIBAWA":"60735", "SALIYA ASOKAPURA":"60736", "SOLEPURA":"60737", "SOLEWEWA":"60738", "WARAWEWA":"60739", "MEEGALAWA":"60750", "GIRATHALANA":"60752", "KUDAKATNORUWA":"60754"}
+            },
+            "PUTTALAM": {
+                divs: ["KALPITIYA", "VANATHAVILLUWA", "KARUWALAGASWEWA", "NAWAGATTEGAMA", "PUTTALAM", "MUNDEL", "MAHAKUMBUKKADAWALA", "ANAMADUWA", "PALLAMA", "ARACHCHIKATTUWA", "CHILAW", "MADAMPE", "MAHAWEWA", "NATTANDIYA", "WENNAPPUWA", "DANKOTUWA"],
+                postal: {"CHILAW":"61000", "UDAPPUWA":"61004", "WIJEYAKATUPOTHA":"61006", "WILPOTHA":"61008", "ADIPPALA":"61012", "MUGUNUWATAWANA":"61014", "ILIPPADENIYA":"61018", "KARAWITAGARA":"61022", "AMBAKANDAWILA":"61024", "KUMARAKATTUWA":"61032", "PALLAMA":"61040", "SERUKELE":"61042", "WAIKKAL":"61110", "NAINAMADAMA":"61120", "DANKOTUWA":"61130", "BUJJAMPOLA":"61136", "LIHIRIYAGAMA":"61138", "YOGIYANA":"61144", "LUNUWILA":"61150", "IHALA KOTTARAMULLA":"61154", "KOSWATTA":"61158", "POTHUWATAWANA":"61162", "WENNAPPUWA":"61170", "KATUNERIYA":"61180", "NATTANDIYA":"61190", "DUNKANNAWA":"61192", "MUTTIBENDIWILA":"61195", "WATUGAHAMULLA":"61198", "MARAWILA":"61210", "MAHAWEWA":"61220", "TODUWAWA":"61224", "KUDAWEWA":"61226", "MADAMPE":"61230", "GALMURUWA":"61233", "PANIRENDAWA":"61234", "KAKKAPALLIYA":"61236", "BANGADENIYA":"61238", "RAJAKADALUWA":"61242", "NALLADARANKATTUWA":"61244", "BATTULUOYA":"61246", "MUNDALAMA":"61250", "KOTTANTIVU":"61252", "BARANANKATTUWA":"61262", "ANGUNAWILA":"61264", "MANGALAELIYA":"61266", "MADURANKULIYA":"61270", "MAHAKUMBUKKADAWALA":"61272", "MUKKUTODUWAWA":"61274", "PALAVIYA":"61280", "PUTTALAM":"61300", "ISMAILPURAM":"61302", "VANATHAWILLUWA":"61306", "KARATIVPONPARAPPI":"61307", "ELUWANKULAMA":"61308", "SIRAMBIADIYA":"61312", "KARUWALAGASWEWA":"61314", "IHALA PULIYANKULAMA":"61316", "TABBOWA":"61322", "SALIYAWEWA JUNCTION":"61324", "PUTTALAMCEMENTFACTORY":"61326", "ATTAWILLUWA":"61328", "MAMPURI":"61341", "NOROCHCHOLAI":"61342", "ETTALE":"61343", "TALAWILA CHURCH":"61344", "PALLIWASALTURAI":"61354", "KURINJANPITIYA":"61356", "KANDAKULIYA":"61358", "KALPITIYA":"61360", "KIRIMUNDALAMA":"61362", "ANAMADUWA":"61500", "URIDYAWA":"61502", "SIYAMBALAGASHENE":"61504", "MUDALAKKULIYA":"61506", "ANDIGAMA":"61508", "MAHAUSWEWA":"61512", "INGINIMITIYA":"61514", "KURUKETIYAWA":"61516", "NAWAGATTEGAMA":"61520", "KOTTUKACHCHIYA":"61532", "KALLADIYA":"61534"}
+            }
+        },
+        "NORTH CENTRAL": {
+            "ANURADHAPURA": {
+                divs: ["PADAVIYA", "KEBITHIGOLLEWA", "MEDAWACHCHIYA", "MAHAWILACHCHIYA", "NUWARAGAM PALATHA CENTRAL", "RAMBEWA", "KAHATAGASDIGILIYA", "HOROWPATHANA", "GALENBIDUNUWEWA", "MIHINTHALE", "NUWARAGAM PALATHA EAST", "NACHCHADUWA", "NOCHCHIYAGAMA", "RAJANGANAYA", "THAMBUTHTHEGAMA", "THALAWA", "THIRAPPANE", "KEKIRAWA", "PALUGASWEWA", "IPALOGAMA", "GALNEWA", "PALAGALA"],
+                postal: {"ANURADHAPURA":"50000", "PERIMIYANKULAMA":"50004", "GALKADAWALA":"50006", "SALIYAPURA":"50008", "VIHARAPALUGAMA":"50012", "ELAYAPATTUWA":"50014", "TANTIRIMALE":"50016", "PEMADUWA":"50020", "MAHAWILACHCHIYA":"50022", "PANDULAGAMA":"50029", "GNANIKULAMA":"50036", "SRAVASTHIPURA":"50042", "HIDOGAMA":"50044", "NACHCHADUWA":"50046", "PARASANGAHAWEWA":"50055", "GAMBIRIGASWEWA":"50057", "KURUNDANKULAMA":"50062", "GALKULAMA":"50064", "UTTIMADUWA":"50067", "SIVALAKULAMA":"50068", "TIRAPPANE":"50072", "MARADANKADAWALA":"50080", "WALAGAMBAHUWA":"50086", "KEKIRAWA":"50100", "TAMMENNAWA":"50104", "VIJITHAPURA":"50110", "PALAGALA":"50111", "ANDIYAGALA":"50112", "GALKIRIYAGAMA":"50120", "PUBBOGAMA":"50122", "HALMILLAWA":"50124", "MAHA ELAGAMUWA":"50126", "MADATUGAMA":"50130", "KITULHITIYAWA":"50132", "GANEWALPOLA":"50142", "PALUGASWEWA":"50144", "HABARANA":"50150", "AWUKANA":"50169", "GALNEWA":"50170", "KALANKUTTIYA":"50174", "HURIGASWEWA":"50176", "NEGAMPAHA":"50180", "MANERUWA":"50182", "SIYAMBALEWA":"50184", "MAHABULANKULAMA":"50196", "NOCHCHIYAGAMA":"50200", "PAHALA HALMILLEWA":"50206", "UDUNUWARA COLONY":"50207", "GALADIVULWEWA":"50210", "RANORAWA":"50212", "DUNUMADALAWA":"50214", "PAHALA MARAGAHAWE":"50220", "HORIWILA":"50222", "GEMUNUPURA":"50224", "KALAOYA":"50226", "TALAWA":"50230", "KARAGAHAWEWA":"50232", "MALWANAGAMA":"50236", "TAMBUTTEGAMA":"50240", "TELHIRIYAWA":"50242", "PAHALAGAMA":"50244", "RAJANGANAYA":"50246", "ANGAMUWA":"50248", "KIRALOGAMA":"50259", "EPPAWALA":"50260", "KATIYAWA":"50261", "IHALA HALMILLEWA":"50262", "MAHAILLUPPALLAMA":"50270", "LPOLOGAMA":"50280", "KAGAMA":"50282", "SENAPURA":"50284", "KALAKARAMBEWA":"50288", "MIHINTALE":"50300", "LHALAGAMA":"50304", "MAHAKANADARAWA":"50306", "MARADANKALLA":"50308", "KAHATAGASDIGILIYA":"50320", "MULKIRIYAWA":"50324", "PARAKUMPURA":"50326", "MAHAPOTHANA":"50327", "MEGODAWEWA":"50334", "PADIKARAMADUWA":"50338", "NAMALPURA":"50339", "MURIYAKADAWALA":"50344", "MORAKEWA":"50349", "HORAWPATANA":"50350", "PARANGIYAWADIYA":"50354", "DEMATAWEWA":"50356", "WELIMUWAPOTANA":"50358", "KAPUGALLAWA":"50370", "SEEPPUKULAMA":"50380", "UPULDENIYA":"50382", "MAILAGASWEWA":"50384", "RAMPATHWILA":"50386", "GALENBINDUNUWEWA":"50390", "GETALAWA":"50392", "DUTUWEWA":"50393", "HURULUNIKAWEWA":"50394", "PANDUKABAYAPURA":"50448", "RAMBEWA":"50450", "KENDEWA":"50452", "KALLANCHIYA":"50454", "WAHAMALGOLLEWA":"50492", "MEDAWACHCHIYA":"50500", "PUNEWA":"50506", "KIRIGALWEWA":"50511", "PIHIMBIYAGOLEWA":"50512", "RATHMALGAHAWEWA":"50514", "WALAHAVIDDAWEWA":"50516", "ETAWEERAGOLLEWA":"50518", "KEBITHIGOLLEWA":"50550", "HALMILLAWETIYA":"50552", "GONAHADDENAWA":"50554", "KALAWEDI ULPOTHA":"50556", "TITTAGONEWA":"50558", "KAHATAGOLLEWA":"50562", "WAHALKADA":"50564", "BOGAHAWEWA":"50566", "PULMODDAI":"50567", "PADAVIYA":"50570", "PADAVI MAITHRIPURA":"50572", "MAHASENPURA":"50574", "PADAVI ARAKRAMAPURA":"50582", "ETAWATUNUWEWA":"50584", "PADAVI SRIPURA":"50587", "PADAVI SRITISSAPURA":"50588"}
+            },
+            "POLONNARUWA": {
+                divs: ["HIGURAKGODA", "MEDIRIGIRIYA", "LANKAPURA", "WELIKANDA", "DIMBULAGALA", "THAMANKADUWA", "ELAHERA"],
+                postal: {"POLONNARUWA":"51000", "KALINGAELA":"51002", "ONEGAMA":"51004", "LAKSHAUYANA":"51006", "UNAGALAVEHERA":"51008", "ALUTWEWA":"51014", "PARAKRAMASAMUDRAYA":"51016", "JAYANTHIPURA":"51024", "GIRITALE":"51026", "DIMBULAGALA":"51031", "KASHYAPAPURA":"51032", "PELATIYAWA":"51033", "ELLEWEWA":"51034", "KALUKELE BADANAGALA":"51037", "NUWARAGALA":"51039", "WIJAYABAPURA":"51042", "TALPOTHA":"51044", "PALUGASDAMANA":"51046", "TAMBALA":"51049", "PULASTIGAMA":"51050", "SUNGAVILA":"51052", "SEVANAPITIYA":"51062", "MUTUGALA":"51064", "NAWASENAPURA":"51066", "WELIKANDA":"51070", "ASELAPURA":"51072", "MAHAWELA SINHAPURA":"51076", "TAMANKADUWA":"51089", "MAMPITIYA":"51090", "DALUKANA":"51092", "DEWAGALA":"51094", "NELUMWEWA":"51096", "HANSAYAPALAMA":"51098", "ARALAGANWILA":"51100", "PIMBURATTEWA":"51102", "DIVULDAMANA":"51104", "DAMMINNA":"51106", "MADURUOYA":"51108", "DIYABEDUMA":"51225", "ATTANAKADAWALA":"51235", "KOTTAPITIYA":"51244", "JAYASIRIPURA":"51246", "BAKAMUNA":"51250", "ORUBENDI SIYAMBALAWA":"51256", "ELAHERA":"51258", "GALOYA JUNCTION":"51375", "SINHAGAMA":"51378", "HINGURAKGODA":"51400", "HINGURAKDAMANA":"51408", "MINNERIYA":"51410", "KUMARAGAMA":"51412", "KAWUDULLA":"51414", "GALAMUNA":"51416", "YODAELA":"51422", "YUDAGANAWA":"51424", "DIVULANKADAWALA":"51428", "MEDIRIGIRIYA":"51500", "DIYASENPURA":"51504", "MAHATALAKOLAWEWA":"51506", "MEEGASWEWA":"51508", "KAWUDULUWEWA STAGE LL":"51514", "MAHAAMBAGASWEWA":"51518"}
+            }
+        },
+        "UVA": {
+            "BADULLA": {
+                divs: ["BADULLA", "BANDARAWELA", "ELLA", "HALDUMMULLA", "HALI-ELA", "HAPUTALE", "KANDEKETIYA", "LUNUGALA", "MAHIYANGANAYA", "MEEGAHAKIULA", "PASSARA", "RIDEEMALIYADDA", "SORANATHOTA", "UVAPARANAGAMA", "WELIMADA"],
+                postal: {"BADULLA":"90000", "SORANATOTA":"90008", "TIMBIRIGASPITIYA":"90012", "EGODAWELA":"90013", "TALDENA":"90014", "MEEGAHAKIULA":"90015", "KETAWATTA":"90016", "ARAWA":"90017", "BADULUOYA":"90019", "KANDAKETYA":"90020", "MALIYADDA":"90022", "RILPOLA":"90026", "SPRING VALLEY":"90028", "WINEETHAGAMA":"90034", "NELUMGAMA":"90042", "SIRIMALGODA":"90044", "KUTTIYAGOLLA":"90046", "KENDAGOLLA":"90048", "KAHATARUPPA":"90052", "HALI ELA":"90060", "UVA UDUWARA":"90061", "UVA DEEGALLA":"90062", "JANGULLA":"90063", "NARANGALA":"90064", "GALAUDA":"90065", "BERAMADA":"90066", "GODUNNA":"90067", "LANDEWELA":"90068", "KANDEGEDARA":"90070", "PATHANEWATTA":"90071", "TENNEPANGUWA":"90072", "DEMODARA":"90080", "GAWARAWELA":"90082", "ELLA":"90090", "UVA KARANDAGOLLA":"90091", "BALLAKETUWA":"90092", "HELAPUPULA":"90094", "BANDARAWELA":"90100", "KEBILLAWELA":"90102", "DULGOLLA":"90104", "LIYANGAHAWELA":"90106", "AMBADANDEGAMA":"90108", "HEELOYA":"90112", "MAKULELLA":"90114", "HELAHALPE":"90122", "DIGANATENNA":"90132", "MIRAHAWATTA":"90134", "PATTIYAGEDARA":"90138", "ETTAMPITIYA":"90140", "DIYATALAWA":"90150", "HAPUTALE":"90160", "RATKARAWWA":"90164", "NIKAPOTHA":"90165", "AKKARASIY":"90166", "IDALGASHINNA":"90167", "OHIYA":"90168", "BORALANDA":"90170", "PITAPOLA":"90171", "HALDUMMULLA":"90180", "SORAGUNE":"90183", "KIRIWANAGAMA":"90184", "KALUPAHANA":"90186", "UVA TENNA":"90188", "KOSLANDA":"90190", "UVA MAWELAGAMA":"90192", "WELIMADA":"90200", "AMUNUMULLA":"90204", "GALEDANDA":"90206", "GURUTALAWA":"90208", "PUHULPOLA":"90212", "DIKKAPITIYA":"90214", "NUGATALAWA":"90216", "MEDAWELA UDUKINDA":"90218", "PERAWELLA":"90222", "HANGUNNAWA":"90224", "UDUHAWARA":"90226", "UVAPARANAGAMA":"90230", "AMBAGASDOWA":"90300", "BOWELA":"90302", "LUNUWATTA":"90310", "BAMBARAPANA":"90322", "DIMBULANA":"90324", "AMBAGAHAWATTA":"90326", "MASPANNA":"90328", "YALAGAMUWA":"90329", "KEPPETIPOLA":"90350", "KALUBULULANDA":"90352", "BOGAHAKUMBURA":"90354", "KANDEPUHULPOLA":"90356", "HEWANAKUMBURA":"90358", "BORAGAS":"90362", "SILMIYAPURA":"90364", "PASSARA":"90500", "BIBILEGAMA":"90502", "MIRIYABEDDA":"90504", "KOTAMUDUNA":"90506", "HINGURUKADUWA":"90508", "GAMEWELA":"90512", "MEDAWELAGAMA":"90518", "PELAGAHATENNA":"90522", "HOPTON":"90524", "LUNUGALA":"90530", "ARAWAKUMBURA":"90532", "PALLEKIRUWA":"90534", "MADULSIMA":"90535", "METIGAHATENNA":"90540", "ATAKIRIYA":"90542", "PITAMARUWA":"90544", "KALUGAHAKANDURA":"90546", "NAMUNUKULA":"90580", "MAUSSAGOLLA":"90582", "MIYANAKANDURA":"90584", "MAHIYANGANAYA":"90700", "URANIYA":"90702", "RIDIMALIYADDA":"90704", "YALWELA":"90706", "ARAWATTA":"90712", "DAMBANA":"90714", "WEWATTA":"90716", "SORABORA COLONY":"90718", "ALUTTARAMMA":"90722", "HEBARAWA":"90724", "DIVULAPELESSA":"90726", "KURUWITENNA":"90728", "MAPAKADAWEWA":"90730", "UVA TISSAPURA":"90734", "ALUKETIYAW":"90736", "KESELPOTHA":"90738", "GIRANDURUKOTTE":"90750", "GALPORUYAYA":"90752", "MALGODA":"90754", "PAHALARATHKINDA":"90756"}
+            },
+            "MONARAGALA": {
+                divs: ["BIBILE", "MADULLA", "MEDAGAMA", "SIYAMBALANDUWA", "MONARAGALA", "BADALKUMBURA", "WELLAWAYA", "BUTTALA", "KATHARAGAMA", "THANAMALWILA", "SEVANAGALA"],
+                postal: {"SEWANAGALA":"70250", "KIRIIBBANWEWA":"70252", "EKAMUTUGAMA":"70254", "MAHAGAMA COLONY":"70256", "MONARAGALA":"91000", "PANGURA":"91002", "NAKKALA":"91003", "HULANDAWA":"91004", "WEDIKUMBURA":"91005", "MARAWA":"91006", "OBBEGODA":"91007", "GALABEDDA":"91008", "DOMBAGAHAWELA":"91010", "ETHIMALEWEWA":"91020", "WILAOYA":"91022", "KOTIYAGALA":"91024", "SIYAMBALANDUWA":"91030", "KANDAUDAPANGUWA":"91032", "BUDDAMA":"91038", "INGINIYAGALA":"91040", "NELLIYADDA":"91042", "DAMBAGALLA":"91050", "MARIARAWA":"91052", "UVA GANGODAGAMA":"91054", "RUWALWELA":"91056", "BADULUWELA":"91058", "OKKAMPITIYA":"91060", "BADALKUMBURA":"91070", "KUMBUKKANA":"91098", "BUTTALA":"91100", "MORETUWEGAMA":"91108", "UVA PELAWATTA":"91112", "WARUNAGAMA":"91198", "WELLAWAYA":"91200", "SIYAMBALAGUNE":"91202", "RANDENIYA":"91204", "WEHERAYAYA HANDAPANAGALA":"91206", "ETTILIWEWA":"91250", "BALAHARUWA":"91295", "UVA KUDAOYA":"91298", "TANAMALWILA":"91300", "ANGUNAKOLAWEWA":"91302", "SURIARA":"91306", "HAMBEGAMUWA":"91308", "KOTAWEHERA MANKADA":"91312", "KATARAGAMA":"91400", "SELLA KATARAGAMA":"91405", "BIBILE":"91500", "EKIRIYANKUMBURA":"91502", "PITAKUMBURA":"91505", "NILGALA":"91508", "KOTAGAMA":"91512", "DIYAKOBALA":"91514", "AYIWELA":"91516", "NANNAPURAWA":"91519", "MEDAGANA":"91550", "KANDAWINNA":"91552", "BAKINIGAHAWELA":"91554"}
+            }
+        },
+        "SABARAGAMUWA": {
+            "RATNAPURA": {
+                divs: ["EHELIYAGODA", "KURUVITA", "KIRIELLA", "RATNAPURA", "IMBULPE", "BALANGODA", "OPANAYAKE", "PELMADULLA", "ELAPATHA", "AYAGAMA", "KALAWANA", "NIVITHIGALA", "KAHAWATTHA", "GODAKAWELA", "WELIGEPOLA", "EMBILIPITIYA", "KOLONNA", "KALTHOTA"],
+                postal: {"RATNAPURA":"70000", "MALWALA JUNCTION":"70001", "GILLIMALE":"70002", "SRI PALABADDALA":"70004", "KUDAWA":"70005", "HIDELLANA":"70012", "KAHANGAMA":"70016", "DODAMPE":"70017", "KARANGODA":"70018", "DAMBULUWANA":"70019", "MEDAGALATUR":"70021", "AYAGAMA":"70024", "GAWARAGIRIYA":"70026", "ELAPATHA":"70032", "UDANIRIELLA":"70034", "RATNA HANGAMUWA":"70036", "NIRALAGAMA":"70038", "MARAPANA":"70041", "DELA":"70042", "UDAKARAWITA":"70044", "PEBOTUWA":"70045", "DELWALA":"70046", "LELLOPITIYA":"70056", "GALLELLA":"70062", "WEWELWATTA":"70066", "PELMADULLA":"70070", "OPANAYAKA":"70080", "AKARELLA":"70082", "BALANGODA":"70100", "TALAKOLAHINNA":"70101", "WELIGEPOLA":"70104", "HATANGALA":"70105", "HANDAGIRIYA":"70106", "HATARABAGE":"70108", "MAHAWALATENNA":"70112", "WIKILIYA":"70114", "RAJAWAKA":"70116", "MULGAMA":"70117", "TANJANTENNA":"70118", "KALTOTA":"70122", "WELIPATHAYAYA":"70124", "MEDDEKANDA":"70127", "MORAHELA":"70129", "PINNAWALA":"70130", "BOLTHUMBE":"70131", "PAMBAGOLLA":"70133", "LMBULPE":"70134", "RASSAGALA":"70135", "GURUBEWILAGAMA":"70136", "WALEBODA":"70138", "BELIHULOYA":"70140", "SAMANALAWEWA":"70142", "IHALAGAMA":"70144", "HALPE":"70145", "KAHAWATTA":"70150", "PANAPITIYA":"70152", "UDAHA HAWUPE":"70154", "GABBELA":"70156", "MADALAGAMA":"70158", "GODAKAWELA":"70160", "RANWALA":"70162", "HAPUGASTENNA":"70164", "NAWINNAPINNAKANDA":"70165", "PALLEBEDDA":"70170", "HALWINNA":"70171", "KOLAMBAGEARA":"70180", "UDAWALAWE":"70190", "GANGEYAYA":"70195", "EMBILIPITIYA":"70200", "TUNKAMA":"70205", "MULENDIYAWALA":"70212", "OMALPE":"70215", "PANAMURA":"70218", "PADALANGALA":"70230", "ATAKALANPANNA":"70294", "HIRAMADAGAMA":"70296", "MAKANDURA SABARA":"70298", "RAKWANA":"70300", "DEMUWATHA":"70332", "POTHUPITIYA":"70338", "ITTAKANDA":"70342", "BOMLUWAGEAINA":"70344", "ULLINDUWAWA":"70345", "BULUTOTA":"70346", "VIJERIYA":"70348", "KOLONNA":"70350", "KELLA JUNCTION":"70352", "NIVITIGALA":"70400", "KOLOMBUGAMA":"70403", "DOLOSWALAKANDA":"70404", "WATAPOTHA":"70408", "KALAWANA":"70450", "DAUGALA":"70455", "WATURAWA":"70456", "VEDDAGALA":"70459", "PANAPOLA":"70461", "NAWALAKANDA":"70469", "PIMBURA":"70472", "KIRIELLA":"70480", "MATUWAGALAGAMA":"70482", "KARANDANA":"70488", "ELLAGAWA":"70492", "MINIPURA DUMBARA":"70494", "DUMBARA MANANA":"70495", "KURUWITA":"70500", "SUDAGALA":"70502", "BATATOTA":"70504", "ERATNA":"70506", "TEPPANAWA":"70512", "PARAKADUWA":"70550", "ELLAULLA":"70552", "GODAGAMPOLA":"70556", "EHELIYAGODA":"70600", "EREPOLA":"70602", "MITIPOLA":"70604", "ELLAWALA":"70606", "PANAWALA":"70612", "GETAHETTA":"70620"}
+            },
+            "KEGALLE": {
+                divs: ["RAMBUKKANA", "MAWANELLA", "ARANAYAKE", "KEGALLE", "GALIGAMUWA", "WARAKAPOLA", "RUWANWELLA", "BULATHKOHIPITIYA", "YATIYANTOTA", "DEHIOWITA", "DERANIYAGALA"],
+                postal: {"KEGALLE":"71000", "DELDENIYA":"71009", "HIRIWADUNNA":"71014", "MOLAGODA":"71016", "DEEWALA PALLEGAMA":"71022", "YATTOGODA":"71029", "DAMUNUPOLA":"71034", "WATURA":"71035", "DEBATHGAMA":"71037", "POTHUKOLADENIYA":"71039", "ARUGGAMMANA":"71041", "BELIGALA(SAB)":"71044", "HELAMADA":"71046", "DEWALEGAMA":"71050", "IMBULGASDENIYA":"71055", "NELUNDENIYA":"71060", "TUNTOTA":"71062", "MAHAPALLEGAMA":"71063", "RAMBUKKANA":"71100", "PARAPE":"71105", "THOTAWELLA":"71106", "HEWADIWELA":"71108", "UDAGALDENIYA":"71113", "DOMBEMADA":"71115", "YATAGAMA":"71116", "PATTAMPITIYA":"71130", "UNDUGODA":"71200", "KABAGAMUWA":"71202", "ALAWATURA":"71204", "BOSSELLA":"71208", "HETTIMULLA":"71210", "MAHARANGALLA":"71211", "MORONTOTA":"71220", "GANTUNA":"71222", "BULATHKOHUPITIYA":"71230", "AMPAGALA":"71232", "WEGALLA":"71234", "UDAPOTHA":"71236", "DEDUGALA":"71237", "RUWANWELLA":"71300", "WAHAKULA":"71303", "WAHARAKA":"71304", "GALPATHA(SAB)":"71312", "IMBULANA":"71313", "LEWANGAMA":"71315", "GONAGALA":"71318", "AMITIRIGALA":"71320", "BATUWITA":"71321", "MALMADUWA":"71325", "YATAPANA":"71326", "GALIGAMUWA TOWN":"71350", "HAKAHINNA":"71352", "PITAGALDENIYA":"71360", "ATALE":"71363", "KOTIYAKUMBURA":"71370", "KANNATTOTA":"71372", "DEHIOWITA":"71400", "DELOLUWA":"71401", "ANHETTIGAMA":"71403", "NOORI":"71407", "MALIBODA":"71411", "HINGURALAKANDA":"71417", "BORALANKADA":"71418", "DERANIYAGALA":"71430", "MIYANAWITA":"71432", "MAWANELLA":"71500", "KONDENIYA":"71501", "AMBULUGALA":"71503", "GALATARA":"71505", "MAKEHELWALA":"71507", "ALUTNUWARA":"71508", "USSAPITIYA":"71510", "HINGULA":"71520", "UDUMULLA":"71521", "DEWANAGALA":"71527", "HEMMATAGAMA":"71530", "KEHELPANNALA":"71533", "ARANAYAKA":"71540", "TALGASPITIYA":"71541", "AMBALAKANDA":"71546", "WARAKAPOLA":"71600", "DORAWAKA":"71601", "NIYADURUPOLA":"71602", "GALAPITAMADA":"71603", "DUNUMALA":"71605", "ALGAMA":"71607", "TULHIRIYA":"71610", "BOPITIYA":"71612", "THOLANGAMUWA":"71619", "WERAGALA":"71622", "YATIYANTOTA":"71700", "WEEOYA":"71702", "MALALPOLA":"71704", "BERANNAWA":"71706", "SEAFORTH COLONY":"71708", "WELIHELATENNA":"71712", "HAKBELLAWAKA":"71715", "MIGASTENNA":"71716", "KITULGALA":"71720", "MAHABAGE":"71722", "TELIGAMA":"71724"}
+            }
         }
     };
 
@@ -917,7 +957,6 @@
       divSecSelect.innerHTML = '<option value="">-- SELECT DIV SEC --</option>';
       postalAreaInput.value = "";
       postalAreaList.innerHTML = "";
-      // Don't auto-clear postal code if it was typed
       
       if(dist) {
           collectOfficeInput.value = dist;
@@ -946,7 +985,6 @@
     document.addEventListener("DOMContentLoaded", function() {
       initDropdowns();
 
-      // Postal Area auto postal code mapper
       document.getElementById("i_postalArea").addEventListener("input", function() {
         let prov = document.getElementById("i_provinceLoc").value;
         let dist = document.getElementById("i_district").value;
@@ -978,7 +1016,6 @@
       return html;
     }
 
-    // Professional Word Wrap (Never cuts words in the middle)
     function splitTextByWord(text, lengths) {
       let parts = [];
       let remaining = text ? text.replace(/\s+/g, ' ').trim() : "";
@@ -1018,8 +1055,8 @@
       return parts;
     }
 
-    // ORIGINAL FORMAT HELPERS - Letter Spacing explicitly set to normal for MTA 3
-    function applyTextToLines(el1Id, el2Id, el3Id, text, defaultSpacing) {
+    // ORIGINAL FORMAT HELPERS - Letter Spacing explicitly set to what you defined
+    function applyTextToLines(el1Id, el2Id, el3Id, text, spacings) {
       let el1 = document.getElementById(el1Id);
       let el2 = document.getElementById(el2Id);
       let el3 = document.getElementById(el3Id);
@@ -1032,12 +1069,12 @@
       } else {
         el1.innerText = text.substring(0, 35); el2.innerText = text.substring(35, 70); el3.innerText = text.substring(70, text.length);
       }
-      el1.style.letterSpacing = defaultSpacing; 
-      el2.style.letterSpacing = defaultSpacing; 
-      el3.style.letterSpacing = defaultSpacing;
+      el1.style.letterSpacing = spacings[0] || 'normal'; 
+      el2.style.letterSpacing = spacings[1] || 'normal'; 
+      el3.style.letterSpacing = spacings[2] || 'normal';
     }
 
-    function applyCustomTextTo4Lines(el1Id, el2Id, el3Id, el4Id, text, limit1, limit2, limit3, defaultSpacing) {
+    function applyCustomTextTo4Lines(el1Id, el2Id, el3Id, el4Id, text, limit1, limit2, limit3, spacings) {
       let el1 = document.getElementById(el1Id); let el2 = document.getElementById(el2Id);
       let el3 = document.getElementById(el3Id); let el4 = document.getElementById(el4Id);
       if (!el1 || !el2 || !el3 || !el4) return;
@@ -1056,10 +1093,10 @@
         el1.innerText = text.substring(0, l1); el2.innerText = text.substring(l1, l2);
         el3.innerText = text.substring(l2, l3); el4.innerText = text.substring(l3, text.length); 
       }
-      el1.style.letterSpacing = defaultSpacing; 
-      el2.style.letterSpacing = defaultSpacing;
-      el3.style.letterSpacing = defaultSpacing;
-      el4.style.letterSpacing = defaultSpacing;
+      el1.style.letterSpacing = spacings[0] || 'normal'; 
+      el2.style.letterSpacing = spacings[1] || 'normal';
+      el3.style.letterSpacing = spacings[2] || 'normal';
+      el4.style.letterSpacing = spacings[3] || 'normal';
     }
 
     function Mta3TextWordWrap(baseId, text, limits) {
@@ -1073,7 +1110,6 @@
       ovEl.innerText = parts[1] || "";
       if(ov2El) ov2El.innerText = parts[2] || "";
       
-      // Ensure normal letter spacing for MTA 3
       mainEl.style.letterSpacing = "normal";
       ovEl.style.letterSpacing = "normal";
       if(ov2El) ov2El.style.letterSpacing = "normal";
@@ -1112,7 +1148,6 @@
       }
     }
     
-    // MAIN POPULATION FUNCTION
     function saveDataAndPreparePrint(targetTab) {
       const dDD = document.getElementById('i_dateDD').value;
       const dMM = document.getElementById('i_dateMM').value;
@@ -1143,7 +1178,7 @@
       if(vNums) fullVehNo += " " + vNums;
 
       // ==========================================
-      // POPULATE ORIGINAL PRINT (MODULE 1)
+      // POPULATE ORIGINAL PRINT
       // ==========================================
       document.getElementById('p1_date_dd').innerText = dDD;
       document.getElementById('p1_date_mm').innerText = dMM;
@@ -1152,10 +1187,11 @@
       document.getElementById('p1_veh_letters').innerText = vLetters;
       document.getElementById('p1_veh_nums').innerText = vNums;
 
-      applyTextToLines('p1_oldName', 'p1_oldName2', 'p1_oldName3', oldName, '11.5px');
-      applyTextToLines('p1_oldAddress', 'p1_oldAddress2', 'p1_oldAddress3', oldAddress, '11.5px');
-      applyTextToLines('p1_newName', 'p1_newName2', 'p1_newName3', newName, '11.5px');
-      applyTextToLines('p1_newAddress', 'p1_newAddress2', 'p1_newAddress3', newAddress, '11.5px');
+      // MTA 6 Letter Spacing Apply (As you requested: 9.5px and 1px)
+      applyTextToLines('p1_oldName', 'p1_oldName2', 'p1_oldName3', oldName, ['9.5px', '9.5px', '1px']);
+      applyTextToLines('p1_oldAddress', 'p1_oldAddress2', 'p1_oldAddress3', oldAddress, ['9.5px', '9.5px', '1px']);
+      applyTextToLines('p1_newName', 'p1_newName2', 'p1_newName3', newName, ['9.5px', '9.5px', '1px']);
+      applyTextToLines('p1_newAddress', 'p1_newAddress2', 'p1_newAddress3', newAddress, ['9.5px', '9.5px', '1px']);
       
       document.getElementById('p1_oldId').innerText = oldId; 
       document.getElementById('p1_newId').innerText = newId; 
@@ -1165,17 +1201,19 @@
       document.getElementById('p2_veh_letters').innerText = vLetters;
       document.getElementById('p2_veh_nums').innerText = vNums;
 
-      // MTA 8 Original name split
+      // MTA 8 Letter Spacing Apply
       let p2n1 = document.getElementById('p2_oldName');
       let p2n2 = document.getElementById('p2_oldName2');
       let p2n3 = document.getElementById('p2_oldName3');
       p2n1.innerText = oldName.substring(0, 27);
       p2n2.innerText = oldName.length > 27 ? oldName.substring(27, 62) : "";
       p2n3.innerText = oldName.length > 62 ? oldName.substring(62) : "";
-      p2n1.style.letterSpacing = '12px'; p2n2.style.letterSpacing = '12px'; p2n3.style.letterSpacing = '12px';
+      p2n1.style.letterSpacing = '11.3px'; 
+      p2n2.style.letterSpacing = '11.4px'; 
+      p2n3.style.letterSpacing = '1px';
 
-      applyCustomTextTo4Lines('p2_newName', 'p2_newName2', 'p2_newName3', 'p2_newName4', newName, 33, 35, 35, '12px');
-      applyCustomTextTo4Lines('p2_newAddress', 'p2_newAddress2', 'p2_newAddress3', 'p2_newAddress4', newAddress, 31, 35, 35, '12px');
+      applyCustomTextTo4Lines('p2_newName', 'p2_newName2', 'p2_newName3', 'p2_newName4', newName, 33, 35, 35, ['11.3px', '11.4px', '11.45px', '1px']);
+      applyCustomTextTo4Lines('p2_newAddress', 'p2_newAddress2', 'p2_newAddress3', 'p2_newAddress4', newAddress, 31, 35, 35, ['11.2px', '11.55px', '12.1px', '12px']);
 
       document.getElementById('p2_newId').innerText = newId; 
       document.getElementById('p2_postalCode').innerText = postalCode;
@@ -1200,7 +1238,6 @@
         document.getElementById('p3f_newName1_ov').innerText = origNewAddrParts[1];
         if(document.getElementById('p3f_newName1_ov2')) { document.getElementById('p3f_newName1_ov2').innerText = origNewAddrParts[2] || ""; }
 
-        // Explicitly clear spacing for the un-wrapped spans
         document.getElementById('p3f_newName1').style.letterSpacing = "normal";
         document.getElementById('p3f_newName1_ov').style.letterSpacing = "normal";
         if(document.getElementById('p3f_newName1_ov2')) document.getElementById('p3f_newName1_ov2').style.letterSpacing = "normal";
@@ -1214,7 +1251,7 @@
       }
 
       // ==========================================
-      // POPULATE BOX OVERLAY PRINT (MODULE 2)
+      // POPULATE BOX OVERLAY PRINT
       // ==========================================
       document.getElementById('p1_box_dd').innerHTML = generateBoxesHtml(dDD, 2);
       document.getElementById('p1_box_mm').innerHTML = generateBoxesHtml(dMM, 2);
@@ -1263,13 +1300,11 @@
         document.getElementById('box_p3f_financeName1').innerText = fNameParts[0];
         document.getElementById('box_p3f_financeName2').innerText = fNameParts[1];
         
-        // Exact word splitting for Customer Address (Address first)
         let cAddrParts = splitTextByWord(newAddress, [25, 55]);
         document.getElementById('box_p3f_newName1').innerText = cAddrParts[0];
         document.getElementById('box_p3f_newName2').innerText = cAddrParts[1];
         document.getElementById('box_p3f_newName_overflow').innerText = cAddrParts[2];
         
-        // Exact word splitting for Customer Name (Name second)
         let cNameParts = splitTextByWord(newName, [45, 75]);
         document.getElementById('box_p3f_newAddress1').innerText = cNameParts[0];
         document.getElementById('box_p3f_newAddress2').innerText = cNameParts[1];
@@ -1283,7 +1318,6 @@
         document.getElementById('box_p3f_newAddress3').innerText = botNameParts[0];
         document.getElementById('box_p3f_newAddress4').innerText = botNameParts[1];
 
-        // Page 4 Back Overlay Word wrap
         let bAddrParts = splitTextByWord(financeAddress, [30, 40]);
         document.getElementById('box_p3b_financeAddress1').innerText = bAddrParts[0];
         document.getElementById('box_p3b_financeAddress2').innerText = bAddrParts[1];
@@ -1297,9 +1331,6 @@
         document.getElementById('box_page_mta3_back').style.display = "none";
       }
 
-      // ==========================================
-      // TOGGLE LAST PAGE CLASSES PROPERLY
-      // ==========================================
       document.querySelectorAll('.a4-page').forEach(el => el.classList.remove('last-page'));
       if(financeName.trim() !== "") {
         document.getElementById('page_mta3_back').classList.add('last-page');
