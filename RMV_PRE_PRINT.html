@@ -51,11 +51,15 @@
     .box-container { display: flex; gap: 2px; } 
     .char-box {
       width: 16px; height: 22px; border: 1px solid #000; display: flex; align-items: center; justify-content: center;
-      font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: 13px; text-transform: uppercase; color: #000;
+      font-family: 'Courier New', Courier, monospace; font-weight: bold; 
+      font-size: 16px; /* Increased Font Size */
+      text-transform: uppercase; color: #000;
       box-sizing: border-box; 
     }
     .mta8-page .char-box { 
-      width: 14.5px; height: 20px; font-size: 11px; flex-shrink: 0; 
+      width: 14.5px; height: 20px; 
+      font-size: 15px; /* Slightly adjusted to fit perfectly in MTA 8 boxes */
+      flex-shrink: 0; 
       padding-left: 1px; 
       line-height: 1;
     }
@@ -905,7 +909,7 @@
         }
     };
 
-    // Helper Function to Dynamically Add Spacing (replaces innerText assignments)
+    // Helper Function to Dynamically Add Spacing
     function applySpacedText(elId, text, spacing) {
       let el = document.getElementById(elId);
       if (el) {
@@ -1064,7 +1068,6 @@
       return parts;
     }
 
-    // ORIGINAL FORMAT HELPERS - Letter Spacing explicitly set to what you defined
     function applyTextToLines(el1Id, el2Id, el3Id, text, spacings) {
       let el1 = document.getElementById(el1Id);
       let el2 = document.getElementById(el2Id);
@@ -1191,9 +1194,9 @@
       // ==========================================
       
       // MTA 6 Date & Vehicle Details (Auto Spaced)
-      applySpacedText('p1_date_dd', dDD, '13.5px');
-      applySpacedText('p1_date_mm', dMM, '13.5px');
-      applySpacedText('p1_date_yyyy', dYYYY, '13.5px');
+      applySpacedText('p1_date_dd', dDD, '16px');
+      applySpacedText('p1_date_mm', dMM, '16px');
+      applySpacedText('p1_date_yyyy', dYYYY, '16px');
       applySpacedText('p1_veh_prov', vProv, '11px');
       applySpacedText('p1_veh_letters', vLetters, '11px');
       applySpacedText('p1_veh_nums', vNums, '11px');
@@ -1205,8 +1208,8 @@
       applyTextToLines('p1_newAddress', 'p1_newAddress2', 'p1_newAddress3', newAddress, ['9.5px', '9.5px', '1px']);
       
       // MTA 6 IDs
-      applySpacedText('p1_oldId', oldId, '11.5px'); 
-      applySpacedText('p1_newId', newId, '11.5px'); 
+      applySpacedText('p1_oldId', oldId, '13.5px'); 
+      applySpacedText('p1_newId', newId, '13.5px'); 
       document.getElementById('p1_bottom_vehNo').innerText = fullVehNo.trim();
 
       // MTA 8 Vehicle Details
@@ -1229,16 +1232,16 @@
       applyCustomTextTo4Lines('p2_newAddress', 'p2_newAddress2', 'p2_newAddress3', 'p2_newAddress4', newAddress, 31, 35, 35, ['11.2px', '11.55px', '12.1px', '12px']);
 
       // MTA 8 Remaining Fields (Auto Spaced)
-      applySpacedText('p2_newId', newId, '11.5px'); 
-      applySpacedText('p2_postalCode', postalCode, '11.5px');
-      applySpacedText('p2_mobileNo', mobileNo, '11.5px');
-      applySpacedText('p2_divSec', divSec, '11.5px');
-      applySpacedText('p2_district', district, '11.5px');
-      applySpacedText('p2_provinceLoc', provinceLoc, '11.5px');
-      applySpacedText('p2_date_d', dDD, '11.5px');
-      applySpacedText('p2_date_m', dMM, '11.5px');
-      applySpacedText('p2_date_y', dYYYY, '11.5px');
-      applySpacedText('p2_collectOffice', collectOffice, '11.5px');
+      applySpacedText('p2_newId', newId, '13.5px'); 
+      applySpacedText('p2_postalCode', postalCode, '13.5px');
+      applySpacedText('p2_mobileNo', mobileNo, '13.5px');
+      applySpacedText('p2_divSec', divSec, '13.5px');
+      applySpacedText('p2_district', district, '13.5px');
+      applySpacedText('p2_provinceLoc', provinceLoc, '13.5px');
+      applySpacedText('p2_date_d', dDD, '16px');
+      applySpacedText('p2_date_m', dMM, '16px');
+      applySpacedText('p2_date_y', dYYYY, '16px');
+      applySpacedText('p2_collectOffice', collectOffice, '13.5px');
 
       // MTA 3 Processing
       if(financeName.trim() !== "") {
