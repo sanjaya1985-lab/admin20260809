@@ -385,7 +385,7 @@
               <h3><i class="fas fa-exchange-alt"></i> Change User Branch</h3>
               <p style="font-size:12px; color:#666; margin-bottom:10px;">Move an existing user to a different company/branch.</p>
               <input type="text" id="move-username" list="perm-user-list" class="admin-input" placeholder="Select Username..." onchange="autoFillMoveUser()">
-              <input type="text" id="move-company" list="comp-list" class="admin-input" placeholder="Select New Company" onchange="filterBranchDropdown(this.value, 'move-branch')">
+              <input type="text" id="move-company" list="comp-list" class="admin-input" placeholder="Select New Company" onchange="filterBranchDropdown(this.value, 'move-branch')" style="display: none;">
               <select id="move-branch" class="admin-input"><option value="">-- Select New Branch --</option></select>
               <button class="btn-submit" style="background:#6c757d;" onclick="changeUserBranch()">Move User</button>
             </div>
@@ -432,7 +432,7 @@
                                     <option value="MY_REQUESTS">Only My Requests (User Level)</option>
                                     <option value="BRANCH_MANAGER">Branch Manager (Full Branch Data)</option>
                                     <option value="SELECTED_BRANCH">Selected Branches Only</option>
-                                    <option value="SELECTED_COMPANY" class="opt-selected-company">Selected Company - All Branches</option>
+                                    <option value="SELECTED_COMPANY" class="opt-selected-company" style="display:none;">Selected Company - All Branches</option>
                                     <option value="ALL">All Branches - Same Company</option>
                                 </select>
                                 <select id="branch_courier" multiple class="admin-input perm-branch-select" style="height:60px; display:none; font-size: 11px; margin-bottom: 0;"></select>
@@ -452,7 +452,7 @@
                                     <option value="MY_REQUESTS">Only My Requests (User Level)</option>
                                     <option value="BRANCH_MANAGER">Branch Manager (Full Branch Data)</option>
                                     <option value="SELECTED_BRANCH">Selected Branches Only</option>
-                                    <option value="SELECTED_COMPANY" class="opt-selected-company">Selected Company - All Branches</option>
+                                    <option value="SELECTED_COMPANY" class="opt-selected-company" style="display:none;">Selected Company - All Branches</option>
                                     <option value="ALL">All Branches - Same Company</option>
                                 </select>
                                 <select id="branch_rmv" multiple class="admin-input perm-branch-select" style="height:60px; display:none; font-size: 11px; margin-bottom: 0;"></select>
@@ -473,7 +473,7 @@
                                     <option value="MY_REQUESTS">Only My Requests (User Level)</option>
                                     <option value="BRANCH_MANAGER">Branch Manager (Full Branch Data)</option>
                                     <option value="SELECTED_BRANCH">Selected Branches Only</option>
-                                    <option value="SELECTED_COMPANY" class="opt-selected-company">Selected Company - All Branches</option>
+                                    <option value="SELECTED_COMPANY" class="opt-selected-company" style="display:none;">Selected Company - All Branches</option>
                                     <option value="ALL">All Branches - Same Company</option>
                                 </select>
                                 <select id="branch_val" multiple class="admin-input perm-branch-select" style="height:60px; display:none; font-size: 11px; margin-bottom: 0;"></select>
@@ -491,7 +491,7 @@
                                 <select id="scope_admin" class="admin-input" style="padding: 6px; margin-bottom: 5px; font-size: 12px;" onchange="toggleModuleBranch('admin')">
                                     <option value="BRANCH_MANAGER">Branch Admin Only</option>
                                     <option value="SELECTED_BRANCH">Selected Branches Only</option>
-                                    <option value="SELECTED_COMPANY" class="opt-selected-company">Selected Company - All Branches</option>
+                                    <option value="SELECTED_COMPANY" class="opt-selected-company" style="display:none;">Selected Company - All Branches</option>
                                     <option value="ALL">All Branches - Same Company</option>
                                     <option value="ALL_COMPANIES" id="opt_all_comp" style="display:none;">All Companies (System Owner)</option>
                                 </select>
@@ -512,7 +512,7 @@
                                     <option value="MY_REQUESTS">Only My Requests</option>
                                     <option value="BRANCH_MANAGER">Branch Manager</option>
                                     <option value="SELECTED_BRANCH">Selected Branches Only</option>
-                                    <option value="SELECTED_COMPANY" class="opt-selected-company">Selected Company - All Branches</option>
+                                    <option value="SELECTED_COMPANY" class="opt-selected-company" style="display:none;">Selected Company - All Branches</option>
                                     <option value="ALL">All Branches - Same Company</option>
                                 </select>
                                 <select id="branch_cr" multiple class="admin-input perm-branch-select" style="height:60px; display:none; font-size: 11px; margin-bottom: 0;"></select>
@@ -1130,7 +1130,11 @@
             var optAllComp = document.getElementById('opt_all_comp');
             if (optAllComp) optAllComp.style.display = 'block';
 
-            document.querySelectorAll('.opt-selected-company').forEach(opt => opt.style.display = 'block');
+            document.querySelectorAll('.opt-selected-company').forEach(opt => {
+                opt.style.display = 'block';
+                opt.disabled = false;
+                opt.hidden = false;
+            });
 
             var roleSelect = document.getElementById('new-user-role');
             if (roleSelect) {
@@ -1142,11 +1146,21 @@
             document.getElementById('template-setup-card').style.display = 'none';
             document.getElementById('new-user-company').style.display = 'none';
             document.getElementById('move-company').style.display = 'none';
+            document.getElementById('perm-company-filter').style.display = 'none';
             
             var optAllComp = document.getElementById('opt_all_comp');
-            if (optAllComp) optAllComp.style.display = 'none';
+            if (optAllComp) {
+                optAllComp.style.display = 'none';
+                optAllComp.disabled = true;
+                optAllComp.hidden = true;
+            }
 
-            document.querySelectorAll('.opt-selected-company').forEach(opt => opt.style.display = 'none');
+            document.querySelectorAll('.opt-selected-company').forEach(opt => {
+                opt.style.display = 'none';
+                opt.disabled = true;
+                opt.hidden = true;
+                if(opt.parentNode) opt.parentNode.removeChild(opt); 
+            });
 
             var roleSelect = document.getElementById('new-user-role');
             if (roleSelect) {
@@ -1284,35 +1298,44 @@
         var valForm = document.getElementById('vForm');
         if(valForm) {
           valForm.onsubmit = async function(e) {
-            e.preventDefault(); const vbtn = document.getElementById('valSubmitBtn'); vbtn.disabled = true; vbtn.innerText = "Processing Details...";
-            try {
-              const formData = {}; 
-              e.target.querySelectorAll('input:not([type="file"]), select, textarea').forEach(inp => formData[inp.name] = inp.value); 
-              formData.requesterEmail = currentUser.email || ""; formData.requesterName = currentUser.user || "Unknown"; formData.branch = currentUser.branch || "Unknown"; 
-              
-              let filesToUpload = []; 
-              e.target.querySelectorAll('input[type="file"]').forEach(inp => { if (inp.files.length > 0) filesToUpload.push({ inputName: inp.name, file: inp.files[0] }); else formData[inp.name] = "No Image"; });
-              
-              for (let i = 0; i < filesToUpload.length; i++) {
-                let f = filesToUpload[i]; vbtn.innerText = `Uploading File ${i+1} of ${filesToUpload.length}...`;
-                await new Promise(r => setTimeout(r, 100)); 
-                let base64Str, typeStr, nameStr;
-                if (f.file.type === "application/pdf") { 
-                  let b64 = await new Promise((res2, rej) => { let fr = new FileReader(); fr.onload = ev => res2(ev.target.result); fr.onerror = err => rej(err); fr.readAsDataURL(f.file); }); 
-                  base64Str = b64.split(',')[1]; typeStr = 'application/pdf'; nameStr = f.file.name; 
-                } else { 
-                  let compressed = await compressImage(f.file, 800, 0.6); base64Str = compressed.data; typeStr = compressed.type; nameStr = compressed.name; 
-                }
-                
-                let result = await apiCall('uploadValuationImage', { data: { base64: base64Str, type: typeStr, name: nameStr, key: f.inputName, vehicleNo: formData.vehicleNo } }); 
-                if (result && result.success) { formData[result.key] = result.url; } else { throw new Error("Failed to upload"); } 
-              }
-              vbtn.innerText = "Saving Request to Database...";
-              const serverRes = await apiCall('submitValuationForm', { data: formData });
-              if(serverRes.success) { Swal.fire("Success", serverRes.result, "success"); e.target.reset(); document.querySelectorAll('.photo-box').forEach(b => b.style.backgroundImage = 'none'); loadDashboardStats(); switchView('dashboard', null); } 
-              else { Swal.fire("System Error", serverRes.error, "error"); }
-              vbtn.innerText = "Submit Valuation Request"; vbtn.disabled = false;
-            } catch (error) { Swal.fire("Upload Error", error.message, "error"); vbtn.innerText = "Submit Valuation Request"; vbtn.disabled = false; }
+            e.preventDefault(); const vbtn = document.getElementById('valSubmitBtn'); vbtn.disabled = true; vbtn.innerText = "Getting GPS Location... 📍";
+            
+            const executeValSubmit = async function(lat, lng) {
+                vbtn.innerText = "Processing Details...";
+                try {
+                  const formData = {}; 
+                  e.target.querySelectorAll('input:not([type="file"]), select, textarea').forEach(inp => formData[inp.name] = inp.value); 
+                  formData.requesterEmail = currentUser.email || ""; formData.requesterName = currentUser.user || "Unknown"; formData.branch = currentUser.branch || "Unknown"; 
+                  formData.lat = lat; formData.lng = lng; 
+                  
+                  let filesToUpload = []; 
+                  e.target.querySelectorAll('input[type="file"]').forEach(inp => { if (inp.files.length > 0) filesToUpload.push({ inputName: inp.name, file: inp.files[0] }); else formData[inp.name] = "No Image"; });
+                  
+                  for (let i = 0; i < filesToUpload.length; i++) {
+                    let f = filesToUpload[i]; vbtn.innerText = `Uploading File ${i+1} of ${filesToUpload.length}...`;
+                    await new Promise(r => setTimeout(r, 100)); 
+                    let base64Str, typeStr, nameStr;
+                    if (f.file.type === "application/pdf") { 
+                      let b64 = await new Promise((res2, rej) => { let fr = new FileReader(); fr.onload = ev => res2(ev.target.result); fr.onerror = err => rej(err); fr.readAsDataURL(f.file); }); 
+                      base64Str = b64.split(',')[1]; typeStr = 'application/pdf'; nameStr = f.file.name; 
+                    } else { 
+                      let compressed = await compressImage(f.file, 800, 0.6); base64Str = compressed.data; typeStr = compressed.type; nameStr = compressed.name; 
+                    }
+                    
+                    let result = await apiCall('uploadValuationImage', { data: { base64: base64Str, type: typeStr, name: nameStr, key: f.inputName, vehicleNo: formData.vehicleNo } }); 
+                    if (result && result.success) { formData[result.key] = result.url; } else { throw new Error("Failed to upload"); } 
+                  }
+                  vbtn.innerText = "Saving Request to Database...";
+                  const serverRes = await apiCall('submitValuationForm', { data: formData });
+                  if(serverRes.success) { Swal.fire("Success", serverRes.result, "success"); e.target.reset(); document.querySelectorAll('.photo-box').forEach(b => b.style.backgroundImage = 'none'); loadDashboardStats(); switchView('dashboard', null); } 
+                  else { Swal.fire("System Error", serverRes.error, "error"); }
+                  vbtn.innerText = "Submit Valuation Request"; vbtn.disabled = false;
+                } catch (error) { Swal.fire("Upload Error", error.message, "error"); vbtn.innerText = "Submit Valuation Request"; vbtn.disabled = false; }
+            };
+            
+            if (navigator.geolocation) { 
+                navigator.geolocation.getCurrentPosition(pos => executeValSubmit(pos.coords.latitude, pos.coords.longitude), err => executeValSubmit("", ""), { enableHighAccuracy: true, timeout: 10000 }); 
+            } else { executeValSubmit("", ""); }
           };
         }
 
@@ -1949,13 +1972,35 @@
       try {
           const res = await apiCall('getHomeDashboardData', { role: currentUser.role, branch: currentUser.branch, email: currentUser.email }, 'GET');
           mapMarkers.forEach(m => rmvMap.removeLayer(m)); mapMarkers = []; 
+          
+          const addMarker = (lat, lng, color, popupHtml) => {
+              if (lat && lng && lat !== "Not Found" && lat !== "Location Blocked" && lat !== "Not Supported") { 
+                  var marker = L.marker([parseFloat(lat) + (Math.random()-0.5)*0.0003, parseFloat(lng) + (Math.random()-0.5)*0.0003], {
+                      icon: L.divIcon({className: 'custom-pin', html: `<div style="background-color:${color}; width:16px; height:16px; border-radius:50%; border:2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.3);"></div>`, iconSize: [16, 16]})
+                  }).addTo(rmvMap); 
+                  marker.bindPopup(popupHtml); 
+                  mapMarkers.push(marker); 
+              }
+          };
+
+          // Courier Locations
           res.data.courier.list.forEach(row => { 
-              if (row.lat && row.lng) { 
-                  var color = row.status.toLowerCase() === 'pending' ? '#0d6efd' : '#20c997'; 
-                  var marker = L.marker([parseFloat(row.lat) + (Math.random()-0.5)*0.0003, parseFloat(row.lng) + (Math.random()-0.5)*0.0003], {icon: L.divIcon({className: 'custom-pin', html: `<div style="background-color:${color}; width:16px; height:16px; border-radius:3px; border:2px solid white;"></div>`, iconSize: [16, 16]})}).addTo(rmvMap); 
-                  marker.bindPopup(`<b>📦 Courier: ${row.type}</b><br>ID: ${row.id}<br>Status: <b>${row.status}</b>`); mapMarkers.push(marker); 
-              } 
+              var color = row.status.toLowerCase() === 'pending' ? '#0d6efd' : '#20c997'; 
+              addMarker(row.lat, row.lng, color, `<b>📦 Courier</b><br>ID: ${row.id}<br>Status: <b>${row.status}</b>`);
           }); 
+
+          // RMV Locations
+          res.data.rmv.list.forEach(row => { 
+              var color = row.status.toLowerCase() === 'pending' ? '#6f42c1' : (row.status.toLowerCase() === 'approved' ? '#198754' : '#dc3545'); 
+              addMarker(row.lat, row.lng, color, `<b>🚗 RMV Request</b><br>ID: ${row.id}<br>Vehicle: ${row.vehicle}<br>Status: <b>${row.status}</b>`);
+          }); 
+          
+          // Valuation Locations
+          res.data.valuation.list.forEach(row => { 
+              var color = row.status.toLowerCase().includes('pending') ? '#fd7e14' : (row.status.toLowerCase() === 'approved' ? '#198754' : '#dc3545'); 
+              addMarker(row.lat, row.lng, color, `<b>📋 Valuation</b><br>Ref: ${row.refNo || row.vehNo}<br>Vehicle: ${row.vehNo}<br>Status: <b>${row.status}</b>`);
+          }); 
+
       } catch(e) { console.error("Map Error", e); }
     }
 
