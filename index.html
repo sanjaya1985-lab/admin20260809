@@ -418,13 +418,15 @@
                                <label class="perm-label"><input type="checkbox" class="sub_courier" id="chk_courier_action"> Action Portal</label>
                                
                                <label style="font-size:11px; font-weight:bold; color:#555; margin-top:5px;">Data Scope:</label>
-                               <select id="scope_courier" class="admin-input" style="padding: 6px; margin-bottom: 5px; font-size: 12px;" onchange="toggleModuleBranch('courier')">
+                                <select id="scope_courier" class="admin-input" style="padding: 6px; margin-bottom: 5px; font-size: 12px;" onchange="toggleModuleBranch('courier')">
                                     <option value="MY_REQUESTS">Only My Requests (User Level)</option>
                                     <option value="BRANCH_MANAGER">Branch Manager (Full Branch Data)</option>
-                                    <option value="SELECTED">Selected Branches Only</option>
-                                    <option value="ALL">All Branches</option>
-                               </select>
-                               <select id="branch_courier" multiple class="admin-input perm-branch-select" style="height:60px; display:none; font-size: 11px; margin-bottom: 0;"></select>
+                                    <option value="SELECTED_BRANCH">Selected Branches Only</option>
+                                    <option value="SELECTED_COMPANY">Selected Company - All Branches</option>
+                                    <option value="ALL">All Branches - Same Company</option>
+                                </select>
+                                <select id="branch_courier" multiple class="admin-input perm-branch-select" style="height:60px; display:none; font-size: 11px; margin-bottom: 0;"></select>
+                                <select id="company_courier" multiple class="admin-input perm-company-select" style="height:60px; display:none; font-size: 11px; margin-bottom: 0;"></select>
                            </div>
                        </div>
 
@@ -436,13 +438,15 @@
                                <label class="perm-label"><input type="checkbox" class="sub_rmv" id="chk_rmv_action"> Action Portal</label>
                                
                                <label style="font-size:11px; font-weight:bold; color:#555; margin-top:5px;">Data Scope:</label>
-                               <select id="scope_rmv" class="admin-input" style="padding: 6px; margin-bottom: 5px; font-size: 12px;" onchange="toggleModuleBranch('rmv')">
+                                <select id="scope_rmv" class="admin-input" style="padding: 6px; margin-bottom: 5px; font-size: 12px;" onchange="toggleModuleBranch('rmv')">
                                     <option value="MY_REQUESTS">Only My Requests (User Level)</option>
                                     <option value="BRANCH_MANAGER">Branch Manager (Full Branch Data)</option>
-                                    <option value="SELECTED">Selected Branches Only</option>
-                                    <option value="ALL">All Branches</option>
-                               </select>
-                               <select id="branch_rmv" multiple class="admin-input perm-branch-select" style="height:60px; display:none; font-size: 11px; margin-bottom: 0;"></select>
+                                    <option value="SELECTED_BRANCH">Selected Branches Only</option>
+                                    <option value="SELECTED_COMPANY">Selected Company - All Branches</option>
+                                    <option value="ALL">All Branches - Same Company</option>
+                                </select>
+                                <select id="branch_rmv" multiple class="admin-input perm-branch-select" style="height:60px; display:none; font-size: 11px; margin-bottom: 0;"></select>
+                                <select id="company_rmv" multiple class="admin-input perm-company-select" style="height:60px; display:none; font-size: 11px; margin-bottom: 0;"></select>
                            </div>
                        </div>
 
@@ -455,13 +459,15 @@
                                <label class="perm-label"><input type="checkbox" class="sub_val" id="chk_val_hist"> Valuation History</label>
                                
                                <label style="font-size:11px; font-weight:bold; color:#555; margin-top:5px;">Data Scope:</label>
-                               <select id="scope_val" class="admin-input" style="padding: 6px; margin-bottom: 5px; font-size: 12px;" onchange="toggleModuleBranch('val')">
+                                <select id="scope_val" class="admin-input" style="padding: 6px; margin-bottom: 5px; font-size: 12px;" onchange="toggleModuleBranch('val')">
                                     <option value="MY_REQUESTS">Only My Requests (User Level)</option>
                                     <option value="BRANCH_MANAGER">Branch Manager (Full Branch Data)</option>
-                                    <option value="SELECTED">Selected Branches Only</option>
-                                    <option value="ALL">All Branches</option>
-                               </select>
-                               <select id="branch_val" multiple class="admin-input perm-branch-select" style="height:60px; display:none; font-size: 11px; margin-bottom: 0;"></select>
+                                    <option value="SELECTED_BRANCH">Selected Branches Only</option>
+                                    <option value="SELECTED_COMPANY">Selected Company - All Branches</option>
+                                    <option value="ALL">All Branches - Same Company</option>
+                                </select>
+                                <select id="branch_val" multiple class="admin-input perm-branch-select" style="height:60px; display:none; font-size: 11px; margin-bottom: 0;"></select>
+                                <select id="company_val" multiple class="admin-input perm-company-select" style="height:60px; display:none; font-size: 11px; margin-bottom: 0;"></select>
                            </div>
                        </div>
                        
@@ -472,11 +478,15 @@
                                <label class="perm-label"><input type="checkbox" class="sub_admin" id="chk_admin_user"> User Maintenance</label>
                                <label class="perm-label"><input type="checkbox" class="sub_admin" id="chk_admin_map"> Live Request Map</label>
                                <label style="font-size:11px; font-weight:bold; color:#555; margin-top:5px;">Data Scope (Admin):</label>
-                               <select id="scope_admin" class="admin-input" style="padding: 6px; margin-bottom: 5px; font-size: 12px;" onchange="toggleModuleBranch('admin')">
+                                <select id="scope_admin" class="admin-input" style="padding: 6px; margin-bottom: 5px; font-size: 12px;" onchange="toggleModuleBranch('admin')">
                                     <option value="BRANCH_MANAGER">Branch Admin Only</option>
-                                    <option value="ALL">All Branches (Same Company)</option>
+                                    <option value="SELECTED_BRANCH">Selected Branches Only</option>
+                                    <option value="SELECTED_COMPANY">Selected Company - All Branches</option>
+                                    <option value="ALL">All Branches - Same Company</option>
                                     <option value="ALL_COMPANIES" id="opt_all_comp" style="display:none;">All Companies (System Owner)</option>
-                               </select>
+                                </select>
+                                <select id="branch_admin" multiple class="admin-input perm-branch-select" style="height:60px; display:none; font-size: 11px; margin-bottom: 0;"></select>
+                                <select id="company_admin" multiple class="admin-input perm-company-select" style="height:60px; display:none; font-size: 11px; margin-bottom: 0;"></select>
                            </div>
                        </div>
 
@@ -488,13 +498,15 @@
                                <label class="perm-label"><input type="checkbox" class="sub_cr" id="chk_cr_pend"> Pending Uploads</label>
                                <label class="perm-label"><input type="checkbox" class="sub_cr" id="chk_cr_hist"> Upload History</label>
                                <label style="font-size:11px; font-weight:bold; color:#555; margin-top:5px;">Data Scope:</label>
-                               <select id="scope_cr" class="admin-input" style="padding: 6px; margin-bottom: 5px; font-size: 12px;" onchange="toggleModuleBranch('cr')">
+                                <select id="scope_cr" class="admin-input" style="padding: 6px; margin-bottom: 5px; font-size: 12px;" onchange="toggleModuleBranch('cr')">
                                     <option value="MY_REQUESTS">Only My Requests</option>
                                     <option value="BRANCH_MANAGER">Branch Manager</option>
-                                    <option value="SELECTED">Selected Branches Only</option>
-                                    <option value="ALL">All Branches</option>
-                               </select>
-                               <select id="branch_cr" multiple class="admin-input perm-branch-select" style="height:60px; display:none; font-size: 11px; margin-bottom: 0;"></select>
+                                    <option value="SELECTED_BRANCH">Selected Branches Only</option>
+                                    <option value="SELECTED_COMPANY">Selected Company - All Branches</option>
+                                    <option value="ALL">All Branches - Same Company</option>
+                                </select>
+                                <select id="branch_cr" multiple class="admin-input perm-branch-select" style="height:60px; display:none; font-size: 11px; margin-bottom: 0;"></select>
+                                <select id="company_cr" multiple class="admin-input perm-company-select" style="height:60px; display:none; font-size: 11px; margin-bottom: 0;"></select>
                            </div>
                        </div>
 
@@ -1041,7 +1053,7 @@
         
         if (uRole === 'system owner' || scope === 'ALL_COMPANIES') {
             filtered = globalBranchesFull;
-        } else if (scope === 'SELECTED') {
+        } else if (scope === 'SELECTED_BRANCH' || scope === 'SELECTED') {
             filtered = globalBranchesFull.filter(b => {
                 var c = b.company ? b.company.trim().toLowerCase() : "";
                 var br = b.branch ? b.branch.trim().toLowerCase() : "";
@@ -1104,26 +1116,43 @@
         apiCall('getCompanyList', {}, 'GET').then(res => {
            if(res.data) {
                let dl = document.getElementById('comp-list');
-               if(dl) {
-                   dl.innerHTML = '';
-                   res.data.forEach(c => {
-                       let opt = document.createElement('option');
-                       opt.value = c;
-                       dl.appendChild(opt);
-                   });
-               }
+               if(dl) dl.innerHTML = '';
+               
+               let sortedComps = [...res.data].sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
+               
+               sortedComps.forEach(c => {
+                   let opt = document.createElement('option');
+                   opt.value = c;
+                   if(dl) dl.appendChild(opt);
+               });
+
+               var compSelects = document.querySelectorAll('.perm-company-select');
+               compSelects.forEach(selectBox => {
+                   selectBox.innerHTML = '';
+                   sortedComps.forEach(c => selectBox.add(new Option(c, c)));
+               });
            }
         });
 
         apiCall('getBranchListFull', {}, 'GET').then(res => { 
             if(res.data){ 
-                globalBranchesFull = res.data;
+                globalBranchesFull = res.data.sort((a, b) => {
+                    let compA = (a.company || "").toLowerCase();
+                    let compB = (b.company || "").toLowerCase();
+                    if(compA < compB) return -1;
+                    if(compA > compB) return 1;
+                    let brA = (a.branch || "").toLowerCase();
+                    let brB = (b.branch || "").toLowerCase();
+                    if(brA < brB) return -1;
+                    if(brA > brB) return 1;
+                    return 0;
+                });
                 
                 var permSelects = document.querySelectorAll('.perm-branch-select');
                 permSelects.forEach(selectBox => {
                     selectBox.innerHTML = '';
                     globalBranchesFull.forEach(b => {
-                        selectBox.add(new Option(b.branch + " (" + b.company + ")", b.company + " - " + b.branch));
+                        selectBox.add(new Option(b.company + " - " + b.branch, b.company + " - " + b.branch));
                     });
                 });
 
@@ -1140,7 +1169,7 @@
                 var compFilter = document.getElementById('perm-company-filter');
                 if (compFilter && uRole === 'system owner') {
                    compFilter.innerHTML = '<option value="ALL">All Companies</option>';
-                   let comps = [...new Set(res.data.map(u => u.company))];
+                   let comps = [...new Set(res.data.map(u => u.company))].sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
                    comps.forEach(c => compFilter.add(new Option(c, c)));
                 }
                 populateUserDatalists('ALL');
@@ -1587,7 +1616,17 @@
           
           apiCall('getBranchListFull', {}, 'GET').then(res2 => { 
             if(res2.data){ 
-                globalBranchesFull = res2.data;
+                globalBranchesFull = res2.data.sort((a, b) => {
+                    let compA = (a.company || "").toLowerCase();
+                    let compB = (b.company || "").toLowerCase();
+                    if(compA < compB) return -1;
+                    if(compA > compB) return 1;
+                    let brA = (a.branch || "").toLowerCase();
+                    let brB = (b.branch || "").toLowerCase();
+                    if(brA < brB) return -1;
+                    if(brA > brB) return 1;
+                    return 0;
+                });
                 var comp = currentUser.role.toLowerCase() === 'system owner' ? '' : currentUser.company;
                 filterBranchDropdown(comp, 'new-user-branch');
                 filterBranchDropdown(comp, 'target_branch');
@@ -1621,12 +1660,13 @@
     function toggleModuleBranch(module) {
         var scope = document.getElementById('scope_' + module).value;
         var branchSelect = document.getElementById('branch_' + module);
+        var companySelect = document.getElementById('company_' + module);
+        
         if(branchSelect) {
-            if(scope === 'SELECTED') {
-                branchSelect.style.display = 'block';
-            } else {
-                branchSelect.style.display = 'none';
-            }
+            branchSelect.style.display = (scope === 'SELECTED_BRANCH' || scope === 'SELECTED') ? 'block' : 'none';
+        }
+        if(companySelect) {
+            companySelect.style.display = (scope === 'SELECTED_COMPANY') ? 'block' : 'none';
         }
     }
 
@@ -1684,14 +1724,24 @@
                if(!scopeObj) return;
                var sEl = document.getElementById('scope_' + modPrefix);
                if(sEl) {
+                   if(scopeObj.scope === 'SELECTED') scopeObj.scope = 'SELECTED_BRANCH';
                    sEl.value = scopeObj.scope || "MY_REQUESTS";
                    toggleModuleBranch(modPrefix);
-                   if(scopeObj.scope === 'SELECTED' && scopeObj.branches) {
+                   
+                   if(scopeObj.scope === 'SELECTED_BRANCH' && scopeObj.branches) {
                        var allowedBranches = scopeObj.branches.split(",");
                        var selectObj = document.getElementById('branch_' + modPrefix);
                        if(selectObj) {
                            for (var i = 0; i < selectObj.options.length; i++) {
                               selectObj.options[i].selected = allowedBranches.includes(selectObj.options[i].value);
+                           }
+                       }
+                   } else if(scopeObj.scope === 'SELECTED_COMPANY' && scopeObj.companies) {
+                       var allowedComps = scopeObj.companies.split(",");
+                       var compObj = document.getElementById('company_' + modPrefix);
+                       if(compObj) {
+                           for (var i = 0; i < compObj.options.length; i++) {
+                              compObj.options[i].selected = allowedComps.includes(compObj.options[i].value);
                            }
                        }
                    }
@@ -1753,16 +1803,27 @@
            var scopeSelect = document.getElementById('scope_' + modPrefix);
            if(!scopeSelect) return null;
            var scopeVal = scopeSelect.value;
+           if(scopeVal === 'SELECTED') scopeVal = 'SELECTED_BRANCH';
+           
            var branches = [];
-           if(scopeVal === 'SELECTED') {
+           var companies = [];
+           
+           if(scopeVal === 'SELECTED_BRANCH') {
               var branchObj = document.getElementById('branch_' + modPrefix);
               if(branchObj) {
                   for (var i = 0; i < branchObj.options.length; i++) {
                      if (branchObj.options[i].selected) branches.push(branchObj.options[i].value);
                   }
               }
+           } else if(scopeVal === 'SELECTED_COMPANY') {
+              var compObj = document.getElementById('company_' + modPrefix);
+              if(compObj) {
+                  for (var i = 0; i < compObj.options.length; i++) {
+                     if (compObj.options[i].selected) companies.push(compObj.options[i].value);
+                  }
+              }
            }
-           return { scope: scopeVal, branches: branches.join(",") };
+           return { scope: scopeVal, branches: branches.join(","), companies: companies.join(",") };
        };
 
        moduleScopes.courier = getScopeData('courier');
