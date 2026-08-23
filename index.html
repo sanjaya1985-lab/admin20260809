@@ -381,18 +381,15 @@
             </div>
 
             <!-- 5. Change User Branch Card -->
-            <!-- 5. Change User Branch Card -->
             <div class="user-form-card">
               <h3><i class="fas fa-exchange-alt"></i> Change User Branch</h3>
               <p style="font-size:12px; color:#666; margin-bottom:10px;">Move an existing user to a different company/branch.</p>
-              
-              <!-- onchange එක අලුතින් දැම්මා -->
               <input type="text" id="move-username" list="perm-user-list" class="admin-input" placeholder="Select Username..." onchange="autoFillMoveUser()">
-              
               <input type="text" id="move-company" list="comp-list" class="admin-input" placeholder="Select New Company" onchange="filterBranchDropdown(this.value, 'move-branch')">
               <select id="move-branch" class="admin-input"><option value="">-- Select New Branch --</option></select>
               <button class="btn-submit" style="background:#6c757d;" onclick="changeUserBranch()">Move User</button>
             </div>
+
             <!-- 4. Permissions Management Card -->
             <div class="perm-form-card">
               <h3><i class="fas fa-user-shield"></i> User Access & Permissions Management</h3>
@@ -435,7 +432,7 @@
                                     <option value="MY_REQUESTS">Only My Requests (User Level)</option>
                                     <option value="BRANCH_MANAGER">Branch Manager (Full Branch Data)</option>
                                     <option value="SELECTED_BRANCH">Selected Branches Only</option>
-                                    <option value="SELECTED_COMPANY">Selected Company - All Branches</option>
+                                    <option value="SELECTED_COMPANY" class="opt-selected-company">Selected Company - All Branches</option>
                                     <option value="ALL">All Branches - Same Company</option>
                                 </select>
                                 <select id="branch_courier" multiple class="admin-input perm-branch-select" style="height:60px; display:none; font-size: 11px; margin-bottom: 0;"></select>
@@ -455,7 +452,7 @@
                                     <option value="MY_REQUESTS">Only My Requests (User Level)</option>
                                     <option value="BRANCH_MANAGER">Branch Manager (Full Branch Data)</option>
                                     <option value="SELECTED_BRANCH">Selected Branches Only</option>
-                                    <option value="SELECTED_COMPANY">Selected Company - All Branches</option>
+                                    <option value="SELECTED_COMPANY" class="opt-selected-company">Selected Company - All Branches</option>
                                     <option value="ALL">All Branches - Same Company</option>
                                 </select>
                                 <select id="branch_rmv" multiple class="admin-input perm-branch-select" style="height:60px; display:none; font-size: 11px; margin-bottom: 0;"></select>
@@ -476,7 +473,7 @@
                                     <option value="MY_REQUESTS">Only My Requests (User Level)</option>
                                     <option value="BRANCH_MANAGER">Branch Manager (Full Branch Data)</option>
                                     <option value="SELECTED_BRANCH">Selected Branches Only</option>
-                                    <option value="SELECTED_COMPANY">Selected Company - All Branches</option>
+                                    <option value="SELECTED_COMPANY" class="opt-selected-company">Selected Company - All Branches</option>
                                     <option value="ALL">All Branches - Same Company</option>
                                 </select>
                                 <select id="branch_val" multiple class="admin-input perm-branch-select" style="height:60px; display:none; font-size: 11px; margin-bottom: 0;"></select>
@@ -494,7 +491,7 @@
                                 <select id="scope_admin" class="admin-input" style="padding: 6px; margin-bottom: 5px; font-size: 12px;" onchange="toggleModuleBranch('admin')">
                                     <option value="BRANCH_MANAGER">Branch Admin Only</option>
                                     <option value="SELECTED_BRANCH">Selected Branches Only</option>
-                                    <option value="SELECTED_COMPANY">Selected Company - All Branches</option>
+                                    <option value="SELECTED_COMPANY" class="opt-selected-company">Selected Company - All Branches</option>
                                     <option value="ALL">All Branches - Same Company</option>
                                     <option value="ALL_COMPANIES" id="opt_all_comp" style="display:none;">All Companies (System Owner)</option>
                                 </select>
@@ -515,7 +512,7 @@
                                     <option value="MY_REQUESTS">Only My Requests</option>
                                     <option value="BRANCH_MANAGER">Branch Manager</option>
                                     <option value="SELECTED_BRANCH">Selected Branches Only</option>
-                                    <option value="SELECTED_COMPANY">Selected Company - All Branches</option>
+                                    <option value="SELECTED_COMPANY" class="opt-selected-company">Selected Company - All Branches</option>
                                     <option value="ALL">All Branches - Same Company</option>
                                 </select>
                                 <select id="branch_cr" multiple class="admin-input perm-branch-select" style="height:60px; display:none; font-size: 11px; margin-bottom: 0;"></select>
@@ -1033,6 +1030,30 @@
             select.add(new Option(b.branch + " (" + b.company + ")", b.branch));
         });
     }
+
+    function autoFillMoveUser() {
+      var u = document.getElementById('move-username').value;
+      var uRole = currentUser.role ? currentUser.role.toLowerCase().trim() : "";
+      
+      if (!u) {
+         document.getElementById('move-company').value = "";
+         var comp = uRole === 'system owner' ? '' : currentUser.company;
+         filterBranchDropdown(comp, 'move-branch');
+         return;
+      }
+      
+      var selectedUser = systemUsersData.find(user => user.username === u);
+      if (selectedUser) {
+         document.getElementById('move-company').value = selectedUser.company || "";
+         filterBranchDropdown(selectedUser.company || "", 'move-branch');
+         
+         if (selectedUser.branch) {
+             setTimeout(() => {
+                 document.getElementById('move-branch').value = selectedUser.branch;
+             }, 50);
+         }
+      }
+    }
     
     function populateTargetBranchDropdown() {
         var select = document.getElementById('target_branch');
@@ -1104,9 +1125,12 @@
             document.getElementById('perm-company-filter').style.display = 'block';
             document.querySelector('.branch-form-card').style.display = 'block';
             document.getElementById('template-setup-card').style.display = 'block';
+            document.getElementById('move-company').style.display = 'block';
             
             var optAllComp = document.getElementById('opt_all_comp');
             if (optAllComp) optAllComp.style.display = 'block';
+
+            document.querySelectorAll('.opt-selected-company').forEach(opt => opt.style.display = 'block');
 
             var roleSelect = document.getElementById('new-user-role');
             if (roleSelect) {
@@ -1116,9 +1140,13 @@
         } else {
             document.querySelector('.branch-form-card').style.display = 'none';
             document.getElementById('template-setup-card').style.display = 'none';
+            document.getElementById('new-user-company').style.display = 'none';
+            document.getElementById('move-company').style.display = 'none';
             
             var optAllComp = document.getElementById('opt_all_comp');
             if (optAllComp) optAllComp.style.display = 'none';
+
+            document.querySelectorAll('.opt-selected-company').forEach(opt => opt.style.display = 'none');
 
             var roleSelect = document.getElementById('new-user-role');
             if (roleSelect) {
@@ -1178,7 +1206,9 @@
                 });
 
                 var isGlobalUser = (uRole === 'system owner' || currentUser.dataScope === 'ALL_COMPANIES');
-                filterBranchDropdown(isGlobalUser ? '' : uComp, 'new-user-branch');
+                var comp = isGlobalUser ? '' : currentUser.company;
+                filterBranchDropdown(comp, 'new-user-branch');
+                filterBranchDropdown(comp, 'move-branch');
                 populateTargetBranchDropdown();
             } 
         });
@@ -1669,6 +1699,7 @@
     async function changeUserBranch() {
       var u = document.getElementById('move-username').value;
       var c = document.getElementById('move-company').value;
+      if (!c || c.trim() === "") { c = currentUser.company; }
       var b = document.getElementById('move-branch').value;
       
       if(!u || !c || !b) return Swal.fire("Required", "Please fill all fields!", "warning");
@@ -2395,29 +2426,6 @@
         });
       } catch(e) {
         tbody.innerHTML = "<tr><td colspan='6' style='text-align:center; color:red;'>Error Loading Pending List</td></tr>";
-      }
-    }
-    function autoFillMoveUser() {
-      var u = document.getElementById('move-username').value;
-      
-      // නමක් නැත්නම් fields ටික clear කරනවා
-      if (!u) {
-         document.getElementById('move-company').value = "";
-         document.getElementById('move-branch').innerHTML = '<option value="">-- Select New Branch --</option>';
-         return;
-      }
-      
-      // යූසර්ගේ ඩේටා හොයාගෙන Company සහ Branch එක Auto-Fill කරනවා
-      var selectedUser = systemUsersData.find(user => user.username === u);
-      if (selectedUser) {
-         document.getElementById('move-company').value = selectedUser.company || "";
-         filterBranchDropdown(selectedUser.company || "", 'move-branch');
-         
-         if (selectedUser.branch) {
-             setTimeout(() => {
-                 document.getElementById('move-branch').value = selectedUser.branch;
-             }, 50);
-         }
       }
     }
 
