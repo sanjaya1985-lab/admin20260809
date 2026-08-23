@@ -672,12 +672,13 @@
                <div style="flex:1;"><label style="font-size:12px;font-weight:bold;color:#555;">To Date</label><input type="date" id="rmvToDate" onchange="filterRmvTable()" style="width:100%; padding:10px; border:1px solid #ccc; border-radius:4px; outline:none;"></div>
                <div><button onclick="clearRmvFilters()" style="background:#6c757d; color:#fff; padding:10px 20px; border:none; border-radius:4px; cursor:pointer;">Clear</button></div>
              </div>
-             <div style="border: 2px solid #800000; border-radius: 5px; overflow: hidden;">
-               <table id="rmvTable" style="width:100%; border-collapse:collapse; text-align:center; font-size:14px;">
+             <!-- overflow: hidden වෙනුවට overflow-x: auto දැම්මා -->
+             <div style="border: 2px solid #800000; border-radius: 5px; overflow-x: auto;">
+               <table id="rmvTable" style="width:100%; border-collapse:collapse; text-align:center; font-size:14px; white-space: nowrap;">
                  <thead style="background:#2d2d2d; color:#fff;"><tr><th>Company</th><th style="padding:15px;">Date & Time</th><th>Request ID</th><th>Vehicle No</th><th>Branch</th><th>Action By</th><th>Status</th><th>Action</th></tr></thead>
                  <tbody></tbody>
                </table>
-             </div>
+             </div>          
           </div>
         </div>
 
