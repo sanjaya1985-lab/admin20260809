@@ -114,6 +114,39 @@
     
     /* New Grid style for modules */
     .module-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;}
+
+    /* =============== MOBILE RESPONSIVE STYLES =============== */
+    @media (max-width: 768px) {
+      /* Sidebar Overlay */
+      .sidebar { position: absolute; height: 100%; z-index: 9999; box-shadow: 2px 0 10px rgba(0,0,0,0.5); }
+      .sidebar.closed { width: 0; box-shadow: none; }
+      
+      /* Top Header & Content Area */
+      .welcome-text { font-size: 18px; margin-bottom: 15px; }
+      .header-right .user-profile .info { display: none; } /* Mobile එකේ ඉඩ ඉතුරු කරන්න නම විතරක් පෙන්වයි */
+      .content-area { padding: 15px; }
+
+      /* Cards & Grids to Single Column */
+      .admin-cards { flex-direction: column; gap: 10px; }
+      .admin-forms-grid { grid-template-columns: 1fr; }
+      .photo-grid { grid-template-columns: 1fr 1fr; } /* ෆොටෝස් පේළියට 2ක ගාණේ පෙන්නයි */
+      .perm-grid { grid-template-columns: 1fr; }
+      
+      /* Override inline grid styles for mobile forms */
+      #vForm div[style*="grid-template-columns:1fr 1fr"] { grid-template-columns: 1fr !important; }
+      #val-view-modal div[style*="grid-template-columns:1fr 1fr"] { grid-template-columns: 1fr !important; }
+      
+      /* RMV & Valuation View Modal Fix for Mobile */
+      #rmv-approval-modal > div > div:nth-child(2) { flex-direction: column !important; overflow-y: auto; }
+      #rmv-approval-modal > div > div:nth-child(2) > div:first-child { width: 100% !important; border-right: none !important; border-bottom: 1px solid #ddd; height: auto !important; }
+      
+      /* Filters Area Fix (Search, Date, Clear buttons) */
+      .view-section > div[style*="display:flex; gap:15px; margin-bottom:20px; align-items:flex-end;"] { flex-direction: column; gap: 10px !important; align-items: stretch !important; }
+      .view-section > div[style*="display:flex; gap:15px; margin-bottom:20px; align-items:flex-end;"] > div { width: 100%; }
+      
+      /* Prevent iOS Auto-zoom on inputs */
+      input, select, textarea { font-size: 16px !important; } 
+    }
   </style>
 </head>
 <body>
@@ -1334,7 +1367,7 @@
             };
             
             if (navigator.geolocation) { 
-                navigator.geolocation.getCurrentPosition(pos => executeValSubmit(pos.coords.latitude, pos.coords.longitude), err => executeValSubmit("", ""), { enableHighAccuracy: true, timeout: 10000 }); 
+                navigator.geolocation.getCurrentPosition(pos => executeValSubmit(pos.coords.latitude, pos.coords.longitude), err => executeValSubmit("", ""), { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }); 
             } else { executeValSubmit("", ""); }
           };
         }
@@ -1367,9 +1400,14 @@
                 rbtn.innerText = "Submit Request & Capture Location 📍"; rbtn.disabled = false;
               } catch (error) { Swal.fire("Upload Error", error.message, "error"); rbtn.innerText = "Submit Request & Capture Location 📍"; rbtn.disabled = false; }
             };
-            if (navigator.geolocation) { navigator.geolocation.getCurrentPosition(pos => executeSubmit(pos.coords.latitude, pos.coords.longitude), err => executeSubmit("", ""), { enableHighAccuracy: true, timeout: 10000 }); } 
+            if (navigator.geolocation) { navigator.geolocation.getCurrentPosition(pos => executeSubmit(pos.coords.latitude, pos.coords.longitude), err => executeSubmit("", ""), { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }); } 
             else { executeSubmit("", ""); }
           };
+        }
+        
+        // Mobile එකේදී මුලින්ම ලොග් වෙද්දී Sidebar එක හංගනවා
+        if (window.innerWidth <= 768) {
+            document.getElementById('main-sidebar').classList.add('closed');
         }
       } catch(e) { console.log(e); }
     }
@@ -2017,6 +2055,12 @@
       if(element) { element.classList.add('active'); element.querySelector('i').className = 'fas fa-check-circle'; }
       document.querySelectorAll('.view-section').forEach(el => el.style.display = 'none');
       var view = document.getElementById('view-' + viewId); if(view) view.style.display = 'block';
+      
+      // Mobile එකේදී Menu Item එකක් Click කරාම Sidebar එක Auto-Close වෙනවා
+      if (window.innerWidth <= 768) {
+          document.getElementById('main-sidebar').classList.add('closed');
+      }
+
       if(viewId === 'dashboard') loadDashboardStats();
       if(viewId === 'courier-new') { generateAutoId(); }
       if(viewId === 'courier-admin') loadCourierData();
@@ -2068,7 +2112,7 @@
          btn.disabled = false; btn.innerText = "Dispatch Package";
       };
 
-      if (navigator.geolocation) { navigator.geolocation.getCurrentPosition( pos => executeCourierSubmit(pos.coords.latitude, pos.coords.longitude), err => { Swal.fire("Location Blocked", "Saving without GPS location.", "info"); executeCourierSubmit("Location Blocked", "Location Blocked"); }, { enableHighAccuracy: true, timeout: 8000 } ); } 
+      if (navigator.geolocation) { navigator.geolocation.getCurrentPosition( pos => executeCourierSubmit(pos.coords.latitude, pos.coords.longitude), err => { Swal.fire("Location Blocked", "Saving without GPS location.", "info"); executeCourierSubmit("Location Blocked", "Location Blocked"); }, { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 } ); } 
       else { executeCourierSubmit("Not Supported", "Not Supported"); }
     }
 
