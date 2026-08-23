@@ -381,15 +381,18 @@
             </div>
 
             <!-- 5. Change User Branch Card -->
+            <!-- 5. Change User Branch Card -->
             <div class="user-form-card">
               <h3><i class="fas fa-exchange-alt"></i> Change User Branch</h3>
               <p style="font-size:12px; color:#666; margin-bottom:10px;">Move an existing user to a different company/branch.</p>
-              <input type="text" id="move-username" list="perm-user-list" class="admin-input" placeholder="Select Username...">
+              
+              <!-- onchange එක අලුතින් දැම්මා -->
+              <input type="text" id="move-username" list="perm-user-list" class="admin-input" placeholder="Select Username..." onchange="autoFillMoveUser()">
+              
               <input type="text" id="move-company" list="comp-list" class="admin-input" placeholder="Select New Company" onchange="filterBranchDropdown(this.value, 'move-branch')">
               <select id="move-branch" class="admin-input"><option value="">-- Select New Branch --</option></select>
               <button class="btn-submit" style="background:#6c757d;" onclick="changeUserBranch()">Move User</button>
             </div>
-
             <!-- 4. Permissions Management Card -->
             <div class="perm-form-card">
               <h3><i class="fas fa-user-shield"></i> User Access & Permissions Management</h3>
@@ -2392,6 +2395,29 @@
         });
       } catch(e) {
         tbody.innerHTML = "<tr><td colspan='6' style='text-align:center; color:red;'>Error Loading Pending List</td></tr>";
+      }
+    }
+    function autoFillMoveUser() {
+      var u = document.getElementById('move-username').value;
+      
+      // නමක් නැත්නම් fields ටික clear කරනවා
+      if (!u) {
+         document.getElementById('move-company').value = "";
+         document.getElementById('move-branch').innerHTML = '<option value="">-- Select New Branch --</option>';
+         return;
+      }
+      
+      // යූසර්ගේ ඩේටා හොයාගෙන Company සහ Branch එක Auto-Fill කරනවා
+      var selectedUser = systemUsersData.find(user => user.username === u);
+      if (selectedUser) {
+         document.getElementById('move-company').value = selectedUser.company || "";
+         filterBranchDropdown(selectedUser.company || "", 'move-branch');
+         
+         if (selectedUser.branch) {
+             setTimeout(() => {
+                 document.getElementById('move-branch').value = selectedUser.branch;
+             }, 50);
+         }
       }
     }
 
