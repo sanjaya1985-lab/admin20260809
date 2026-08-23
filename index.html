@@ -1130,6 +1130,11 @@
                compSelects.forEach(selectBox => {
                    selectBox.innerHTML = '';
                    sortedComps.forEach(c => selectBox.add(new Option(c, c)));
+                   
+                   // මෙතනින් තමයි Company Box එක Auto-Resize කරන්නේ
+                   selectBox.style.height = "auto";
+                   selectBox.style.overflow = "hidden";
+                   selectBox.size = sortedComps.length > 2 ? sortedComps.length : 2; 
                });
            }
         });
@@ -1154,15 +1159,18 @@
                     globalBranchesFull.forEach(b => {
                         selectBox.add(new Option(b.company + " - " + b.branch, b.company + " - " + b.branch));
                     });
+                    
+                    // මෙතනින් තමයි Branch Box එක Auto-Resize කරන්නේ
+                    selectBox.style.height = "auto";
+                    selectBox.style.overflow = "hidden";
+                    selectBox.size = globalBranchesFull.length > 5 ? globalBranchesFull.length : 5;
                 });
 
                 var isGlobalUser = (uRole === 'system owner' || currentUser.dataScope === 'ALL_COMPANIES');
                 filterBranchDropdown(isGlobalUser ? '' : uComp, 'new-user-branch');
-                
                 populateTargetBranchDropdown();
             } 
         });
-
         apiCall('getUsernamesList', {}, 'GET').then(res => { 
             if(res.data) { 
                 systemUsersData = res.data;
