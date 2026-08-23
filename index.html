@@ -370,7 +370,7 @@
               <datalist id="reset-uname"></datalist>
               <button class="btn-submit" style="background:#dc3545;" onclick="resetPasswordAdmin()">Reset Password</button>
             </div>
-            
+
             <!-- Valuation Template Settings Card -->
             <div class="template-form-card" id="template-setup-card" style="display:none;">
               <h3><i class="fas fa-file-word"></i> Valuation Template Settings</h3>
@@ -378,6 +378,16 @@
               <input type="text" id="tpl-company" list="comp-list" class="admin-input" placeholder="Select Company Name...">
               <input type="text" id="tpl-url" class="admin-input" placeholder="Google Doc Template URL or ID">
               <button class="btn-submit" style="background:#6f42c1;" onclick="saveTemplateAdmin()">Save Template</button>
+            </div>
+
+            <!-- 5. Change User Branch Card -->
+            <div class="user-form-card">
+              <h3><i class="fas fa-exchange-alt"></i> Change User Branch</h3>
+              <p style="font-size:12px; color:#666; margin-bottom:10px;">Move an existing user to a different company/branch.</p>
+              <input type="text" id="move-username" list="perm-user-list" class="admin-input" placeholder="Select Username...">
+              <input type="text" id="move-company" list="comp-list" class="admin-input" placeholder="Select New Company" onchange="filterBranchDropdown(this.value, 'move-branch')">
+              <select id="move-branch" class="admin-input"><option value="">-- Select New Branch --</option></select>
+              <button class="btn-submit" style="background:#6c757d;" onclick="changeUserBranch()">Move User</button>
             </div>
 
             <!-- 4. Permissions Management Card -->
@@ -1131,7 +1141,6 @@
                    selectBox.innerHTML = '';
                    sortedComps.forEach(c => selectBox.add(new Option(c, c)));
                    
-                   // මෙතනින් තමයි Company Box එක Auto-Resize කරන්නේ
                    selectBox.style.height = "auto";
                    selectBox.style.overflow = "hidden";
                    selectBox.size = sortedComps.length > 2 ? sortedComps.length : 2; 
@@ -1160,7 +1169,6 @@
                         selectBox.add(new Option(b.company + " - " + b.branch, b.company + " - " + b.branch));
                     });
                     
-                    // මෙතනින් තමයි Branch Box එක Auto-Resize කරන්නේ
                     selectBox.style.height = "auto";
                     selectBox.style.overflow = "hidden";
                     selectBox.size = globalBranchesFull.length > 5 ? globalBranchesFull.length : 5;
@@ -1171,6 +1179,7 @@
                 populateTargetBranchDropdown();
             } 
         });
+
         apiCall('getUsernamesList', {}, 'GET').then(res => { 
             if(res.data) { 
                 systemUsersData = res.data;
@@ -1652,6 +1661,27 @@
         const res = await apiCall('resetSystemUserPassword', { username: u });
         if(res.success) { Swal.fire("Success!", res.msg, "success"); } else { Swal.fire("Error", res.msg || res.error || "Failed", "error"); }
       } catch(error) { Swal.fire("Error", "Server Error", "error"); }
+    }
+
+    async function changeUserBranch() {
+      var u = document.getElementById('move-username').value;
+      var c = document.getElementById('move-company').value;
+      var b = document.getElementById('move-branch').value;
+      
+      if(!u || !c || !b) return Swal.fire("Required", "Please fill all fields!", "warning");
+      
+      Swal.fire({title: 'Updating...', allowOutsideClick: false, didOpen: () => Swal.showLoading()});
+      try {
+        const res = await apiCall('changeUserBranch', { targetUser: u, newCompany: c, newBranch: b });
+        if(res.success) {
+           Swal.fire("Success!", res.msg, "success");
+           document.getElementById('move-username').value = "";
+           document.getElementById('move-company').value = "";
+           document.getElementById('move-branch').innerHTML = '<option value="">-- Select New Branch --</option>';
+        } else {
+           Swal.fire("Error", res.error || res.msg || "Failed", "error");
+        }
+      } catch(e) { Swal.fire("Error", "Server Error", "error"); }
     }
 
     // ========================================================
