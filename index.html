@@ -2593,7 +2593,81 @@
         tbody.innerHTML = "<tr><td colspan='6' style='text-align:center; color:red;'>Error Loading Pending List</td></tr>";
       }
     }
+function toggleCrUploadMode(mode) {
+      if (mode === 'valuation') {
+        document.getElementById('cr_mode_valuation').style.display = 'block';
+        document.getElementById('cr_mode_direct').style.display = 'none';
+      } else {
+        document.getElementById('cr_mode_valuation').style.display = 'none';
+        document.getElementById('cr_mode_direct').style.display = 'block';
+      }
+    }
 
+    async function submitDirectCR() {
+      var facilityNo = document.getElementById('direct_cr_facility').value.trim();
+      var vehNo = document.getElementById('direct_cr_veh').value.trim();
+      var remarks = document.getElementById('direct_cr_remarks').value.trim();
+      var fileInput = document.getElementById('direct_cr_file');
+
+      if (!facilityNo || !vehNo) {
+        return Swal.fire("Required", "Facility Number and Vehicle Number are required!", "warning");
+      }
+      if (fileInput.files.length === 0) {
+        return Swal.fire("Required", "Please select a CR document to upload!", "warning");
+      }
+
+      var btn = document.getElementById('directCrSubmitBtn');
+      btn.disabled = true;
+      btn.innerText = "Processing File... ⏳";
+
+      try {
+        let f = fileInput.files[0];
+        let base64Str, typeStr, nameStr;
+
+        if (f.type === "application/pdf") { 
+          btn.innerText = "Applying Seal to PDF... ⏳";
+          base64Str = await watermarkPDF(f);
+          typeStr = 'application/pdf'; 
+          nameStr = f.name; 
+        } else { 
+          btn.innerText = "Applying Seal to Image... ⏳";
+          let compressed = await compressAndWatermarkImage(f, 1000, 0.7); 
+          base64Str = compressed.data; 
+          typeStr = compressed.type; 
+          nameStr = compressed.name; 
+        }
+
+        btn.innerText = "Uploading to Drive & Saving to Sheet... 🚀";
+        
+        var payload = {
+          facilityNo: facilityNo,
+          vehNo: vehNo,
+          remarks: remarks,
+          uploadedBy: currentUser.user,
+          company: currentUser.company,
+          branch: currentUser.branch,
+          fileData: { base64: base64Str, type: typeStr, name: nameStr }
+        };
+
+        const serverRes = await apiCall('submitDirectCRUpload', payload);
+        
+        if (serverRes.success) {
+          Swal.fire("Success", "Direct CR Uploaded Successfully!", "success");
+          document.getElementById('direct_cr_facility').value = "";
+          document.getElementById('direct_cr_veh').value = "";
+          document.getElementById('direct_cr_remarks').value = "";
+          document.getElementById('direct_cr_file').value = "";
+          loadDashboardStats(); 
+        } else {
+          Swal.fire("Error", serverRes.error, "error");
+        }
+      } catch (error) {
+        Swal.fire("Error", error.message, "error");
+      } finally {
+        btn.disabled = false;
+        btn.innerText = "Upload & Save Direct CR";
+      }
+    }
   </script>
 </body>
 </html>
