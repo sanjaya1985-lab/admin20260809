@@ -764,38 +764,69 @@
              <div id="map" style="width: 100%; height: 65vh; border-radius: 8px; border: 2px solid #ccc; z-index: 1;"></div>
           </div>
         </div>
-        
         <!-- CR UPLOAD VIEWS -->
         <div id="view-cr-upload-new" class="view-section" style="display: none;">
           <div class="form-box" style="max-width: 800px; margin: 0 auto;">
             <h2 style="color: var(--accent-red); border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 20px;">
-              <i class="fas fa-cloud-upload-alt"></i> Upload Final CR (Approved Valuations)
+              <i class="fas fa-cloud-upload-alt"></i> Upload Final CR / Direct CR Upload
             </h2>
+
+            <!-- Upload Type Selector -->
+            <div style="margin-bottom: 20px;">
+              <label style="font-weight: bold; margin-right: 15px;">Upload Type:</label>
+              <label style="margin-right: 15px; cursor: pointer;"><input type="radio" name="cr_upload_type" value="valuation" checked onclick="toggleCrUploadMode('valuation')"> Approved Valuations</label>
+              <label style="cursor: pointer;"><input type="radio" name="cr_upload_type" value="direct" onclick="toggleCrUploadMode('direct')"> Direct / Unregistered Vehicle CR</label>
+            </div>
             
-            <label style="color: #0d6efd;">🔍 Search by Vehicle Number or Reference No</label>
-            <input type="text" id="cr_search_input" list="pending_cr_list" class="admin-input" placeholder="Type Vehicle No... (e.g., WP CAB-1234)" onchange="loadCRDetails()">
-            <datalist id="pending_cr_list"></datalist>
+            <!-- SECTION A: VALUATION CR UPLOAD -->
+            <div id="cr_mode_valuation">
+              <label style="color: #0d6efd;">🔍 Search by Vehicle Number or Reference No</label>
+              <input type="text" id="cr_search_input" list="pending_cr_list" class="admin-input" placeholder="Type Vehicle No... (e.g., WP CAB-1234)" onchange="loadCRDetails()">
+              <datalist id="pending_cr_list"></datalist>
 
-            <!-- Details Section -->
-            <div id="cr_details_box" style="display:none; background:#f8f9fa; border:1px solid #ddd; border-radius:8px; padding:20px; margin-bottom:20px;">
-              <h4 style="margin-top:0; color:#333; margin-bottom:15px; border-bottom:1px solid #ccc; padding-bottom:5px;">Valuation Details</h4>
-              <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px;">
-                <div><label>Reference No:</label> <strong id="lbl_cr_ref" style="color:#c62828;"></strong></div>
-                <div><label>Vehicle No:</label> <strong id="lbl_cr_veh"></strong></div>
-                <div><label>Make & Model:</label> <strong id="lbl_cr_make"></strong></div>
-                <div><label>Approved Date:</label> <strong id="lbl_cr_appdate"></strong></div>
-                <div><label>Request Branch:</label> <strong id="lbl_cr_branch"></strong></div>
-                <div><label>Request User:</label> <strong id="lbl_cr_user"></strong></div>
+              <!-- Details Section -->
+              <div id="cr_details_box" style="display:none; background:#f8f9fa; border:1px solid #ddd; border-radius:8px; padding:20px; margin-bottom:20px;">
+                <h4 style="margin-top:0; color:#333; margin-bottom:15px; border-bottom:1px solid #ccc; padding-bottom:5px;">Valuation Details</h4>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px;">
+                  <div><label>Reference No:</label> <strong id="lbl_cr_ref" style="color:#c62828;"></strong></div>
+                  <div><label>Vehicle No:</label> <strong id="lbl_cr_veh"></strong></div>
+                  <div><label>Make & Model:</label> <strong id="lbl_cr_make"></strong></div>
+                  <div><label>Approved Date:</label> <strong id="lbl_cr_appdate"></strong></div>
+                  <div><label>Request Branch:</label> <strong id="lbl_cr_branch"></strong></div>
+                  <div><label>Request User:</label> <strong id="lbl_cr_user"></strong></div>
+                </div>
+                <input type="hidden" id="cr_row_index">
               </div>
-              <input type="hidden" id="cr_row_index">
+
+              <!-- Upload Section -->
+              <div id="cr_upload_section" style="display:none;">
+                <label>Upload Final CR Document (PDF or Image) *</label>
+                <input type="file" id="final_cr_file" accept=".pdf, image/*" class="admin-input">
+                <button class="btn-submit" id="crSubmitBtn" onclick="submitFinalCR()">Upload & Save CR</button>
+              </div>
             </div>
 
-            <!-- Upload Section -->
-            <div id="cr_upload_section" style="display:none;">
-              <label>Upload Final CR Document (PDF or Image) *</label>
-              <input type="file" id="final_cr_file" accept=".pdf, image/*" class="admin-input">
-              <button class="btn-submit" id="crSubmitBtn" onclick="submitFinalCR()">Upload & Save CR</button>
+            <!-- SECTION B: DIRECT CR UPLOAD (Unregistered / No Valuation) -->
+            <div id="cr_mode_direct" style="display: none;">
+              <div style="background:#f8f9fa; border:1px solid #ddd; border-radius:8px; padding:20px; margin-bottom:20px;">
+                <h4 style="margin-top:0; color:#333; margin-bottom:15px; border-bottom:1px solid #ccc; padding-bottom:5px;">Direct CR Details</h4>
+                
+                <label>Facility Number *</label>
+                <input type="text" id="direct_cr_facility" class="admin-input" placeholder="Enter Facility Number...">
+
+                <label>Vehicle Number / Chassis No *</label>
+                <input type="text" id="direct_cr_veh" class="admin-input" placeholder="Enter Vehicle No or Chassis...">
+
+                <label>Remarks</label>
+                <textarea id="direct_cr_remarks" class="admin-input" rows="2" placeholder="Enter any notes or remarks..."></textarea>
+
+                <label>Upload CR Document (PDF or Image) *</label>
+                <input type="file" id="direct_cr_file" accept=".pdf, image/*" class="admin-input">
+
+                <button class="btn-submit" id="directCrSubmitBtn" onclick="submitDirectCR()" style="background: #28a745; margin-top: 10px;">Upload & Save Direct CR</button>
+              </div>
             </div>
+
           </div>
         </div>
 
